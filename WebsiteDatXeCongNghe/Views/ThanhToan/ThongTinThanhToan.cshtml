@@ -1,0 +1,144 @@
+﻿@model IEnumerable<WebsiteDatXeCongNghe.Models.ThanhToan>
+@{
+    ViewBag.Title = "ThongTinThanhToan";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin thanh toán</title>
+    <link href="~/css/ThongTinThanhToan2.css" rel="stylesheet" />
+    <script src="~/js/jquery-1.11.2.min.js"></script>
+</head>
+
+<body>
+    <div class="header_fixed">
+        <div class="btn-control ">
+            @*<button type="#" class="btn-new js-Open-add"> <i class="ti-pencil-alt2"></i> ADD New</button>*@
+            <a href="/TaiKhoan/Services"><button class="favorite styled" type="button">Quay lại</button></a>
+            <div class="seach">
+                <form>
+                    <input type="text" id="Search" placeholder="Search..." class="input"><a href=""><i class="icon ti-search"></i></a>
+                </form>
+            </div>
+        </div>
+        <div class="content">
+            <h2>Thông tin thanh toán khách hàng</h2>
+            <a href=""><i class=""></i></a>
+
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã thanh toán</th>
+                    <th style="display:none;">Mã đặt xe</th>
+                    <th>Số điện thoại</th>
+                    <th>Giá ban đầu</th>
+                    <th>Phí cầu đường</th>
+                    <th>Phí mở rộng</th>
+                    <th>Phí khuyến mãi</th>
+                    <th>Thành tiền</th>
+                    <th>Hình thức thanh toán</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày thanh toán</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="Search" id="row_@item.MaThanhToan">
+                        <td>@item.MaThanhToan</td>
+                        <td style="display:none;">@item.MaDatXe</td>
+                        <td>@item.SoDienThoai</td>
+                        <td>@item.GiaBanDau</td>
+                        <td>
+                            @{
+                                if (item.PhiCauDuong != null && item.PhiCauDuong != 0)
+                                {
+                                    <text>@item.PhiCauDuong</text>
+                                }
+                                else
+                                {
+                                    <text>Không áp dụng</text>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                if (item.PhiMoRong != null && item.PhiMoRong != 0)
+                                {
+                                    <text>@item.PhiMoRong</text>
+                                }
+                                else
+                                {
+                                    <text>Không áp dụng</text>
+                                }
+                             }
+                        </td>
+                        <td>
+                            @{
+                                if (item.PhiKhuyenMai != null && item.PhiKhuyenMai != 0)
+                                {
+                                    <text>@item.PhiKhuyenMai</text>
+                                }
+                                else
+                                {
+                                    <text>Không áp dụng</text>
+                                }
+                            }
+                        </td>
+                        <td>@item.TongTien</td>
+                        <td>@item.HinhThucThanhToan</td>
+                        <td>
+                            @{
+                                if (item.TrangThai)
+                                {
+                                    <text>Hoàn thành</text>
+                                }
+                                else
+                                {
+                                    <text>Chưa hoàn thành</text>
+                                }
+                            }
+                        </td>
+                        <td>@item.NgayThanhToan</td>
+                        <td><button class="no-decoration">@Html.ActionLink("Chi tiết", "ChiTietThanhToan", null, new {id = @item.MaDatXe }, new { style = "text-decoration:none;"})</button></td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            function Contains(text_one, text_two) {
+                var cleanTextOne = text_one.replace(/\s/g, "");
+                var cleanTextTwo = text_two.replace(/\s/g, "");
+
+                if (cleanTextOne.indexOf(cleanTextTwo) !== -1) {
+                    return true;
+                }
+            }
+
+            $("#Search").on('input', function () {
+                var searchText = $("#Search").val().toLowerCase();
+                $(".Search").each(function () {
+                    if (!Contains($(this).text().toLowerCase(), searchText)) {
+                        $(this).hide();
+                    } else {
+                        $(this).show();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
+

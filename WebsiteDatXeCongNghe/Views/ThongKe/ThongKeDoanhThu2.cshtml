@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "ThongKeDoanhThu2";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thống kê doanh thu</title>
+    <link href="~/css/ThongKeDoanhThu2.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+<body>
+
+    <div>
+        <label for="period">Giai đoạn:</label>
+        <select id="period">
+            <option value="week">Tuần</option>
+            <option value="month">Tháng</option>
+            <option value="day">Ngày</option>
+            <option value="year">Năm</option>
+        </select>
+    </div>
+
+    <div id="date-selection" style="display: none;">
+        <label for="selected-date">Chọn ngày:</label>
+        <input type="date" id="selected-date">
+    </div>
+
+    <div>
+        <label for="selected-month">Tháng:</label>
+        <select id="selected-month">
+            <option value="1">Tháng 1</option>
+            <option value="2">Tháng 2</option>
+            <option value="3">Tháng 3</option>
+            <option value="4">Tháng 4</option>
+            <option value="5">Tháng 5</option>
+            <option value="6">Tháng 6</option>
+            <option value="7">Tháng 7</option>
+            <option value="8">Tháng 8</option>
+            <option value="9">Tháng 9</option>
+            <option value="10">Tháng 10</option>
+            <option value="11">Tháng 11</option>
+            <option value="12">Tháng 12</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="selected-year">Năm:</label>
+        <select id="selected-year">
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <!-- Add more options for other years if needed -->
+        </select>
+    </div>
+
+    <div>
+        <button onclick="fetchRevenueData()">Xem thống kê</button>
+    </div>
+
+    <!-- Add a canvas element to display the chart -->
+    <canvas id="revenueChart" width="400" height="200"></canvas>
+
+
+    <script src="~/js/ThongKeDoanhThu2.js"></script>
+</body>
+</html>
+

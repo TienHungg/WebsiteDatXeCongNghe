@@ -1,0 +1,182 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: #0072ff;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 50px;
+}
+
+.left, .right {
+    width: 40%;
+}
+
+    .left input, .right input {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid #0072ff;
+        border-radius: 4px;
+    }
+
+    .left button, .right button {
+        background-color: #0072ff;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+        .left button:hover, .right button:hover {
+            background-color: #0053ba;
+        }
+
+.message {
+    margin: 50px;
+}
+
+    .message textarea {
+        width: 100%;
+        height: 200px;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid #0072ff;
+        border-radius: 4px;
+    }
+
+    .message button {
+        background-color: #0072ff;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .message button:hover {
+            background-color: #0053ba;
+        }
+
+.driver-image img,
+#PassengerImages img {
+    width: 50px;
+    height: 50px;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate; /* Use 'separate' to create spacing between rows */
+    border-spacing: 30px; /* Adjust this value to control the spacing between rows */
+    margin-top: 20px;
+}
+
+
+table, td {
+    border: 1px solid #ccc;
+}
+
+td {
+    padding: 10px;
+}
+tr {
+    margin-bottom: 50px; /* Adjust this value to control the spacing between rows */
+}
+
+
+.driver-name, .driver-license, .destination, .pickup-point, .payment-form, .total-amount {
+    font-weight: bold;
+}
+
+.star-ratings {
+    font-size: 18px;
+    color: #FFD700; /* Yellow color for stars */
+}
+
+#DriverImage,
+#PassengerImages {
+    display: inline-block;
+    margin-right: 20px;
+}
+/* Styles for the container */
+.movement-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #C0C0C0;
+    margin-top: 20px;
+    position: relative;
+}
+
+/* Updated Styles for the arrows */
+.arrow-container {
+    position: relative;
+}
+
+.arrow {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    animation-duration: 2s; /* Adjust the duration as needed */
+    animation-iteration-count: infinite;
+}
+
+.arrow-1 {
+    border-left: 20px solid #3498db; /* Blue color */
+    left: 30%;
+    animation-name: moveRight;
+}
+
+.arrow-2 {
+    border-left: 20px solid #e74c3c; /* Red color */
+    left: 50%;
+    animation-name: moveRight;
+}
+
+.arrow-3 {
+    border-left: 20px solid #27ae60; /* Green color */
+    left: 70%;
+    animation-name: moveRight;
+}
+
+@keyframes moveRight {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(10px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+
+/* Styles for the text content */
+.movement-info {
+    text-align: center;
+}

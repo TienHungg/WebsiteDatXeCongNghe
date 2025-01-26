@@ -1,0 +1,74 @@
+﻿/* CSS styles for the offer notice board */
+body {
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.offer-container {
+    max-width: 600px;
+    margin: 100px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.offer-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.offer-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.offer-ordinal {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.offer-status {
+    margin-right: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.offer-details {
+    text-align: left;
+}
+
+.offer-code {
+    margin: 0;
+}
+
+.offer-percentage {
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+.offer-dates,
+.offer-conditions {
+    margin: 0;
+    color: #777;
+}
+
+.offer-status.valid {
+    background-color: #4caf50;
+}
+
+.offer-status.expired {
+    background-color: #f44336;
+}

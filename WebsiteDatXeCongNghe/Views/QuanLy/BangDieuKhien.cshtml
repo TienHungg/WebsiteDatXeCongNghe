@@ -1,0 +1,388 @@
+﻿@model WebsiteDatXeCongNghe.ViewModel.MultipleData.MultipleData
+@{
+    ViewBag.Title = "BangDieuKhien";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="~/css/BangDieuKhien.css" rel="stylesheet" />
+   
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Bảng điều khiển</title>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="#" class="logo">
+            <i class='bx bx-code-alt'></i>
+            <div class="logo-name"><span>Admin</span>Page</div>
+        </a>
+        <ul class="side-menu">
+            <li class="active"><a href="/QuanLy/BangDieuKhien"><i class='bx bxs-dashboard'></i>Bảng điều khiển</a></li>
+            <li><a href="/QuanLy/QuanLyKhachHang"><i class='bx bx-user-circle'></i>Quản lý khách hàng</a></li>
+            <li><a href="/QuanLy/QuanLyTaiXe"><i class='bx bx-user-circle'></i>Quản lý tài xế</a></li>
+            <li><a href="/QuanLy/QuanLyThongTinDatXe"><i class='bx bx-car'></i>Thông tin đặt xe</a></li>
+            <li><a href="/QuanLy/QuanLyTaiKhoan"><i class='bx bx-key'></i>Quản lý tài khoản</a></li>
+            <li><a href="/QuanLy/QuanLyDanhGia"><i class='bx bx-star'></i>Quản lý đánh giá</a></li>
+            <li><a href="/QuanLy/QuanLyKhuyenMai"><i class='bx bx-money'></i>Quản lý khuyến mãi</a></li>
+            <li><a href="/QuanLy/QuanLyThanhToan"><i class='bx bx-receipt'></i>Quản lý thanh toán</a></li>
+            <li><a href="/QuanLy/QuanLyDanhGiaTaiXe"><i class='bx bx-star'></i>Đánh giá tài xế</a></li>
+            <li><a href="/QuanLy/QuanLyTaiXeNhanChuyenXe"><i class='bx bx-cycling'></i>Tài xế nhận chuyến xe</a></li>
+            <li><a href="/QuanLy/QuanLyTaiKhoanNganHang"><i class='bx bx-credit-card'></i>Tài khoản ngân hàng</a></li>
+            <li><a href="/QuanLy/QuanLyQuyenTaiKhoan"><i class='bx bx-capsule'></i>Quyền tài khoản</a></li>
+            <li><a href="/QuanLy/QuanLyPhanQuyen"><i class='bx bx-user-plus'></i>Quản lý phân quyền</a></li>
+            <li><a href="#"><i class='bx bx-cog'></i>Cài đặt</a></li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="/TaiKhoan/DangXuat" class="logout">
+                    <i class='bx bx-log-out-circle'></i>
+                    Đăng xuất
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- End of Sidebar -->
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Navbar -->
+        <nav>
+            <i class='bx bx-menu'></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Tìm kiếm...">
+                    <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <input type="checkbox" id="theme-toggle" hidden>
+            <label for="theme-toggle" class="theme-toggle"></label>
+            <a href="#" class="notif">
+                <i class='bx bx-bell'></i>
+                <span class="count">12</span>
+            </a>
+            <a href="#" class="profile">
+                <img src="~/image/QuanLy/logo.png" />
+            </a>
+        </nav>
+
+        <!-- End of Navbar -->
+
+        <main>
+            <div class="header">
+                <div class="left">
+                    <h1>Bảng Điều Khiển</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">
+                                Phân tích
+                            </a>
+                        </li>
+                        /
+                        <li><a href="#" class="active">Thống kê</a></li>
+                    </ul>
+                </div>
+                <a href="#" class="report">
+                    <i class='bx bx-cloud-download'></i>
+                    <span>Tải tệp CSV</span>
+                </a>
+            </div>
+
+            <!-- Insights -->
+            <ul class="insights">
+                <li>
+                    <i class='bx bx-dollar-circle'></i>
+                    <span class="info">
+                        <h3 id="totalDoanhThu">
+                        </h3>
+                        <p>Tổng doanh thu</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-dollar-circle'></i>
+                    <span class="info">
+                        <h3 id="totalDoanhThuNamNay">
+                        </h3>
+                        <p>Doanh thu năm nay</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-dollar-circle'></i>
+                    <span class="info">
+                        <h3 id="totalDoanhThuHomNay">
+                        </h3>
+                        <p>Doanh thu hôm nay</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-receipt'></i>
+                    <span class="info">
+                        <h3 id="totalBill">
+                        </h3>
+                        <p>Tổng hóa đơn giao dịch</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-user-circle'></i>
+                    <span class="info">
+                        <h3 id="GetTotalDriver">
+                        </h3>
+                        <p>Số lượng tài xế</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-user-circle'></i>
+                    <span class="info">
+                        <h3 id="GetTotalPassenger">
+                        </h3>
+                        <p>Số lượng khách hàng</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-cycling'></i>
+                    <span class="info">
+                        <h3 id="DriverWorkingCount">
+                        </h3>
+                        <p>Tài xế đang hoạt động</p>
+                    </span>
+                </li>
+            </ul>
+            <!-- End of Insights -->
+
+            <div class="bottom-data">
+                <div class="orders">
+                    <div class="header">
+                        <i class='bx bx-receipt'></i>
+                        <h3>Giao dịch gần đây</h3>
+                        <i class='bx bx-filter'></i>
+                        <i class='bx bx-search'></i>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Họ tên</th>
+                                <th>Số điện thoại</th>
+                                <th>Tổng tiền</th>
+                                <th>Ngày giao dịch</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.thongTinDatXes != null)
+                            {
+                                foreach (var thanhToan in Model.thanhToans)
+                                {
+                                    var thongTinDatXe = Model.thongTinDatXes.FirstOrDefault(tt => tt.MaDatXe == thanhToan.MaDatXe);
+                                    if (thongTinDatXe != null)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <p>@thongTinDatXe.PassengerName</p>
+                                            </td>
+                                            <td>@thanhToan.SoDienThoai</td>
+                                            <td>@thanhToan.TongTien</td>
+                                            <td>@thanhToan.NgayThanhToan.ToString("yyyy-MM-dd")</td>
+                                            <td>
+                                                @if (thanhToan.TrangThai)
+                                                {
+                                                    <span class="status completed">Hoàn thành</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="status pending">Chưa hoàn thành</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <h1>Biểu Đồ Thống Kê Doanh Thu</h1>
+            <div class="select-container">
+                <select name="selected-year" id="selected-year">
+                    @*<option value="">Năm nay</option>
+                    <option value="">2024</option>
+                    <option value="">2023</option>
+                    <option value="">2022</option>
+                    <option value="">2021</option>
+                    <option value="">2020</option>
+                    <option value="">2019</option>
+                    <option value="">2018</option>*@
+                    <!-- Add your options here -->
+                </select>
+                <div class="select-arrow">&#9660;</div>
+            </div>
+
+            <main class="main-container">
+                <div class="charts">
+
+                    <div class="charts-card">
+                        <h2 class="chart-title">Biểu đồ cột</h2>
+                        <div id="bar-chart"></div>
+                    </div>
+
+
+
+                </div>
+            </main>
+
+            <main class="main-container">
+                <div class="charts">
+
+
+
+                    <div class="charts-card">
+                        <h2 class="chart-title">Biểu đồ vùng</h2>
+                        <div id="area-chart"></div>
+                    </div>
+
+                </div>
+            </main>
+
+
+
+
+
+        </main>
+        <script>
+            $(document).ready(function () {
+                // Call the GetTotalDoanhThu action using Ajax
+        $.ajax({
+            url: '@Url.Action("GetTotalDoanhThu", "QuanLy")',
+            type: 'GET',
+            success: function (data) {
+                // Update the total doanh thu on the page
+                $('#totalDoanhThu').text(data.toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, '$1.') + " VND");
+            },
+            error: function () {
+                console.log('Error fetching total doanh thu.');
+            }
+        });
+            });
+        </script>
+
+        <script>
+    $(document).ready(function () {
+        // Call the GetTotalDoanhThuNamNay action using Ajax
+        $.ajax({
+            url: '@Url.Action("GetTotalDoanhThuNamNay", "QuanLy")',
+            type: 'GET',
+            success: function (data) {
+                // Update the total doanh thu for the year 2023 on the page with currency VND
+                $('#totalDoanhThuNamNay').text(data.toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, '$1.') + ' VND');
+            },
+            error: function () {
+                console.log('Error fetching total doanh thu for the year 2023.');
+            }
+        });
+    });
+        </script>
+
+        <script>
+    $(document).ready(function () {
+        // Call the GetTotalDoanhThuHomNay action using Ajax
+        $.ajax({
+            url: '@Url.Action("GetTotalDoanhThuHomNay", "QuanLy")',
+            type: 'GET',
+            success: function (data) {
+                // Update the total doanh thu for today on the page with currency VND
+                $('#totalDoanhThuHomNay').text(data.toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, '$1.') + ' VND');
+            },
+            error: function () {
+                console.log('Error fetching total doanh thu for today.');
+            }
+        });
+    });
+        </script>
+
+        <script>
+    $(document).ready(function () {
+        // Call the GetTotalBill action using Ajax
+        $.ajax({
+            url: '@Url.Action("GetTotalBill", "QuanLy")',
+            type: 'GET',
+            success: function (data) {
+                // Update the total bill count on the page
+                $('#totalBill').text(data);
+            },
+            error: function () {
+                console.log('Error fetching total bill count.');
+            }
+        });
+    });
+        </script>
+
+        <script>
+    $(document).ready(function () {
+        // Call the GetTotalBill action using Ajax
+        $.ajax({
+            url: '@Url.Action("GetTotalDriver", "QuanLy")',
+            type: 'GET',
+            success: function (data) {
+                // Update the total bill count on the page
+                $('#GetTotalDriver').text(data);
+            },
+            error: function () {
+                console.log('Error fetching total bill count.');
+            }
+        });
+    });
+        </script>
+
+        <script>
+    $(document).ready(function () {
+        // Call the GetTotalBill action using Ajax
+        $.ajax({
+            url: '@Url.Action("GetTotalPassenger", "QuanLy")',
+            type: 'GET',
+            success: function (data) {
+                // Update the total bill count on the page
+                $('#GetTotalPassenger').text(data);
+            },
+            error: function () {
+                console.log('Error fetching total bill count.');
+            }
+        });
+    });
+        </script>
+
+        <script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("ActivePhoneNumbersCount", "QuanLy")',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                // Update the content of the element with id="DriverWorkingCount"
+                var driverWorkingCountElement = $('#DriverWorkingCount');
+                driverWorkingCountElement.text(data);
+            },
+            error: function () {
+                console.error('Error fetching active phone numbers count.');
+            }
+        });
+    });
+        </script>
+
+    </div>
+
+
+    <!-- Scripts -->
+    <!-- ApexCharts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.5/apexcharts.min.js"></script>
+    <!-- Custom JS -->
+    <script src="~/js/BangDieuKhien.js"></script>
+    <!-- Include jQuery library -->
+</body>
+
+</html>
+

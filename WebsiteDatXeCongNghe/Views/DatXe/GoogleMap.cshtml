@@ -1,0 +1,1300 @@
+﻿@model IEnumerable<WebsiteDatXeCongNghe.Models.KhachHang>
+@{
+    ViewBag.Title = "GoogleMap";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Đặt xe máy</title>
+
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="~/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <link href="~/css/ThanhToanQuaThe.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
+
+    <link href="~/css/style.min.css" rel="stylesheet" />
+
+
+
+
+    <script src="~/js/bootstrap.min.js"></script>
+
+    <script src="~/js/ie10-viewport-bug-workaround.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:500&display=swap" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Other HTML and meta tags -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsjGimn5mrdv4SaHko6T4Ge8hChEHQQFc&libraries=places"></script>
+
+
+
+    <script src="~/js/googleMap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="google map.jsp">Đặt xe máy</a>
+                @foreach (var kh in Model)
+                {
+                    @*<span id="PassengerName">@kh.Ten</span>*@
+                    <a class="navbar-brand" id="PassengerName">@kh.Ten</a>
+                    <a class="navbar-brand" id="PassengerEmail">@kh.Email</a>
+
+                    <img src="~/image/KhachHang/@kh.HinhAnh" alt="" width="50" height="50" id="PassengerImage">
+
+                }
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!--
+                    <li><a href="./settings.html">Settigns</a></li>
+                    <li><a href="./logout.html">Logout</a></li>
+                    -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 location-form">
+                <form id="frmLocation" action="" role="form">
+                    <div class="panel-group" id="locationDetails" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="locationDetailsHeading">
+                                <h4 class="panel-title">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    <a role="button" data-toggle="collapse" data-parent="#locationDetails" href="#locationSection" aria-expanded="true" aria-controls="locationSection">
+                                        Thông tin vị trí
+                                    </a>
+                                    <div class="checkbox pull-right">
+                                        <label>
+                                            <input id="chkOptimizePath" type="checkbox" />
+                                            Tối ưu hóa chỉ dẫn
+                                        </label>
+                                    </div>
+                                </h4>
+                            </div>
+                            <div id="locationSection" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="locationDetailsHeading">
+                                <div class="panel-body">
+                                    <div id="locations"></div>
+
+                                    <div class="form-group">
+                                        <button id="btnAddLocation" type="button" class="col-xs-6 btn btn-success">
+                                            <span class="glyphicon glyphicon-plus-sign"></span> Thêm vị trí
+                                        </button>
+                                        <button id="btnClearDirections" type="button" class="col-xs-5 btn btn-danger">
+                                            <span class="glyphicon glyphicon-remove-sign"></span> Đặt lại
+                                        </button>
+                                        <button id="btnCalculateFare" type="button" class="col-xs-6 btn btn-primary">
+                                            <span class="glyphicon glyphicon-ok-sign"></span> Giá tiền
+                                        </button>
+                                        <button id="btnGetJson" type="button" class="col-xs-5 btn btn-primary">
+                                            <span class="glyphicon glyphicon-ok-sign"></span> Xem thông tin
+                                        </button>
+                                        <button id="btnBooking" type="button" class="col-xs-6 btn btn-success">
+                                            <span class="glyphicon glyphicon-plus-sign"></span> Đặt ngay
+                                        </button>
+                                        <button id="btnBookings" type="button" class="col-xs-6 btn btn-success" style="display:none;">
+                                            <span class="glyphicon glyphicon-plus-sign"></span>
+                                        </button>
+                                        <button id="btnGetCurrentLocation" type="button" class="col-xs-5 btn btn-success">
+                                            <span class="glyphicon glyphicon-plus-sign"></span> Lấy vị trí hiện tại
+                                        </button>
+                                        <a href="/TaiKhoan/Services">
+                                            <button id="btnBack" type="button" class="col-xs-5 btn btn-danger">
+                                                <span class="glyphicon glyphicon-remove-sign"></span> Quay lại
+                                            </button>
+                                        </a>
+                                        <button id="btnDirection" type="button" class="col-xs-6 btn btn-success" style="display:none;">
+                                            <span class="glyphicon glyphicon-plus-sign"></span> Điều hướng
+                                        </button>
+                                        <div id="popup" class="popup" style="display:none;">
+                                            <div class="popup-content">
+                                                <div class="popup-header">
+                                                    <button id="btnExit" type="button" class="btn btn-danger">
+                                                        <span class="glyphicon glyphicon-remove-sign"></span> Exit
+                                                    </button>
+                                                </div>
+                                                <div class="popup-body">
+                                                    <div class="distance">
+                                                        <span class="glyphicon glyphicon-ok"></span>
+                                                        <label>Khoảng cách:</label>
+                                                        <span id="distanceLeft"></span>
+                                                    </div>
+                                                    <div class="speed">
+                                                        <span class="glyphicon glyphicon-ok"></span>
+                                                        <label>Tốc độ:</label>
+                                                        <span id="speed"></span>
+                                                    </div>
+                                                    <div class="time-left">
+                                                        <span class="glyphicon glyphicon-ok"></span>
+                                                        <label>Thời gian còn lại:</label>
+                                                        <span id="timeLeft"></span>
+                                                    </div>
+                                                    <div id="buttonContainer">
+                                                        <button id="stopButton">Stop</button>
+                                                        <button id="nextButton">Next</button>
+                                                        <button id="accelerateButton">Accelerate</button>
+                                                        <button id="decelerateButton">Decelerate</button>
+                                                        <button id="accidentButton">Accident and stop</button>
+                                                        <button id="ConfirmCircle" style="display:none;"></button>
+                                                        <button id="CancelCircle" style="display:none;"></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <label for="cash">
+                                            <span>Lựa chọn phương thức thanh toán</span>
+                                        </label>
+                                        <style>
+                                            #buttonContainer {
+                                                text-align: center;
+                                                margin: 20px;
+                                            }
+
+                                            button {
+                                                padding: 10px 20px;
+                                                margin: 5px;
+                                                font-size: 16px;
+                                                border: none;
+                                                cursor: pointer;
+                                                background-color: #3498db;
+                                                color: #fff;
+                                                border-radius: 5px;
+                                                transition: background-color 0.3s;
+                                            }
+
+                                                button:hover {
+                                                    background-color: #2980b9;
+                                                }
+
+                                            #accidentButton {
+                                                background-color: #e74c3c;
+                                            }
+
+                                                #accidentButton:hover {
+                                                    background-color: #c0392b;
+                                                }
+                                        </style>
+
+                                        <style>
+                                            body {
+                                                font-family: Arial, sans-serif;
+                                            }
+
+                                            select {
+                                                width: 100%;
+                                                padding: 8px;
+                                                margin-bottom: 16px;
+                                                box-sizing: border-box;
+                                            }
+                                        </style>
+
+
+
+                                        <form>
+                                            <fieldset>
+                                                <label for="cash">
+                                                    <input type="radio" name="ThanhToan" value="Tiền mặt" checked="checked" onchange="displayRadioValue()" />
+                                                    <i class="fa fa-money" aria-hidden="true"></i>
+                                                    <span>Tiền mặt</span>
+                                                </label> <br />
+                                                <label for="card">
+                                                    <input type="radio" name="ThanhToan" value="Qua thẻ" onchange="displayRadioValue()" />
+                                                    <i class="fa fa-credit-card" aria-hidden="true"></i>
+                                                    <button class="favorite styled" type="button" id="CardPayment">Qua thẻ</button>
+                                                </label> <br />
+                                                <label for="cards">
+                                                    Số dư thẻ: <input type="text" id="CardBalance2" class="input" readonly>
+                                                    <input type="text" id="CardId" class="input" readonly>
+                                                    <input type="text" id="CardId2" class="input" readonly style="display:none;">
+                                                    <input type="text" id="CardId4" class="input" readonly style="display:none;">
+                                                    <input type="text" id="CardHolder" class="input" readonly style="display:none;">
+                                                    <input type="text" id="ExpirationMonth" class="input" readonly style="display:none;">
+                                                    <input type="text" id="ExpirationYear" class="input" readonly style="display:none;">
+                                                    <input type="text" id="CVV" class="input" readonly style="display:none;">
+                                                </label> <br />
+                                            </fieldset>
+
+
+                                            <script>
+                                                function displayRadioValue() {
+                                                    var ele = document.getElementsByName('ThanhToan');
+
+                                                    for (i = 0; i < ele.length; i++) {
+                                                        if (ele[i].checked)
+                                                            document.getElementById("result").innerHTML = "" + ele[i].value;
+                                                    }
+                                                }
+
+                                                // Call the function on page load to set the default payment method
+                                                window.onload = displayRadioValue;
+                                            </script>
+                                            <label for="promotionalCode">Áp dụng mã khuyến mãi:</label>
+                                            <select name="promotionalCode" id="promotionalCode">
+                                                <option value="">Chọn mã...</option>
+
+                                                <!-- Add more options as needed -->
+                                            </select>
+
+
+                                        </form>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="panel-group fare-details-group" id="fareDetails" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="fareDetailsHeading">
+                                <h4 class="panel-title">
+                                    <span class="glyphicon glyphicon-th-list"></span>
+                                    <a role="button" data-toggle="collapse" data-parent="#fareDetails" href="#fareBreakDown" aria-expanded="true" aria-controls="fareBreakDown">
+                                        Giá: <strong><span id="fare"></span></strong>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="fareBreakDown" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="fareDetailsHeading">
+                                <div class="panel-body">
+                                    <table class="table" id="DatXe">
+                                        <tr>
+                                            <td>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <label>Số điện thoại:</label>
+                                            </td>
+                                            <td>
+                                                <span id="phone-number">@Session["SoDienThoai"].ToString()</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <label>Khoảng cách:</label>
+                                            </td>
+                                            <td>
+                                                <span id="distance"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <label>Thời gian:</label>
+                                            </td>
+                                            <td>
+                                                <span id="duration"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <label>Giá khởi đầu:</label>
+                                            </td>
+                                            <td>
+                                                <span id="startingPrice"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <label>Giá chuyến đi:</label>
+                                            </td>
+                                            <td>
+                                                <span id="travelPrice"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <label>Tổng cộng:</label>
+                                            </td>
+                                            <td>
+                                                <strong><span id="totalFare"></span></strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <label>Giảm giá:</label>
+                                            </td>
+                                            <td>
+                                                <strong><span id="discountFare"></span></strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <label>Phí mở rộng lên 5km:</label>
+                                            </td>
+                                            <td>
+                                                <strong><span id="SurchareFee"></span></strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <label>Thành tiền:</label>
+                                            </td>
+                                            <td>
+                                                <strong><span id="discountFareTotal"></span></strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <label>Loại xe:</label>
+                                            </td>
+                                            <td>
+                                                <strong><span id="type"></span></strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <label>Hình thức thanh toán:</label>
+                                            </td>
+                                            <td>
+                                                <strong><span id="result"></span></strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <label>Ngày giờ đặt:</label>
+                                            </td>
+                                            <td>
+                                                <strong><span id="dated"></span></strong>
+                                            </td>
+                                        </tr>
+                                        <tr style="display: none;">
+                                            <td>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                                <label>Mã đặt xe:</label>
+                                            </td>
+                                            <td>
+                                                <strong><span id="MaDatXe"></span></strong>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <script>
+                    // Get current datetime
+                    var currentDate = new Date();
+
+                    // Format datetime as "yyyy-MM-dd HH:mm:ss.SSS"
+                    var formattedDatetime = currentDate.toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        fractionalSecondDigits: 3
+                    });
+
+                    // Display formatted datetime
+                    document.getElementById('dated').innerText = formattedDatetime;
+                </script>
+                <script>
+                    $(function () {
+                        var bookingHub = $.connection.bookingHub;
+
+                        // Start the SignalR connection
+                        $.connection.hub.start().done(function () {
+                            console.log('SignalR connection started.');
+
+                            // Function to cancel the ride and show an announcement
+                            function cancelRideAndAnnounce() {
+                                bookingHub.server.passengerCancelsSearchRide();
+                                swal("Rất tiếc", "Không thể tìm thấy tài xế xung quanh đây, vui lòng thử lại!", "info");
+                                Swal.close(); // Close the "Finding a driver" Swal
+                                setTimeout(function () {
+                                    $('#CancelCircle').trigger('click');
+                                }, 100);
+                                $("#SurchareFee").hide();
+                            }
+
+                            // send data through the connection
+                            $("#btnBooking").click(function (e) {
+                                var distance = $("#distance").text();
+                                var duration = $("#duration").text();
+                                var totalFare = $("#totalFare").text();
+                                var location1 = $("#txtLocation1").val();
+                                var location2 = $("#txtLocation2").val();
+                                var type = $("#type").text();
+                                var phone = $("#phone-number").text();
+                                var payment = $("#result").text();
+                                var DateTime = $("#dated").text();
+                                var PassengerImage = $("#PassengerImage").attr("src");
+                                var PassengerName = $("#PassengerName").text();
+                                var PassengerEmail = $("#PassengerEmail").text();
+                                var MaDatXe;
+                                var discountFare = $("#discountFare").text();
+                                var discountFareTotal = $("#discountFareTotal").text();
+
+                                // Define a global variable to communicate booking confirmation
+
+                                // Show the Swal alert to confirm the booking
+                                swal({
+                                    title: "Đặt xe",
+                                    text: "Bạn có chắc chắn muốn đặt xe chứ?",
+                                    icon: "info",
+                                    buttons: true,
+                                    dangerMode: false,
+                                })
+                                    .then((willBook) => {
+                                        if (willBook) {
+                                            var Status = false;
+
+
+                                            e.preventDefault();
+                                            $.ajax({
+                                                url: "GoogleMapThongTinDatXe",
+                                                type: "post",
+                                                dataType: "json", // Specify JSON as the expected data type
+                                                data: {
+                                                    distance: distance,
+                                                    duration: duration,
+                                                    totalFare: totalFare,
+                                                    location1: location1,
+                                                    location2: location2,
+                                                    type: type,
+                                                    phone: phone,
+                                                    payment: payment,
+                                                    DateTime: DateTime,
+                                                    Status: Status,
+                                                    PassengerImage: PassengerImage,
+                                                    PassengerName: PassengerName,
+                                                    PassengerEmail: PassengerEmail
+                                                },
+                                                success: function (result) {
+                                                    // Assign the value to a variable
+                                                    MaDatXe = result.MaDatXe;
+
+                                                    // Update the content of the <span id="MaDatXe"></span> with the received MaDatXe value
+                                                    $("#MaDatXe").text(MaDatXe);
+
+                                                    // Log the value of MaDatXe after it has been updated
+                                                    console.log(MaDatXe);
+
+                                                    // Handle the rest of your success logic
+                                                },
+                                            });
+                                            setTimeout(function () {
+                                                bookingHub.server.sendBookingData(distance, duration, totalFare, location1, location2, type, phone, payment, DateTime, PassengerImage, PassengerName, MaDatXe, discountFare, discountFareTotal)
+                                                .done(function () {
+                                                    // set time out 1 sec
+                                                    setTimeout(function () {
+                                                        $('#ConfirmCircle').trigger('click');
+                                                    }, 100);
+                                                    //// set time out 1 sec
+                                                    //setTimeout(function () {
+                                                    //    $('#btnBookings').trigger('click');
+                                                    //}, 1000);
+
+                                                    // Show the "Finding a driver" Swal with a cancel button and a timer
+                                                    const Toast = Swal.mixin({
+                                                        toast: true,
+                                                        position: 'top-end',
+                                                        showConfirmButton: false,
+                                                        showCancelButton: true, // Enable the cancel button
+                                                        cancelButtonText: "Hủy", // Set the cancel button text
+                                                        timer: 120000,
+                                                        timerProgressBar: true,
+                                                        didOpen: (toast) => {
+                                                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                                                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                                                        }
+                                                    });
+                                                    console.log(MaDatXe);
+                                                    Toast.fire({
+                                                        icon: 'info',
+                                                        title: 'Đang tìm tài xế',
+                                                        text: 'Việc đặt chỗ của bạn đang được xử lý và tài xế sẽ sớm được chỉ định. Bạn có thể hủy yêu cầu.',
+                                                        showConfirmButton: false, // Hide the confirmation button (if you want)
+                                                    }).then((result) => {
+                                                        if (result.dismiss === Swal.DismissReason.cancel) {
+                                                            // Handle the cancel action here
+                                                            var resultText = $('#result').text().trim();
+                                                            if (resultText === "Qua thẻ") {
+                                                                // Fetch the required data
+                                                                var amountToRefund = $('#discountFareTotal').text().trim(); // The value is assumed to be like "800.000 VND"
+                                                                amountToRefund = amountToRefund.replace("VND", ""); // Remove non-numeric characters
+                                                                var phoneNumber = $('#phone-number').text().trim();
+                                                                var cardId = $('#CardId2').val().trim();
+
+                                                                // Make AJAX call to initiate the refund
+                                                                $.ajax({
+                                                                    type: 'POST',
+                                                                    url: '/DatXe/Refund',
+                                                                    data: { amount: amountToRefund, PhoneNumber: phoneNumber, SoThe: cardId },
+                                                                    success: function (response) {
+                                                                        //if (response.success) {
+                                                                        //    // Format the numbers with thousand separators
+                                                                        //    var formattedBalanceCard = Number(response.balanceCard).toLocaleString('vi-VN', { minimumFractionDigits: 3 });
+
+                                                                        //    // Replace commas with dots
+                                                                        //    formattedBalanceCard = formattedBalanceCard.replace(/,/g, '.');
+
+                                                                        //    $('#CardBalance2').val(formattedBalanceCard + " VND");
+
+                                                                        //    // Additional actions after refund success if needed
+
+                                                                        //} else {
+                                                                        //    // Display error message
+                                                                        //    Swal.fire({
+                                                                        //        icon: 'error',
+                                                                        //        title: 'Lỗi',
+                                                                        //        text: response.message
+                                                                        //    });
+                                                                        //}
+                                                                    },
+                                                                    // Handle AJAX error if needed
+                                                                    error: function (xhr, status, error) {
+                                                                        console.error('AJAX Error:', xhr, status, error);
+                                                                        // Display error message
+                                                                        Swal.fire({
+                                                                            icon: 'error',
+                                                                            title: 'Lỗi',
+                                                                            text: 'Đã xảy ra lỗi trong quá trình xử lý.'
+                                                                        });
+                                                                    }
+                                                                });
+                                                            }
+
+                                                            bookingHub.server.passengerCancelsSearchRide();
+                                                            // set time out 1 sec
+                                                            setTimeout(function () {
+                                                                $('#CancelCircle').trigger('click');
+                                                            }, 100);
+                                                            $("#SurchareFee").text("0.000 VND");
+                                                        }
+                                                    });
+
+                                                    // Set a timeout to call the function that cancels the ride and announces
+                                                    setTimeout(cancelRideAndAnnounce, 120000);
+                                                })
+                                                .fail(function (error) {
+                                                    console.error("Error sending booking data: " + error);
+                                                });
+                                            }, 1000);
+                                        } else {
+                                            bookingHub.server.passengerCancelsSearchRide()
+                                                .done(function () {
+                                                    console.log("CANCELED!!!");
+                                                })
+                                                .fail(function (error) {
+                                                    console.error("Error calling passengerCancelsSearchRide: " + error);
+                                                });
+
+                                        }
+                                    });
+                            });
+                        });
+
+                        bookingHub.client.updateBookingStatus = function (status, driverLocation) {
+                            if (status === "accepted") {
+                                swal({
+                                    title: "Đã chấp nhận chuyến",
+                                    text: "Tài xế đã chấp nhận chuyến! Vị trí: " + "\n" +driverLocation,
+                                    icon: "success",
+                                    buttons: false,
+                                    timer: 2000
+                                });
+                                var CardId4 = $("#CardId4").val().trim();
+                                var CardHolder = $("#CardHolder").val().trim();
+                                var ExpirationMonth = $("#ExpirationMonth").val().trim();
+                                var ExpirationYear = $("#ExpirationYear").val().trim();
+                                var CVV = $("#CVV").val().trim();
+                                // Send the data to the server
+                $.ajax({
+                    url: '@Url.Action("SendSoThe", "DatXe")', // The server URL to send the data
+                    type: 'POST', // The HTTP method to use
+                    data: { // The data to send to the server
+                        CardId4: CardId4,
+                        CardHolder: CardHolder,
+                        ExpirationMonth: ExpirationMonth,
+                        ExpirationYear: ExpirationYear,
+                        CVV: CVV,                        
+                    },
+                    success: function (data) {
+                        // Redirect to the new page
+                        setTimeout(function () {
+                            window.location.href = "@Url.Action("NhanChuyenXe", "DatXe")";
+                        }, 1000);
+                    },
+                    error: function (xhr, status, error) { // If an error occurred
+                        console.log(error); // Log the error to the console
+                    }
+                });
+                                @*// Redirect to the new page
+                                //setTimeout(function () {
+                                    //window.location.href = "@Url.Action("NhanChuyenXe", "DatXe")";
+                                }, 1000);*@
+                            } else if (status === "cancelled") {
+                                swal({
+                                    title: "Đã hủy chuyến",
+                                    text: "Tài xế đã hủy chuyến.",
+                                    icon: "error",
+                                    buttons: false,
+                                    timer: 2000
+                                });
+                            }
+                        };
+
+                    });
+
+
+
+                </script>
+
+                <script>
+                    // Call this function to load promotional codes
+                    function loadPromotionalCodes() {
+                        // Add the empty option first
+                        $('#promotionalCode').append($('<option>', {
+                            value: 0,
+                            text: 'Chọn mã...'
+                        }));
+
+                        $.ajax({
+                            url: '/KhuyenMai/GetPromotionalCodes',
+                            type: 'GET',
+                            success: function (data) {
+                                // Clear existing options
+                                $('#promotionalCode').empty();
+
+                                // Add the empty option first
+                                $('#promotionalCode').append($('<option>', {
+                                    value: 0,
+                                    text: 'Chọn mã...'
+                                }));
+
+                                // Add new options based on the data returned from the server
+                                data.forEach(function (code) {
+                                    $('#promotionalCode').append($('<option>', {
+                                        value: code.PhanTram,
+                                        text: code.MaCode + ' - ' + code.TenKhuyenMai + ' - ' + 'Khuyến mãi ' + code.PhanTram + '%'
+                                    }));
+                                });
+                            }
+                        });
+                    }
+
+                    $(document).ready(function () {
+                        // Load promotional codes
+                        loadPromotionalCodes();
+
+                        // Apply discount on selection change
+                        $('#promotionalCode').change(function () {
+                            var selectedPhanTram = parseFloat($(this).val());
+                            var totalFare = parseFloat($('#totalFare').text());
+
+                            // If no promotional code is selected, clear the discount and total
+                            if (isNaN(selectedPhanTram)) {
+                                $('#discountFare').text('');
+                                $('#discountFareTotal').text(totalFare);
+                                return;
+                            }
+
+                            // Calculate the discount and discounted total fare
+                            var discountPercentage = selectedPhanTram / 100;
+                            var discountFare = totalFare * discountPercentage;
+                            var discountedTotalFare = totalFare - discountFare;
+
+                            // Update the discount elements with the calculated values
+                            $('#discountFare').text('-' + discountFare.toFixed(3) + ' VND');
+                            $('#discountFareTotal').text(discountedTotalFare.toFixed(3) + ' VND');
+                        });
+                    });
+
+                </script>
+
+
+            </div>
+            <div class="col-md-8 google-map-wrap">
+                <div id="googleMap" class="map"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay2"></div>
+    <div class="otp-container" style="display:none;">
+        <span id="closeOTP" class="close-icon">X</span>
+        <h2>Nhập mã OTP (Thanh toán)</h2>
+        <form id="otp-form">
+            <input type="text" id="digit-1" class="otp-digit" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-2" class="otp-digit" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-3" class="otp-digit" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-4" class="otp-digit" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-5" class="otp-digit" maxlength="1" pattern="\d" required>
+            <span class="opt" id="EnterAmountPass" style="display:none;"></span>
+            <span class="opt" id="CardId3" style="display:none;"></span>
+            <span class="opt" id="CardHolder2" style="display:none;"></span>
+            <span class="opt" id="ExpirationMonth2" style="display:none;"></span>
+            <span class="opt" id="ExpirationYear2" style="display:none;"></span>
+            <span class="opt" id="CVV2" style="display:none;"></span>
+            <input type="submit" id="confirmationCode" value="Xác nhận" class="verify-btn">
+        </form>
+    </div>
+
+    <div class="overlay"></div>
+    <div class="wrapper" style="display:none;">
+        <div class="payment">
+            <span id="closePaymentForm" class="close-icon">X</span>
+            <div class="payment-logo">
+                <p><img src="~/image/TaiXe/VisaIcon.png" alt="Visa Icon" style="max-width: 100%; vertical-align: middle;"></p>
+            </div>
+
+
+            <h2>Thanh toán qua thẻ</h2>
+            <div class="form">
+                <div class="card space icon-relative">
+                    <label class="label">Số dư trong thẻ:</label>
+                    <div class="input-container">
+                        <input type="text" id="CardBalance" class="input" readonly>
+                        <span class="currency-unit">VND</span>
+                    </div>
+                    <i class="far fa-credit-card"></i>
+                </div>
+                <div class="card space icon-relative">
+                    <label class="label">Giá chuyến xe:</label>
+                    <div class="input-container">
+                        <input type="text" id="RidePrice" class="input" readonly>
+                        <span class="currency-unit">VND</span>
+                    </div>
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="card space icon-relative">
+                    <label class="label">Chọn thẻ:</label>
+                    <div class="input-container">
+                        <select id="SelectVisaCard" class="input">
+                            <option value="10.000">10,000 VND</option>
+                            <option value="20.000">20,000 VND</option>
+                            <option value="50.000">50,000 VND</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div class="btnOnlinePayment" id="btnOnlinePayment">
+                    Thanh toán
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay3"></div>
+    <div class="wrapper2">
+        <div class="payment">
+            <span id="closePaymentLinkCard" class="close-icon">X</span>
+            <div class="payment-logo">
+                <p><img src="~/image/TaiXe/VisaIcon.png" alt="Visa Icon" style="max-width: 100%; vertical-align: middle;"></p>
+            </div>
+
+
+            <h2>Chưa liên kết thẻ</h2>
+            <a href="/KhachHang/LienKetThe">
+                <div class="btnOnlinePayment">
+                    Liên kết ngay
+
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    @*<script>
+            //$(document).ready(function () {
+                // Function to show the deposit form
+                function showCardPaymentForm(discountFareTotal) {
+                    $('.wrapper').show();
+                    $('.overlay').show();
+                    // Update the form with the provided data (format numbers with dots)
+                    $('#RidePrice').val(Number(discountFareTotal.replace(/\D/g, '')).toLocaleString('vi-VN'));
+                }
+
+
+
+                // Function to close the deposit form
+                function closeCardPaymentForm() {
+                    $('.wrapper').hide();
+                    $('.overlay').hide();
+
+                }
+
+                // Click event for opening the deposit form
+                $("#CardPayment").click(function () {
+                    var discountFareTotal = $('#discountFareTotal').text().trim();
+                    // Show the deposit form and pass the data
+                    showCardPaymentForm(discountFareTotal);
+                });
+
+                // Click event for closing the deposit form
+                $("#closePaymentForm").click(function () {
+                    closeCardPaymentForm();
+                });
+
+
+
+            });
+        </script>*@
+
+    <script>
+        const overlay2 = document.querySelector('.overlay2');
+        const OTPContainer = document.querySelector('.otp-container');
+        const closeButton = document.getElementById('closeOTP');
+
+        closeButton.addEventListener('click', function () {
+            overlay2.style.display = 'none';
+            OTPContainer.style.display = 'none';
+            $('#digit-1').val("");
+            $('#digit-2').val("");
+            $('#digit-3').val("");
+            $('#digit-4').val("");
+            $('#digit-5').val("");
+        });
+    </script>
+    <script>
+        function showOTPForm() {
+            $('.otp-container').show();
+            $('.overlay2').show();
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Function to show the deposit form
+            function showCardPaymentForm(discountFareTotal) {
+                $('.wrapper').show();
+                $('.overlay').show();
+                // Update the form with the provided data (format numbers with dots)
+                $('#RidePrice').val(Number(discountFareTotal.replace(/\D/g, '')).toLocaleString('vi-VN'));
+
+                // Get the phone number from the hidden element
+                var phoneNumber = $('#phone-number').text().trim();
+
+                // Fetch Visa card details
+                getVisaCardDetails(phoneNumber);
+            }
+
+            function showLinkCardPaymentForm() {
+                $('.wrapper2').show();
+                $('.overlay3').show();
+            }
+
+            // Function to close the deposit form
+            function closeCardPaymentForm() {
+                $('.wrapper').hide();
+                $('.overlay').hide();
+            }
+
+            function closeLinkCardPaymentForm() {
+                $('.wrapper2').hide();
+                $('.overlay3').hide();
+            }
+
+            // Click event for opening the deposit form
+            $("#CardPayment").click(function () {
+                var discountFareTotal = $('#discountFareTotal').text().trim();
+                // Show the deposit form and pass the data
+                checkCardDetailsAndShowForm();
+            });
+
+            function checkCardDetailsAndShowForm() {
+                // Fetch Visa card details and update CardBalance2 and CardId on page load
+                var phoneNumber = $('#phone-number').text().trim();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/DatXe/GetVisaCardDetails',
+                    data: { phoneNumber: phoneNumber },
+                    success: function (response) {
+                        if (response.success) {
+                            if (response.cardDetails && response.cardDetails.length > 0) {
+                                // Linked card(s) exist, show payment form
+                                showCardPaymentForm($('#discountFareTotal').text().trim());
+                            } else {
+                                // No linked cards, show link card form
+                                showLinkCardPaymentForm();
+                            }
+                        } else {
+                            console.error(response.message);
+                            // Show link card form in case of an error
+                            showLinkCardPaymentForm();
+                        }
+                    },
+                    error: function () {
+                        console.error('Error fetching Visa card details');
+                        // Handle the error, for now, let's show the link card form
+                        showLinkCardPaymentForm();
+                    }
+                });
+            }
+
+            // Click event for closing the deposit form
+            $("#closePaymentForm").click(function () {
+                closeCardPaymentForm();
+            });
+            // Click event for closing the deposit form
+            $("#closePaymentLinkCard").click(function () {
+                closeLinkCardPaymentForm();
+            });
+
+            // Function to update the card balance
+            function updateCardBalance(selectedCard) {
+                // Update the CardBalance input with the selected card's balance
+                $('#CardBalance').val(selectedCard.SoDu.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            }
+
+            // Function to update the CardBalance2 and CardId inputs
+            function updateCardDetails(selectedCard) {
+                $('#CardBalance2').val(selectedCard.SoDu.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " VND");
+                $('#CardId').val(formatCreditCardNumber(selectedCard.SoThe));
+                $('#CardId2').val(selectedCard.SoThe);
+                $('#CardId4').val(selectedCard.SoThe);
+                $('#CardHolder').val(selectedCard.ChuThe);
+                $('#ExpirationMonth').val(selectedCard.ThoiHanThang);
+                $('#ExpirationYear').val(selectedCard.ThoiHanNam);
+                $('#CVV').val(selectedCard.CVV);
+            }
+
+            // Function to format the credit card number
+            function formatCreditCardNumber(cardNumber) {
+                if (cardNumber.length >= 16) {
+                    var maskedNumber = cardNumber.substring(0, 4) + '*'.repeat(8) + cardNumber.substring(12);
+                    return maskedNumber;
+                } else {
+                    return cardNumber; // Return the original number if it's not long enough
+                }
+            }
+
+            // Function to fetch Visa card details
+            function getVisaCardDetails(phoneNumber) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/DatXe/GetVisaCardDetails',
+                    data: { phoneNumber: phoneNumber },
+                    success: function (response) {
+                        if (response.success) {
+                            // Populate the SelectVisaCard dropdown with fetched data
+                            var selectVisaCard = $('#SelectVisaCard');
+                            selectVisaCard.empty();
+
+                            response.cardDetails.forEach(function (card) {
+                                selectVisaCard.append($('<option>', {
+                                    value: card.MaTaiKhoanNH,
+                                    text: `${formatCreditCardNumber(card.SoThe)} - ${card.ChuThe}`,
+                                    'data-balance': card.SoDu
+                                }));
+                            });
+
+                            // Update the CardBalance for the initially selected card
+                            updateCardBalance(response.cardDetails[0]);
+
+                            // Add change event to update CardBalance when selecting a different card
+                            selectVisaCard.change(function () {
+                                var selectedCard = response.cardDetails.find(c => c.MaTaiKhoanNH == $(this).val());
+                                updateCardBalance(selectedCard);
+                            });
+                        } else {
+                            console.error(response.message);
+                        }
+                    },
+                    error: function () {
+                        console.error('Error fetching Visa card details');
+                    }
+                });
+            }
+
+
+            function getVisaCardDetailsAndUpdateBalance2(phoneNumber) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/DatXe/GetVisaCardDetails',
+                    data: { phoneNumber: phoneNumber },
+                    success: function (response) {
+                        if (response.success) {
+                            var selectVisaCard = $('#SelectVisaCard');
+                            selectVisaCard.empty();
+
+                            if (response.cardDetails && response.cardDetails.length > 0) {
+                                // Linked cards exist
+                                response.cardDetails.forEach(function (card) {
+                                    selectVisaCard.append($('<option>', {
+                                        value: card.MaTaiKhoanNH,
+                                        text: `${formatCreditCardNumber(card.SoThe)} - ${card.ChuThe}`,
+                                        'data-balance': card.SoDu
+                                    }));
+                                });
+
+                                // Update the CardBalance and CardId for the initially selected card
+                                updateCardDetails(response.cardDetails[0]);
+
+                                // Add change event to update CardBalance, CardBalance2, and CardId when selecting a different card
+                                selectVisaCard.change(function () {
+                                    var selectedCard = response.cardDetails.find(c => c.MaTaiKhoanNH == $(this).val());
+                                    updateCardDetails(selectedCard);
+                                });
+                            } else {
+                                // No linked cards
+                                // Display "No linked card" in CardBalance2, CardId, and CardId2
+                                $('#CardBalance2').val("Chưa liên kết thẻ");
+                                $('#CardId').val("Chưa liên kết thẻ");
+                                $('#CardId2').val("0");
+                                $('#CardId4').val("0");
+                                $('#CardHolder').val("0");
+                                $('#ExpirationMonth').val("0");
+                                $('#ExpirationYear').val("0");
+                                $('#CVV').val("0");
+                            }
+                        } else {
+                            console.error(response.message);
+                        }
+                    },
+                    error: function () {
+                        console.error('Error fetching Visa card details');
+                    }
+                });
+            }
+
+
+            // Fetch Visa card details and update CardBalance2 and CardId on page load
+            var phoneNumber = $('#phone-number').text().trim();
+            getVisaCardDetailsAndUpdateBalance2(phoneNumber);
+
+            // Click event for the "Thanh toán" button
+            $("#btnOnlinePayment").click(function () {
+                // Fetch the data from #BalanceCard and #WalletDriver
+                var balanceCard = $('#BalanceCard').text().trim();
+                var IDbalanceCard = $('#CardId2').val().trim();
+                var CardHolder = $('#CardHolder').val().trim();
+                var ExpirationMonth = $('#ExpirationMonth').val().trim();
+                var ExpirationYear = $('#ExpirationYear').val().trim();
+                var CVV = $('#CVV').val().trim();
+                var amount = $('#RidePrice').val().trim();
+                var phoneNumber = $('#phone-number').text().trim(); // Get the phone number from the hidden element
+                console.log(IDbalanceCard);
+                console.log(amount);
+                console.log(phoneNumber);
+                // Validate the amount if needed
+                // Pass the data to #EnterAmountPass
+                $('#EnterAmountPass').text(amount);
+                $('#CardId3').text(IDbalanceCard);
+                $('#CardHolder2').text(CardHolder);
+                $('#ExpirationMonth2').text(ExpirationMonth);
+                $('#ExpirationYear2').text(ExpirationYear);
+                $('#CVV2').text(CVV);
+
+                // Make AJAX call to submit the form
+                $.ajax({
+                    type: 'POST',
+                    url: '/DatXe/ThanhToan',
+                    data: { amount: amount, PhoneNumber: phoneNumber, SoThe: IDbalanceCard },
+                    success: function (response) {
+
+                        if (response.success) {
+                            //// Show success swal
+                            //Swal.fire({
+                            //    icon: 'success',
+                            //    title: 'Thành công!',
+                            //    text: 'Nạp tiền thành công!'
+                            //});
+
+                            // Show OTP form after successful deposit
+                            closeCardPaymentForm();
+                            showOTPForm();
+
+                        } else {
+                            // Show error swal
+                            alert(response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX Error:', xhr, status, error);
+                        alert('Không đủ tiền trong thẻ.');
+                    }
+
+                });
+
+            });
+        });
+    </script>
+
+    <script>
+        const otpForm = document.getElementById('otp-form');
+
+        otpForm.addEventListener('input', function (event) {
+            const target = event.target;
+
+            // Check if the input is a valid numeric value
+            if (!/^\d*$/.test(target.value)) {
+                // If not a valid numeric value, clear the input
+                target.value = '';
+                return;
+            }
+
+            // Move to the next input field if the current input is not empty
+            if (target.value !== '') {
+                const nextInput = getNextInput(target);
+                if (nextInput) {
+                    nextInput.focus();
+                }
+            }
+        });
+
+        otpForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const otpDigits = document.getElementsByClassName('otp-digit');
+            let otp = '';
+
+            for (let i = 0; i < otpDigits.length; i++) {
+                otp += otpDigits[i].value;
+            }
+
+            // Fetch the data from #BalanceCard and #WalletDriver
+            var balanceCard = $('#BalanceCard').text().trim();
+            var IDbalanceCard = $('#CardId2').val().trim();
+            var amount = $('#EnterAmountPass').text().trim();
+            var phoneNumber = $('#phone-number').text().trim();
+            $.ajax({
+                type: 'POST',
+                url: '/DatXe/EnterConfirmationCode',
+                data: { confirmationCode: otp },
+                success: function (response) {
+
+                    if (response.success) {
+                        // Show success swal
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Xác nhận OTP thành công!'
+                        });
+                        $('.otp-container').hide();
+                        $('.overlay2').hide();
+                        $('#digit-1').val("");
+                        $('#digit-2').val("");
+                        $('#digit-3').val("");
+                        $('#digit-4').val("");
+                        $('#digit-5').val("");
+                        // If OTP is valid, proceed to insert card
+                        $.ajax({
+                            type: 'POST',
+                            url: '/DatXe/ThanhToan2',
+                            data: { amount: amount, PhoneNumber: phoneNumber, SoThe: IDbalanceCard },
+                            success: function (insertResponse) {
+                                if (insertResponse.success) {
+
+                                    // Format the numbers with thousand separators
+                                    var formattedBalanceCard = Number(insertResponse.balanceCard).toLocaleString('vi-VN', { minimumFractionDigits: 3 });
+
+                                    // Replace commas with dots
+                                    formattedBalanceCard = formattedBalanceCard.replace(/,/g, '.');
+
+                                    $('#CardBalance2').val(formattedBalanceCard + " VND");
+
+                                    // Show success swal for card insertion
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thành công!',
+                                        text: insertResponse.message
+                                    });
+                                } else {
+                                    // Show error swal for card insertion
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Lỗi!',
+                                        text: insertResponse.message
+                                    });
+                                }
+                            },
+                            error: function () {
+                                // Show generic error swal for card insertion
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi!',
+                                    text: 'Đã xảy ra lỗi trong khi xử lý yêu cầu của bạn.'
+                                });
+                            }
+                        });
+                    } else {
+                        alert('Xác nhận OTP không hợp lệ!');
+                    }
+                },
+                error: function () {
+                    // Show generic error swal
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã xảy ra lỗi trong khi xử lý yêu cầu của bạn.'
+                    });
+                }
+            });
+        });
+
+        function getNextInput(currentInput) {
+            const otpDigits = document.getElementsByClassName('otp-digit');
+            const currentIndex = Array.from(otpDigits).indexOf(currentInput);
+
+            // Return the next input if it exists, otherwise return null
+            return currentIndex < otpDigits.length - 1 ? otpDigits[currentIndex + 1] : null;
+        }
+
+
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>
+
+
+

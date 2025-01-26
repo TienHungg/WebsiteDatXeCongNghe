@@ -1,0 +1,498 @@
+﻿@model WebsiteDatXeCongNghe.ViewModel.MultipleData.MultipleData
+@{
+    ViewBag.Title = "TaiKhoanNganHang";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- custom css file link  -->
+    <link href="~/css/TaiKhoanNganHangTX.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- Include SweetAlert library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11" />
+    <!-- Include SweetAlert library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+
+
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="card-container">
+
+            <div class="front">
+                <div class="image">
+                    <img src="~/image/ThanhToan/chip.png" />
+                    <img src="~/image/ThanhToan/visa.png" />
+                </div>
+                <div class="card-number-box">################</div>
+                <div class="flexbox">
+                    <div class="box">
+                        <span>Chủ Thẻ</span>
+                        <div class="card-holder-name" id="cardholdername">Họ Tên</div>
+                    </div>
+                    <div class="box">
+                        <span>Ngày Hết Hạn</span>
+                        <div class="expiration">
+                            <span class="exp-month" id="monthExpiration">mm</span>
+                            <span class="exp-year" id="yearExpiration">yy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="back">
+                <div class="stripe"></div>
+                <div class="box">
+                    <span>cvv</span>
+                    <div class="cvv-box"></div>
+                    <img src="image/visa.png" alt="">
+                </div>
+            </div>
+
+        </div>
+
+        <form action="">
+            <a href="/KhachHang/LienKetThe">
+                <span class="material-icons-sharp">
+                    arrow_back
+                </span>
+            </a>
+            <div class="inputBoxs" style="display:none;">
+                <span id="phoneNumber">@Session["SoDienThoai"].ToString()</span>
+            </div>
+            <div class="inputBox">
+                <span>Số Thẻ</span>
+                <input type="text" id="cardNumber" maxlength="16" class="card-number-input">
+            </div>
+            <div class="inputBox">
+                <span>Chủ Thẻ</span>
+                <input type="text" id="cardHolder" class="card-holder-input">
+            </div>
+            <div class="flexbox">
+                <div class="inputBox">
+                    <span>Ngày Hết Hạn</span>
+                    <select name="" id="month" class="month-input">
+                        <option value="month" selected disabled>Tháng</option>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+                <div class="inputBox">
+                    <span>Năm Hết Hạn</span>
+                    <select name="" id="year" class="year-input">
+                        <option value="year" selected disabled>Năm</option>
+                        <option value="/21">21</option>
+                        <option value="/22">22</option>
+                        <option value="/23">23</option>
+                        <option value="/24">24</option>
+                        <option value="/25">25</option>
+                        <option value="/26">26</option>
+                        <option value="/27">27</option>
+                        <option value="/28">28</option>
+                        <option value="/29">29</option>
+                        <option value="/30">30</option>
+                    </select>
+                </div>
+                <div class="inputBox">
+                    <span>cvv</span>
+                    <input type="text" id="cvv" maxlength="3" class="cvv-input">
+                </div>
+            </div>
+            <input type="submit" id="registerVisa" value="Đăng Ký" class="submit-btn">
+        </form>
+    </div>
+    <div class="overlay"></div>
+    <div class="otp-container" style="display:none;">
+        <span id="closeOTP" class="close-icon">X</span>
+        <h2>Nhập mã OTP</h2>
+        <form id="otp-form">
+            <input type="text" id="digit-1" class="otp-digit" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-2" class="otp-digit" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-3" class="otp-digit" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-4" class="otp-digit" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-5" class="otp-digit" maxlength="1" pattern="\d" required>
+            <input type="submit" id="confirmationCode" value="Xác nhận" class="verify-btn">
+        </form>
+    </div>
+    <script>
+        function showOTPForm() {
+            $('.otp-container').show();
+            $('.overlay').show();
+        }
+    </script>
+
+
+    <script>
+    $(document).ready(function () {
+        // Handle dynamic update of ChuThe based on cardNumber
+        $('#cardNumber').on('input', function () {
+            var cardNumber = $(this).val();
+            var cardNumberMonth = $(this).val();
+            var cardNumberYear = $(this).val();
+            var chuThe = getChuTheFromCardNumber(cardNumber);
+            var thoiHanThang = getMonthFromCardNumber(cardNumberMonth);
+            var thoiHanNam = getYearFromCardNumber(cardNumberYear);
+            $('#cardHolder').val(chuThe);
+            $('#month').val("0" + thoiHanThang);
+            $('#year').val("/" + thoiHanNam);
+
+
+            // Update the cardholder name div
+            $('#cardholdername').text(chuThe);
+            $('#monthExpiration').text("0" + thoiHanThang);
+            $('#yearExpiration').text("/" + thoiHanNam);
+        });
+
+        // Handle form submission using AJAX
+        $('#registerVisa').click(function (e) {
+            e.preventDefault();
+
+            var phoneNumber = $('#phoneNumber').text();
+            var cardNumber = $('#cardNumber').val();
+            var cardHolder = $('#cardHolder').val();
+            var month = $('#month').val();
+            var year = $('#year').val().replace('/', '');
+            var cvv = $('#cvv').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ValidateVisaCard", "KhachHang")',
+                data: {
+                    phoneNumber: phoneNumber,
+                    cardNumber: cardNumber,
+                    cardHolder: cardHolder,
+                    month: month,
+                    year: year,
+                    cvv: cvv
+                },
+                success: function (response) {
+                    if (response.success) {
+                        if (response.message === 'Gửi mã OTP!') {
+                            // Show success swal
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!',
+                                text: response.message
+                            });
+
+                            // Show OTP form
+                            showOTPForm();
+                        } else {
+                            // Show error swal
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi!',
+                                text: response.message
+                            });
+                        }
+                    } else {
+                        // Show error swal
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: response.message
+                        });
+                    }
+                },
+                error: function () {
+                    // Show generic error swal
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã xảy ra lỗi trong khi xử lý yêu cầu của bạn.'
+                    });
+                }
+            });
+        });
+
+        // Function to extract ChuThe from cardNumber
+        function getChuTheFromCardNumber(cardNumber) {
+            // Send an AJAX request to the server to get ChuThe based on cardNumber
+            // Assuming you have an endpoint to retrieve ChuThe based on cardNumber
+            // You may need to adjust the URL and data based on your actual implementation
+            var chuThe = ''; // Default value
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetChuTheByCardNumber", "KhachHang")',
+                data: { cardNumber: cardNumber },
+                async: false, // Ensure synchronous execution to get the value before returning
+                success: function (result) {
+                    chuThe = result;
+                },
+                error: function () {
+                    //console.log('Error getting ChuThe for cardNumber:', cardNumber);
+                }
+            });
+
+            return chuThe;
+        }
+
+        // Function to extract ChuThe from cardNumber
+        function getMonthFromCardNumber(cardNumberMonth) {
+            // Send an AJAX request to the server to get ChuThe based on cardNumber
+            // Assuming you have an endpoint to retrieve ChuThe based on cardNumber
+            // You may need to adjust the URL and data based on your actual implementation
+            var thoiHanThang = ''; // Default value
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetMonthByCardNumber", "KhachHang")',
+                data: { cardNumberMonth: cardNumberMonth },
+                async: false, // Ensure synchronous execution to get the value before returning
+                success: function (result) {
+                    thoiHanThang = result;
+                },
+                error: function () {
+                    //console.log('Error getting ChuThe for cardNumber:', cardNumberMonth);
+                }
+            });
+
+            return thoiHanThang;
+        }
+
+        // Function to extract ChuThe from cardNumber
+        function getYearFromCardNumber(cardNumberYear) {
+            // Send an AJAX request to the server to get ChuThe based on cardNumber
+            // Assuming you have an endpoint to retrieve ChuThe based on cardNumber
+            // You may need to adjust the URL and data based on your actual implementation
+            var thoiHanNam = ''; // Default value
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetYearByCardNumber", "KhachHang")',
+                data: { cardNumberYear: cardNumberYear },
+                async: false, // Ensure synchronous execution to get the value before returning
+                success: function (result) {
+                    thoiHanNam = result;
+                },
+                error: function () {
+                    //console.log('Error getting ChuThe for cardNumber:', cardNumberYear);
+                }
+            });
+
+            return thoiHanNam;
+        }
+    });
+    </script>
+
+
+
+
+
+
+
+    <script>
+        const overlay = document.querySelector('.overlay');
+        const OTPContainer = document.querySelector('.otp-container');
+        const closeButton = document.getElementById('closeOTP');
+        closeButton.addEventListener('click', function () {
+            overlay.style.display = 'none';
+            OTPContainer.style.display = 'none';
+            $('#digit-1').val("");
+            $('#digit-2').val("");
+            $('#digit-3').val("");
+            $('#digit-4').val("");
+            $('#digit-5').val("");
+        });
+        document.querySelector('.card-number-input').addEventListener('keypress', function (e) {
+            if (isNaN(String.fromCharCode(e.keyCode))) {
+                e.preventDefault();
+            }
+        });
+        document.querySelector('.card-number-input').oninput = () => {
+            let cardNumber = document.querySelector('.card-number-input').value;
+            let formattedCardNumber = formatCardNumber(cardNumber);
+            document.querySelector('.card-number-box').innerText = formattedCardNumber;
+        }
+
+        document.querySelector('.card-holder-input').oninput = () => {
+            document.querySelector('.card-holder-name').innerText = document.querySelector('.card-holder-input').value;
+        }
+
+        document.querySelector('.month-input').oninput = () => {
+            document.querySelector('.exp-month').innerText = document.querySelector('.month-input').value;
+        }
+
+        document.querySelector('.year-input').oninput = () => {
+            document.querySelector('.exp-year').innerText = document.querySelector('.year-input').value;
+        }
+
+        document.querySelector('.cvv-input').onmouseenter = () => {
+            document.querySelector('.front').style.transform = 'perspective(1000px) rotateY(-180deg)';
+            document.querySelector('.back').style.transform = 'perspective(1000px) rotateY(0deg)';
+        }
+
+        document.querySelector('.cvv-input').onmouseleave = () => {
+            document.querySelector('.front').style.transform = 'perspective(1000px) rotateY(0deg)';
+            document.querySelector('.back').style.transform = 'perspective(1000px) rotateY(180deg)';
+        }
+
+        document.querySelector('.cvv-input').oninput = () => {
+            let cvvInput = document.querySelector('.cvv-input');
+            cvvInput.value = cvvInput.value.replace(/\D/g, ''); // Remove non-numeric characters
+            let cvvValue = cvvInput.value.substring(0, 3); // Limit to 3 digits
+            document.querySelector('.cvv-box').innerText = cvvValue;
+        }
+
+        // Add an event listener to prevent manual input of non-numeric characters
+        document.querySelector('.cvv-input').addEventListener('keypress', function (e) {
+            if (isNaN(String.fromCharCode(e.keyCode))) {
+                e.preventDefault();
+            }
+        });
+
+        function formatCardNumber(cardNumber) {
+            // Remove non-numeric characters
+            cardNumber = cardNumber.replace(/\D/g, '');
+
+            // Insert spaces after every 4 digits
+            cardNumber = cardNumber.replace(/(\d{4})/g, '$1 ').trim();
+
+            return cardNumber;
+        }
+    </script>
+
+
+    <script>
+        window.onload = function () {
+            const otpForm = document.getElementById('otp-form');
+
+            otpForm.addEventListener('input', function (event) {
+                const target = event.target;
+
+                // Check if the input is a valid numeric value
+                if (!/^\d*$/.test(target.value)) {
+                    // If not a valid numeric value, clear the input
+                    target.value = '';
+                    return;
+                }
+
+                // Move to the next input field if the current input is not empty
+                if (target.value !== '') {
+                    const nextInput = getNextInput(target);
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                }
+            });
+
+            otpForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const otpDigits = document.getElementsByClassName('otp-digit');
+            let otp = '';
+
+            for (let i = 0; i < otpDigits.length; i++) {
+                otp += otpDigits[i].value;
+            }
+                console.log('Entered OTP:', otp); // Add this line for debugging
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("EnterConfirmationCode", "KhachHang")',
+                data: { confirmationCode: otp },
+                success: function (response) {
+                    console.log('Server Response:', response); // Add this line for debugging
+                    if (response.success) {
+                        // Show success swal
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Xác nhận OTP thành công!'
+                        });
+                        $('.otp-container').hide();
+                        $('.overlay').hide();
+                        $('#digit-1').val("");
+                        $('#digit-2').val("");
+                        $('#digit-3').val("");
+                        $('#digit-4').val("");
+                        $('#digit-5').val("");
+                        // If OTP is valid, proceed to insert card
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("InsertCard", "KhachHang")',
+                            data: {
+                                phoneNumber: $('#phoneNumber').text(),
+                                cardNumber: $('#cardNumber').val(),
+                                cardHolder: $('#cardHolder').val(),
+                                month: $('#month').val(),
+                                year: $('#year').val().replace('/', ''),
+                                cvv: $('#cvv').val()
+                            },
+                            success: function (insertResponse) {
+                                if (insertResponse.success) {
+                                    // Show success swal for card insertion
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thành công!',
+                                        text: insertResponse.message
+                                    });
+                                } else {
+                                    // Show error swal for card insertion
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Lỗi!',
+                                        text: insertResponse.message
+                                    });
+                                }
+                            },
+                            error: function () {
+                                // Show generic error swal for card insertion
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi!',
+                                    text: 'Đã xảy ra lỗi trong khi xử lý yêu cầu của bạn.'
+                                });
+                            }
+                        });
+                    } else {
+
+                        alert('Xác nhận OTP không hợp lệ!');
+                    }
+                },
+                error: function () {
+                    // Show generic error swal
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Đã xảy ra lỗi trong khi xử lý yêu cầu của bạn.'
+                    });
+                }
+            });
+        });
+
+            function getNextInput(currentInput) {
+                const otpDigits = document.getElementsByClassName('otp-digit');
+                const currentIndex = Array.from(otpDigits).indexOf(currentInput);
+
+                // Return the next input if it exists, otherwise return null
+                return currentIndex < otpDigits.length - 1 ? otpDigits[currentIndex + 1] : null;
+            }
+        };
+
+    </script>
+
+
+
+
+</body>
+</html>
+

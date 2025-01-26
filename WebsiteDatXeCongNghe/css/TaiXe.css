@@ -1,0 +1,193 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #3498db; /* Blue color */
+    color: #fff;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav li {
+    margin-right: 1rem;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+    padding: 2rem;
+}
+
+#map {
+    height: 0px;
+    border: 1px solid #f5d76e;
+}
+
+#ride-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #f7f7f7;
+    padding: 1rem;
+}
+
+    #ride-details h2 {
+        margin-bottom: 1rem;
+    }
+
+    #ride-details p {
+        margin-bottom: 0.5rem;
+    }
+
+        #ride-details p span {
+            font-weight: bold;
+        }
+
+    #ride-details button {
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+
+        #ride-details button:hover {
+            background-color: #2077b7;
+        }
+
+#ride-history {
+    background-color: #f7f7f7;
+    padding: 1rem;
+}
+/* TaiXe.css or your custom CSS file */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid #ddd; /* Add borders to the table and its cells */
+}
+
+th, td {
+    padding: 15px; /* Add padding to cells for better spacing */
+    text-align: left; /* Align text to the left within cells */
+}
+
+/* Style the star ratings container */
+.star-ratings {
+    color: #ffc107;
+    display: flex;
+    align-items: center;
+}
+
+    /* Style the star icons with a larger font size */
+    .star-ratings i {
+        margin-right: 5px; /* Add some space between stars */
+        font-size: 24px; /* Adjust the font size to make stars bigger */
+    }
+
+
+
+.countdown-timer {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ff0000; /* Red background color */
+    color: #fff; /* White text color */
+    padding: 3px 8px; /* Add some padding for better visual appearance */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#accept-ride {
+    position: relative; /* Required for positioning the countdown timer */
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+input:checked + .slider {
+    background-color: #0000FF;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+

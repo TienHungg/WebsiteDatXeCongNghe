@@ -1,0 +1,994 @@
+﻿@model  IEnumerable<WebsiteDatXeCongNghe.Models.TaiXe>
+@{
+    ViewBag.Title = "ThongTinTaiXe";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tài xế nhận chuyến xe</title>
+    <link href="~/css/TaiXe.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <link href="~/css/TaiXe.min.css" rel="stylesheet" />
+
+
+
+    <script src="~/js/bootstrap.min.js"></script>
+
+    <script src="~/js/ie10-viewport-bug-workaround.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:500&display=swap" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsjGimn5mrdv4SaHko6T4Ge8hChEHQQFc&libraries=places"></script>
+
+
+
+
+    <script src="~/js/TaiXeGoogleMap.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+    <header>
+
+        <h1>Tài xế nhận chuyến xe</h1>
+        <label class="switch" id="statusSwitch">
+            <input type="checkbox" id="statusToggle">
+            <span class="slider round"></span>
+        </label>
+        <span class="status" id="statusText"></span>
+        <nav>
+            <ul>
+                <li><a href="/ThongKe/ThongKeDoanhThu">Thống kê doanh thu</a></li>
+                <li><a href="/TaiXe/ThongTinNhanChuyen?@Session["SoDienThoai"].ToString()">Lịch sử nhận chuyến</a></li>
+                <li><a href="/TaiXe/ThongTinCaNhanTaiXe?@Session["SoDienThoai"].ToString()">Thông tin cá nhân</a></li>
+                <li><a href="/ThanhToan/ThongTinThanhToanTX?@Session["SoDienThoai"].ToString()">Thanh toán</a></li>
+                <li><a href="/TaiXe/ViTienTaiXe">Ví tiền</a></li>
+                <li><a href="/TaiKhoan/DangXuat">Đăng xuất</a></li>
+            </ul>
+        </nav>
+
+        @*<input type="hidden" id="phoneNumber" value="@Session["SoDienThoai"].ToString()" />*@
+        @foreach (var tx in Model)
+        {
+            <button id="btnGetCurrentLocation" type="button" class="col-xs-5 btn btn-success">
+                <span class="glyphicon glyphicon-plus-sign"></span> Lấy vị trí hiện tại
+            </button>
+            <button id="btnUpdateLocation" type="button" class="col-xs-6 btn btn-success">
+                <span class="glyphicon glyphicon-plus-sign"></span> Cập nhật trí hiện tại
+            </button>
+            <table>
+                <tr>
+                    <td>
+                        <strong>Vị trí tài xế:</strong> <span id="DriverLocation">@tx.ViTri</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Họ tên tài xế:</strong> <span id="DriverName">@tx.Ten</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Số điện thoại:</strong> <span id="phoneNumber">@Session["SoDienThoai"].ToString()</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Ảnh đại diện:</strong> <img src="~/image/TaiXe/@tx.HinhAnh" alt="" width="50" height="50" id="DriverImage">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Mức độ đánh giá:</strong>
+                        <div class="star-ratings" id="DriverRates">
+                            @for (int i = 0; i < (int)tx.MucDoDanhGiaTB; i++)
+                            {
+                                <i class="fas fa-star"></i>
+                            }
+                            @if ((tx.MucDoDanhGiaTB - (int)tx.MucDoDanhGiaTB) > 0)
+                            {
+                                <i class="fas fa-star-half-alt"></i>
+                            }
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Điểm đánh giá trung bình:</strong> <span id="DriverRate">@tx.MucDoDanhGiaTB</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Điểm uy tín:</strong> <span id="DriverPrestigePoints">@tx.DiemUyTin</span>
+                        <span id="HighestDisplayedRating" style="display: none;">4</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Biển số xe:</strong> <span id="DriverLicense">@tx.BienSo</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Ví tiền:</strong> <span id="MoneyWallet">@tx.ViTien VND</span>
+                    </td>
+                </tr>
+            </table>
+            <div id="locations"></div>
+        }
+    </header>
+
+    <main>
+        <section id="map">
+            <!-- Map will be displayed here -->
+            <div class="col-md-8 google-map-wrap">
+                <div id="googleMap" class="map"></div>
+            </div>
+
+        </section>
+
+        <section id="ride-details">
+            <h2>Chi tiết chuyến xe</h2>
+            <p><span id="ShowDistanceofDriverandPassenger"></span></p>
+            <div class="driver-image" id="PassengerImage">
+                <img src="" alt="Hình ảnh" width="50" height="50" id="PassengerImages">
+            </div>
+            <p>Họ tên: <span id="PassengerName"></span></p>
+            <p>Quãng đường chuyến xe: <span id="distance"></span></p>
+            <p>Thời gian: <span id="duration"></span></p>
+            <p>Tổng tiền: <span id="totalFare"></span></p>
+            <p>Điểm đón: <span id="txtLocationPickup"></span></p>
+            <p>Điểm đến: <span id="txtLocationDrop"></span></p>
+            <p>Loại xe: <span id="type"></span></p>
+            <p>Số điện thoại: <span id="phone-number"></span></p>
+            <p>Khuyến mãi: <span id="discountFare"></span></p>
+            <p>Phí mở rộng: <span id="SurchareFees"></span></p>
+            <p>Thành tiền: <span id="discountFareTotal"></span></p>
+            <p style="display: none;">Mã đặt xe: <span id="MaDatXe"></span></p>
+            <p style="display:none;">Mã nhận chuyến: <span id="MaNhanChuyen"></span></p>
+            <p>Hình thức thanh toán: <span id="result"></span></p>
+            <p>Ngày đặt: <span id="dated"></span></p>
+            <p><span id="SurchareFee"></span></p>
+            <button id="accept-ride" style="display:none;">
+                Chấp nhận chuyến
+                <div class="countdown-timer" id="countdown-timer">60</div>
+            </button>
+
+            <button id="cancel-ride" style="display:none;">Hủy chuyến</button>
+        </section>
+
+        <!--<section id="ride-history">
+        <h2>Ride History</h2>-->
+        <!-- List of previous rides will be displayed here -->
+        <!--</section>-->
+    </main>
+
+    @*<footer>
+            <p>&copy; 2023 Grab Driver App</p>
+        </footer>*@
+
+
+    <script src="~/js/TaiXe.js"></script>
+    <script>
+        $(function () {
+            // Event listener for btnUpdateLocation
+            $('#btnUpdateLocation').click(function () {
+                // Get the new location data from the locations element
+                var newLocation = $('#txtLocation1').val();
+                // Get the phone number associated with the current TaiXe object
+                var phoneNumber = $('#phoneNumber').text();
+
+                // Send an AJAX request to the server to update the location
+                $.ajax({
+                    url: '/TaiXe/SuaDoiViTri',
+                    type: 'POST',
+                    data: { location: newLocation, phoneNumber: phoneNumber },
+                    success: function (data) {
+                        // If the update was successful, update the locations element with the new data
+                        $('#txtLocation1').val(newLocation);
+                        $('#DriverLocation').text(newLocation);
+                    },
+                    error: function () {
+                        // If the update failed, show an error message
+                        alert('Failed to update location');
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+
+    <script>
+        $(function () {
+            // Initialize the connection to the SignalR hub
+            var bookingHub = $.connection.bookingHub;
+            var mucDoDanhGiaTBs = []; // Array to store MucDoDanhGiaTB values
+            var mucDoDanhGiaTBsin5km = []; // Array to store MucDoDanhGiaTB values
+            var DriverRated = $("#DriverRate").text();
+            var PhoneNumber = $("#phoneNumber").text();
+            var DriverLocation = $("#DriverLocation").text();
+            var highestRating;
+            var highestRatingin5km;
+            var closeDriversCountin5km = 0;
+            // Function to display booking data
+            function displayBookingData(distance, duration, totalFare, location1, location2, type, phone, payment, DateTime, PassengerImage, PassengerName, MaDatXe, discountFare, discountFareTotal) {
+                //// Clear the booking data and hide elements
+                //$("#distance").text("");
+                //$("#duration").text("");
+                //$("#totalFare").text("");
+                //$("#txtLocationPickup").text("");
+                //$("#txtLocationDrop").text("");
+                //$("#type").text("");
+                //$("#phone-number").text("");
+                //$("#result").text("");
+                //$("#dated").text("");
+                //$('#PassengerImage').hide();
+                //$('#PassengerName').hide();
+                //$('#MaDatXe').hide();
+                //$('#discountFare').hide();
+                //$("#accept-ride").hide();
+                //$("#cancel-ride").hide();
+
+                // Display the booking data for drivers with higher ratings
+                $("#distance").text(distance);
+                $("#duration").text(duration);
+                $("#totalFare").text(totalFare);
+                $("#txtLocationPickup").text(location1);
+                $("#txtLocationDrop").text(location2);
+                $("#type").text(type);
+                $("#phone-number").text(phone);
+                $("#result").text(payment);
+                $("#dated").text(DateTime);
+                $('#PassengerImage img').attr('src', '' + PassengerImage);
+                $("#PassengerName").text(PassengerName);
+                $("#MaDatXe").text(MaDatXe);
+                $("#discountFare").text(discountFare);
+                $("#discountFareTotal").text(discountFareTotal);
+
+                // Show the accept and cancel ride buttons
+                $("#accept-ride").show();
+                $("#cancel-ride").show();
+
+
+                // Start the countdown timer
+                var countdown = 60;
+                var countdownInterval = setInterval(function () {
+                    if ($("#accept-ride").is(":visible")) {
+                        $("#countdown-timer").text(countdown);
+                        countdown--;
+                        if (countdown < 0) {
+                            // Countdown finished, clear the timer and perform actions
+                            clearInterval(countdownInterval);
+                            clearBookingDataAndHideElements();
+                            bookingHub.server.driverCancelsRide();
+                        }
+                    } else {
+                        // Accept ride button is hidden, clear the timer
+                        clearInterval(countdownInterval);
+                    }
+                }, 1000);
+            }
+
+            //function formatTotalFare(totalFare) {
+            //    return totalFare.toFixed(3) + " VND";
+            //}
+
+            // Function to clear booking data and hide elements
+            function clearBookingDataAndHideElements() {
+                $("#distance").text("");
+                $("#duration").text("");
+                $("#totalFare").text("");
+                $("#txtLocationPickup").text("");
+                $("#txtLocationDrop").text("");
+                $("#type").text("");
+                $("#phone-number").text("");
+                $("#result").text("");
+                $("#dated").text("");
+                $('#PassengerImage').hide();
+                $('#PassengerName').hide();
+                $('#MaDatXe').hide();
+                $('#SurchareFee').hide();
+                $('#SurchareFees').hide();
+                $('#discountFare').hide();
+                $('#discountFareTotal').hide();
+                $("#accept-ride").hide();
+                $("#cancel-ride").hide();
+            }
+
+            // Function to calculate distance between two addresses and display it
+            function calculateDistanceAndDisplay(address1, address2, callback) {
+                var geocoder = new google.maps.Geocoder();
+                var distanceService = new google.maps.DistanceMatrixService();
+
+                function geocodeAddress(address, callback) {
+                    geocoder.geocode({ 'address': address }, function (results, status) {
+                        if (status === 'OK') {
+                            var location = results[0].geometry.location;
+                            callback(location);
+                        } else {
+                            callback(null);
+                        }
+                    });
+                }
+
+                geocodeAddress(address1, function (latLng1) {
+                    geocodeAddress(address2, function (latLng2) {
+                        if (latLng1 && latLng2) {
+                            var origins = [latLng1];
+                            var destinations = [latLng2];
+
+                            distanceService.getDistanceMatrix({
+                                origins: origins,
+                                destinations: destinations,
+                                travelMode: 'DRIVING',
+                                unitSystem: google.maps.UnitSystem.METRIC
+                            }, function (response, status) {
+                                if (status === 'OK' && response.rows[0].elements[0].status === 'OK') {
+                                    var distance = response.rows[0].elements[0].distance.text;
+                                    // Call the provided callback function with the calculated distance
+                                    callback(parseFloat(distance.replace(" km", "")));
+                                } else {
+                                    // Handle error or display "N/A" if distance cannot be calculated
+                                    callback(null);
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+
+            function findLargestMucDoDanhGiaTB(mucDoDanhGiaTBs) {
+                // Initialize a variable to store the largest MucDoDanhGiaTB.
+                var largestMucDoDanhGiaTB = mucDoDanhGiaTBs[0];
+                for (var i = 1; i < mucDoDanhGiaTBs.length; i++) {
+                    // Check if the current MucDoDanhGiaTB is greater than the largest MucDoDanhGiaTB.
+                    if (mucDoDanhGiaTBs[i] > largestMucDoDanhGiaTB) {
+                        // Update the largest MucDoDanhGiaTB variable.
+                        largestMucDoDanhGiaTB = mucDoDanhGiaTBs[i];
+                    }
+                }
+                // Return the largest MucDoDanhGiaTB.
+                return largestMucDoDanhGiaTB;
+            }
+
+            function findLargestMucDoDanhGiaTBin5km(mucDoDanhGiaTBsin5km) {
+                // Initialize a variable to store the largest MucDoDanhGiaTB.
+                var largestMucDoDanhGiaTB = mucDoDanhGiaTBsin5km[0];
+                for (var i = 1; i < mucDoDanhGiaTBsin5km.length; i++) {
+                    // Check if the current MucDoDanhGiaTB is greater than the largest MucDoDanhGiaTB.
+                    if (mucDoDanhGiaTBsin5km[i] > largestMucDoDanhGiaTB) {
+                        // Update the largest MucDoDanhGiaTB variable.
+                        largestMucDoDanhGiaTB = mucDoDanhGiaTBsin5km[i];
+                    }
+                }
+                // Return the largest MucDoDanhGiaTB.
+                return largestMucDoDanhGiaTB;
+            }
+
+
+
+
+            // Accept ride button click event
+            $("#accept-ride").click(function (e) {
+                var driverLocation = $("#DriverLocation").text();
+                bookingHub.server.driverAcceptsRide(driverLocation);
+
+                // Show a SweetAlert success message
+                swal({
+                    title: "Đã chấp nhận chuyến!",
+                    text: "Vị trí: " + driverLocation,
+                    type: "success",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+
+
+            });
+
+            // Cancel ride button click event
+            $("#cancel-ride").click(function (e) {
+                bookingHub.server.driverCancelsRide();
+                // Show a SweetAlert success message
+                swal({
+                    title: "Đã hủy chuyến!",
+                    type: "success",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                var Status = false;
+                // Clear booking data and hide elements as needed
+                clearBookingDataAndHideElements();
+                // Make an AJAX request to the server to cancel the ride
+                $.ajax({
+                    type: "POST",
+                    url: "/TaiXe/TaiXeHuyChuyen",
+                    data: {
+                        driverPhoneNumber: $("#phoneNumber").text(),
+                        MaDatXe: $("#MaDatXe").text(),
+                        TrangThai: Status,
+                    },
+                    success: function (data) {
+                        if (data.Success) {
+                            // Update the UI with the new driver data
+                            $("#DriverPrestigePoints").text(data.Driver.DiemUyTin);
+
+
+                        } else {
+
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle the error
+                        console.error("Error cancelling ride:", xhr.responseText);
+                        console.error("Status:", status);
+                        console.error("Error:", error);
+
+
+                    }
+                });
+
+            });
+
+            bookingHub.client.updateBookingStatus = function (status) {
+                // Find the index of the canceling driver's MucDoDanhGiaTB value in the array
+                var largestElement = Math.max(...mucDoDanhGiaTBs);
+
+                // Find the index of the largest element in the array
+                var largestIndex = mucDoDanhGiaTBs.indexOf(largestElement);
+
+                // If the largest element is found in the array, remove it
+                if (largestIndex !== -1) {
+                    mucDoDanhGiaTBs.splice(largestIndex, 1);
+                }
+
+                // Find the index of the canceling driver's mucDoDanhGiaTBsin5km value in the array
+                var largestElement = Math.max(...mucDoDanhGiaTBsin5km);
+
+                // Find the index of the largest element in the array
+                var largestIndex = mucDoDanhGiaTBsin5km.indexOf(largestElement);
+
+                // If the largest element is found in the array, remove it
+                if (largestIndex !== -1) {
+                    mucDoDanhGiaTBsin5km.splice(largestIndex, 1);
+                }
+            };
+
+            bookingHub.client.updateBookingStatusSearch = function (status) {
+                console.log("Update Booking Status Search:", status);
+                if (status === "cancelled") {
+                    swal({
+                        title: "Đã hủy",
+                        text: "Người dùng đã hủy tìm kiếm chuyến đi.",
+                        icon: "error",
+                        buttons: false,
+                        timer: 3000
+                    });
+                    // Clear the booking data and hide elements
+                    $("#distance").text("");
+                    $("#duration").text("");
+                    $("#totalFare").text("");
+                    $("#txtLocationPickup").text("");
+                    $("#txtLocationDrop").text("");
+                    $("#type").text("");
+                    $("#phone-number").text("");
+                    $("#result").text("");
+                    $("#dated").text("");
+                    $('#PassengerImage').hide();
+                    $('#PassengerName').hide();
+                    $('#MaDatXe').hide();
+                    $('#SurchareFee').hide();
+                    $('#SurchareFees').hide();
+                    $('#discountFare').hide();
+                    $('#discountFareTotal').hide();
+                    $("#accept-ride").hide();
+                    $("#cancel-ride").hide();
+                    // Clear the entire array
+                    mucDoDanhGiaTBs = [];
+                    mucDoDanhGiaTBsin5km = [];
+                }
+            };
+
+            // Define a client-side method to receive the booking data from the server
+            bookingHub.client.displayBookingData = function (distance, duration, totalFare, location1, location2, type, phone, payment, DateTime, PassengerImage, PassengerName, MaDatXe, discountFare, discountFareTotal) {
+                // Here, check the condition to decide if you should display the booking data
+                //// Convert totalFare and discountFare to float values
+                //var totalFareFloat = parseFloat(totalFare.replace(' VND', ''));
+                //var discountFareFloat = parseFloat(discountFare.replace(' VND', ''));
+
+                //// Calculate the discounted total fare
+                //var discountedTotalFare = totalFareFloat - discountFareFloat;
+                ////console.log(discountedTotalFare);
+                ////// Round the discounted total fare to the nearest hundred
+                ////discountedTotalFare = Math.round(discountedTotalFare / 100) * 100;
+
+                //// Format the discounted total fare to 230.000 VND
+                //var formattedTotalFare = formatTotalFare(discountedTotalFare);
+                //console.log(formattedTotalFare);
+                var closeDriversCount = 0;
+                calculateDistanceAndDisplay(location1, DriverLocation, function (distanceToCustomer) {
+                    // Display the distance in the specified span element
+                    $("#ShowDistanceofDriverandPassenger").text("Khoảng cách đến khách hàng: " + distanceToCustomer + " km");
+                    // Make an AJAX request to get the list of drivers
+                    $.ajax({
+                        url: '/TaiXe/GetDriverLocations',
+                        type: 'GET',
+                        success: function (driverLocations) {
+
+
+                            driverLocations.forEach(function (driver) {
+                                calculateDistanceAndDisplay(location1, driver.ViTri, function (distanceToCustomer) {
+                                    if (distanceToCustomer <= 3) {
+                                        // Check if the driver's phone number is active
+                                        if (driverLocations.some(location => location.SoDienThoai === PhoneNumber)) {
+                                            closeDriversCount++;
+                                        }
+                                    } else if (distanceToCustomer > 3) {
+                                        // Remove the driver's phone number from consideration
+                                        driverLocations = driverLocations.filter(location => location.SoDienThoai !== driver.SoDienThoai || location.SoDienThoai !== driver.SoDienThoai);
+                                        closeDriversCount === false;
+                                    }
+
+                                    // Check the number of close drivers when all distances are calculated
+                                    if (closeDriversCount === driverLocations.length) {
+                                        if (closeDriversCount === 0) {
+                                            // No active drivers within 3 km
+                                            console.log("No active drivers within 3 km");
+                                            console.log(closeDriversCount);
+                                            // Delay for 10 seconds and then check distances within 5 km
+                                            setTimeout(function () {
+                                                console.log("Expanding 5km to find driver....");
+                                                checkAndDisplayDistancesWithin5Km();
+                                            }, 10000);
+                                        } else if (closeDriversCount === 1) {
+                                            // Only one active driver within 3 km, ignore FilterPhoneNumberofTaiXe function
+                                            console.log("Only one active driver within 3 km");
+                                            console.log(closeDriversCount);
+                                            displayBookingData(distance, duration, totalFare, location1, location2, type, phone, payment, DateTime, PassengerImage, PassengerName, MaDatXe, discountFare, discountFareTotal);
+                                            $("#SurchareFees").text("0.000 VND");
+                                            //// Add a click event handler for the cancel-ride button
+                                            // Add a click event handler for the cancel-ride button
+                                            //$("#cancel-ride").click(function (e) {
+                                            //    closeDriversCount = 0;
+                                            //    // Delay for 10 seconds and then check distances within 5 km
+                                            //    setTimeout(function () {
+                                            //        console.log("Expanding 5km to find driver....");
+                                            //        checkAndDisplayDistancesWithin5Km();
+                                            //        console.log("closeDriversCount is:" + closeDriversCount);
+                                            //        console.log("closeDriversCountin5km is:" + closeDriversCountin5km);
+                                            //    }, 10000);
+
+                                            //});
+
+
+                                        } else {
+                                            // Multiple active drivers within 3 km, combine with FilterPhoneNumberofTaiXe
+                                            console.log("Multiple active drivers within 3 km");
+                                            console.log(closeDriversCount);
+                                            var closeDriversCounts = 0;
+                                            $.ajax({
+                                                url: '/TaiXe/FilterPhoneNumberofTaiXe',
+                                                type: 'GET',
+                                                success: function (eligibleDrivers) {
+
+
+
+
+
+
+
+                                                    eligibleDrivers.forEach(function (driver) {
+                                                        calculateDistanceAndDisplay(location1, driver.ViTri, function (distanceToDriver) {
+                                                            if (distanceToDriver <= 3) {
+                                                                // Check if the driver's phone number is active
+                                                                if (eligibleDrivers.some(location => location.SoDienThoai === PhoneNumber)) {
+
+                                                                    // Push the MucDoDanhGiaTB value of this driver
+                                                                    mucDoDanhGiaTBs.push(driver.MucDoDanhGiaTB);
+                                                                    /*console.log("MucDoDanhGiaTB values for active drivers within 3 km:", mucDoDanhGiaTBs);*/
+
+                                                                    closeDriversCounts++;
+                                                                }
+                                                            } else if (distanceToDriver > 3) {
+                                                                // Remove the driver's phone number from consideration
+                                                                eligibleDrivers = eligibleDrivers.filter(location => location.SoDienThoai !== driver.SoDienThoai || location.SoDienThoai !== driver.SoDienThoai);
+                                                                closeDriversCounts === false;
+                                                            }
+
+                                                            // Check the number of close drivers when all distances are calculated
+                                                            if (closeDriversCounts === eligibleDrivers.length) {
+                                                                if (closeDriversCounts) {
+                                                                    function updateHighestRating() {
+                                                                        highestRating = findLargestMucDoDanhGiaTB(mucDoDanhGiaTBs);
+                                                                        /*console.log("highestRating in 3km issssssssssss: " + highestRating);*/
+                                                                        // Convert DriverRated to a number for comparison
+                                                                        DriverRated = parseFloat(DriverRated);
+                                                                        /*console.log("DriverRated: " + DriverRated); // Add this line for debugging*/
+                                                                        if (highestRating === DriverRated) {
+                                                                            displayBookingData(distance, duration, totalFare, location1, location2, type, phone, payment, DateTime, PassengerImage, PassengerName, MaDatXe, discountFare, discountFareTotal);
+                                                                            $("#SurchareFees").text("0.000 VND");
+                                                                        }
+                                                                        else {
+
+                                                                        }
+                                                                        setTimeout(updateHighestRating, 1000); // Update every 1000 milliseconds (1 second)
+                                                                    }
+                                                                    // Start the initial update
+                                                                    updateHighestRating();
+                                                                    /*console.log(closeDriversCounts);*/
+
+
+                                                                }
+                                                            }
+
+                                                        });
+                                                    });
+
+
+                                                }
+                                            });
+
+
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    });
+                });
+                function add10000ToTotalFare(currentTotalFare) {
+                    // Extract the numerical part of the current totalFare
+                    const numericPart = parseFloat(currentTotalFare.replace(/[^\d.,]/g, ''));
+
+                    // Add 10,000 to the numeric part
+                    const updatedNumericValue = numericPart + 10.000;
+
+                    // Format the updated numeric value with three decimal places and a dot as the decimal separator
+                    const formattedNumericValue = updatedNumericValue.toFixed(3);
+
+                    // Extract the textual part of the current totalFare (excluding the VND part)
+                    const textualPart = currentTotalFare.replace(numericPart, '').replace('VND', '');
+
+                    // Combine the formatted numeric value and the textual part
+                    const updatedTotalFare = formattedNumericValue + textualPart + ' VND';
+
+                    // Return the updated totalFare
+                    return updatedTotalFare;
+                }
+
+
+                // Function to check distances within 5 km
+                function checkAndDisplayDistancesWithin5Km() {
+                    // Here, check the condition to decide if you should display the booking data
+                    calculateDistanceAndDisplay(location1, DriverLocation, function (distanceToCustomerwithin5km) {
+                        // Display the distance in the specified span element
+                        $("#ShowDistanceofDriverandPassenger").text("Khoảng cách đến khách hàng: " + distanceToCustomerwithin5km + " km");
+                        // Make an AJAX request to get the list of drivers
+                        $.ajax({
+                            url: '/TaiXe/GetDriverLocations',
+                            type: 'GET',
+                            success: function (driverLocations) {
+
+                                driverLocations.forEach(function (driver) {
+                                    calculateDistanceAndDisplay(location1, driver.ViTri, function (distanceToCustomerwithin5km) {
+                                        if (distanceToCustomerwithin5km > 3 && distanceToCustomerwithin5km <= 5) {
+                                            // Check if the driver's phone number is active
+                                            if (driverLocations.some(location => location.SoDienThoai === PhoneNumber)) {
+                                                closeDriversCountin5km++;
+                                            }
+                                        } else if (distanceToCustomerwithin5km > 5) {
+                                            // Remove the driver's phone number from consideration
+                                            driverLocations = driverLocations.filter(location => location.SoDienThoai !== driver.SoDienThoai || location.SoDienThoai !== driver.SoDienThoai);
+                                            closeDriversCountin5km === false;
+                                        }
+
+                                        // Check the number of close drivers when all distances are calculated
+                                        if (closeDriversCountin5km === driverLocations.length) {
+                                            if (closeDriversCountin5km === 0) {
+                                                // No active drivers within 5 km
+                                                console.log("No active drivers within 5 km");
+                                                console.log(closeDriversCountin5km);
+                                            } else if (closeDriversCountin5km === 1) {
+                                                // Only one active driver within 5 km, ignore FilterPhoneNumberofTaiXe function
+                                                console.log("Only one active driver within 5 km");
+                                                console.log(closeDriversCountin5km);
+                                                displayBookingData(distance, duration, totalFare, location1, location2, type, phone, payment, DateTime, PassengerImage, PassengerName, MaDatXe, discountFare, add10000ToTotalFare(discountFareTotal));
+                                                $("#SurchareFee").text("Áp dụng mức phí mở rộng tìm tài xế trong 5km là 10.000 VND").css("color", "green");
+                                                $("#SurchareFees").text("10.000 VND").css("color", "green");
+
+                                            } else {
+                                                // Multiple active drivers within 5 km, combine with FilterPhoneNumberofTaiXe
+                                                console.log("Multiple active drivers within 5 km");
+                                                console.log(closeDriversCountin5km);
+
+                                                $.ajax({
+                                                    url: '/TaiXe/FilterPhoneNumberofTaiXe',
+                                                    type: 'GET',
+                                                    success: function (eligibleDrivers) {
+                                                        var closeDriversCountin5kms = 0; // Initialize a count of close drivers
+
+
+
+
+
+
+                                                        eligibleDrivers.forEach(function (driver) {
+                                                            calculateDistanceAndDisplay(location1, driver.ViTri, function (distanceToCustomerwithin5km) {
+                                                                if (distanceToCustomerwithin5km > 3 && distanceToCustomerwithin5km <= 5) {
+                                                                    // Check if the driver's phone number is active
+                                                                    if (eligibleDrivers.some(location => location.SoDienThoai === PhoneNumber)) {
+
+                                                                        // Push the MucDoDanhGiaTB value of this driver
+                                                                        mucDoDanhGiaTBsin5km.push(driver.MucDoDanhGiaTB);
+                                                                        console.log("MucDoDanhGiaTB values for active drivers within 5 km:", mucDoDanhGiaTBsin5km);
+
+                                                                        closeDriversCountin5kms++;
+                                                                    }
+                                                                } else if (distanceToCustomerwithin5km > 5) {
+                                                                    // Remove the driver's phone number from consideration
+                                                                    eligibleDrivers = eligibleDrivers.filter(location => location.SoDienThoai !== driver.SoDienThoai || location.SoDienThoai !== driver.SoDienThoai);
+                                                                    closeDriversCountin5kms === false;
+                                                                }
+
+                                                                // Check the number of close drivers when all distances are calculated
+                                                                if (closeDriversCountin5kms === eligibleDrivers.length) {
+                                                                    if (closeDriversCountin5kms) {
+                                                                        function updateHighestRating() {
+                                                                            highestRatingin5km = findLargestMucDoDanhGiaTBin5km(mucDoDanhGiaTBsin5km);
+                                                                            console.log("highestRatingin5km in 5km issssssssssss: " + highestRatingin5km);
+                                                                            // Convert DriverRated to a number for comparison
+                                                                            DriverRated = parseFloat(DriverRated);
+                                                                            /*console.log("DriverRated: " + DriverRated); // Add this line for debugging*/
+                                                                            if (highestRatingin5km === DriverRated) {
+                                                                                displayBookingData(distance, duration, totalFare, location1, location2, type, phone, payment, DateTime, PassengerImage, PassengerName, MaDatXe, discountFare, add10000ToTotalFare(discountFareTotal));
+                                                                                $("#SurchareFee").text("Áp dụng mức phí mở rộng tìm tài xế trong 5km là 10.000 VND").css("color", "green");
+                                                                                $("#SurchareFees").text("10.000 VND").css("color", "green");
+                                                                            }
+                                                                            else {
+
+                                                                            }
+                                                                            setTimeout(updateHighestRating, 1000); // Update every 1000 milliseconds (1 second)
+                                                                        }
+                                                                        // Start the initial update
+                                                                        updateHighestRating();
+                                                                        /*console.log(closeDriversCountin5kms);*/
+
+
+                                                                    }
+                                                                }
+
+                                                            });
+                                                        });
+
+
+                                                    }
+                                                });
+
+
+                                            }
+                                        }
+                                    });
+                                });
+                            }
+                        });
+                    });
+                }
+            }
+
+
+
+
+            // Start the SignalR connection
+            $.connection.hub.start();
+        });
+    </script>
+
+
+    <script>
+    $(function () {
+    $("#accept-ride").click(function (e) {
+        e.preventDefault(); // Prevent the default form submission behavior
+        var Status = false;
+        var MaNhanChuyen;
+        var PhoneNumber = $("#phoneNumber").text();
+        var DriverLocations = $("#DriverLocation").text();
+        var DriverName = $("#DriverName").text();
+        var DriverLicense = $("#DriverLicense").text();
+        var txtLocationPickup = $("#txtLocationPickup").text();
+        var txtLocationDrop = $("#txtLocationDrop").text();
+        var result = $("#result").text();
+        var totalFare = $("#totalFare").text();
+        var PassengerPhone = $("#phone-number").text();
+        var distance = $("#distance").text();
+        var duration = $("#duration").text();
+        var type = $("#type").text();
+        var dated = $("#dated").text();
+        var DriverRate = $("#DriverRate").text();
+        var DriverImage = $("#DriverImage").attr("src");
+        var PassengerImages = $("#PassengerImages").attr("src");
+        var PassengerName = $("#PassengerName").text();
+        var MaDatXe = $("#MaDatXe").text();
+        var SurchareFees = $("#SurchareFees").text();
+        var discountFare = $("#discountFare").text();
+        var discountFareTotal = $("#discountFareTotal").text();
+
+        $.ajax({
+            url: "/TaiXe/TaiXeNhanChuyen",
+            type: "post",
+            dataType: "json",
+            data: {
+                driverPhoneNumber: $("#phoneNumber").text(),
+                MaDatXe: $("#MaDatXe").text(),
+                TrangThai: Status
+            },
+            success: function (data) {
+                // Assign the value to a variable
+                MaNhanChuyen = data.MaNhanChuyen;
+
+                // Update the content of the <span id="MaNhanChuyen"></span> with the received MaNhanChuyen value
+                $("#MaNhanChuyen").text(MaNhanChuyen);
+
+                // Send the data to the server
+                $.ajax({
+                    url: '@Url.Action("SendDriverData", "TaiXe")', // The server URL to send the data
+                    type: 'POST', // The HTTP method to use
+                    data: { // The data to send to the server
+                        PhoneNumber: PhoneNumber,
+                        DriverLocations: DriverLocations,
+                        DriverName: DriverName,
+                        DriverLicense: DriverLicense,
+                        txtLocationPickup: txtLocationPickup,
+                        txtLocationDrop: txtLocationDrop,
+                        result: result,
+                        totalFare: totalFare,
+                        PassengerPhone: PassengerPhone,
+                        distance: distance,
+                        duration: duration,
+                        type: type,
+                        dated: dated,
+                        DriverRate: DriverRate,
+                        DriverImage: DriverImage,
+                        PassengerImages: PassengerImages,
+                        PassengerName: PassengerName,
+                        MaDatXe: MaDatXe,
+                        MaNhanChuyen: MaNhanChuyen,
+                        SurchareFees: SurchareFees,
+                        discountFare: discountFare,
+                        discountFareTotal: discountFareTotal
+                    },
+                    success: function (data) {
+                        // Redirect to the new page
+                        setTimeout(function () {
+                            window.location.href = "@Url.Action("TaiXeDonKhach", "TaiXe")";
+                        }, 1000);
+                    },
+                    error: function (xhr, status, error) { // If an error occurred
+                        console.log(error); // Log the error to the console
+                    }
+                });
+            },
+        });
+    });
+});
+    </script>
+    <script>
+        $(function () {
+            var bookingHub = $.connection.bookingHub;
+
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                console.log('SignalR connection started for accepted!!!.');
+                // Execute the script when the DOM is ready.
+                setTimeout(function () {
+                    $(document).ready(function () {
+                        // Get the driver data.
+                        var PhoneNumber = $("#phoneNumber").text();
+                        var PhoneNumbers = $("#phone-number").text();
+                        var DriverLocation = $("#DriverLocation").text();
+                        var DriverName = $("#DriverName").text();
+
+                        var DriverLicense = $("#DriverLicense").text();
+                        var txtLocationPickup = $("#txtLocationPickup").text();
+                        var txtLocationDrop = $("#txtLocationDrop").text();
+                        var distance = $("#distance").text();
+                        var duration = $("#duration").text();
+                        var type = $("#type").text();
+                        var dated = $("#dated").text();
+
+                        var result = $("#result").text();
+                        var totalFare = $("#totalFare").text();
+                        var DriverRated = $("#DriverRate").text();
+                        var DriverImages = $("#DriverImage").attr("src");
+
+
+                        // Send the driver data to the server.
+                        bookingHub.server.sendDriverData3(PhoneNumber, PhoneNumbers, DriverLocation, DriverName, DriverLicense, txtLocationPickup, txtLocationDrop, distance, duration, type, dated, result, totalFare, DriverRated, DriverImages);
+                    });
+                }, 500);
+            });
+
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to get the initial status from the server
+            function getInitialStatus(callback) {
+                var phoneNumber = $('#phoneNumber').text().trim();
+
+                // Make an Ajax request to get the initial status
+                $.ajax({
+                    url: '/TaiXe/GetTrangThaiHoatDong',
+                    type: 'GET',
+                    data: { driverPhone: phoneNumber },
+                    success: function (data) {
+                        // Set the initial state of the toggle switch and text
+                        var isChecked = data === true;
+                        $('#statusToggle').prop('checked', isChecked);
+                        $('#statusText').text(isChecked ? 'Đang hoạt động' : 'Bận');
+
+                        // Call the callback function
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            }
+
+            // Call the function to get the initial status when the page loads
+            getInitialStatus();
+
+            // Handle the change event of the checkbox
+            $('#statusToggle').change(function () {
+                var phoneNumber = $('#phoneNumber').text().trim();
+                var isChecked = $(this).prop('checked');
+
+                // Update the status text based on the checkbox state
+                $('#statusText').text(isChecked ? 'Đang hoạt động' : 'Bận');
+
+                // Make an Ajax request to update the TrangThaiHoatDong table
+                $.ajax({
+                    url: '/TaiXe/UpdateTrangThaiHoatDong',
+                    type: 'POST',
+                    data: {
+                        driverPhone: phoneNumber,
+                        isChecked: isChecked
+                    },
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+</body>
+</html>
+

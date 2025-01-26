@@ -1,0 +1,61 @@
+﻿body {
+    padding-top: 0px
+}
+
+.map {
+    width: 100%;
+    height: 590px
+}
+
+.form-inline {
+    margin: 10px
+}
+
+.location-box {
+    display: inline-block;
+    width: 90%
+}
+
+.remove-icon {
+    margin-left: 5px;
+    font-size: 20px
+}
+
+@media(min-width:768px) {
+    .location-form {
+        padding-right: 0
+    }
+
+    .google-map-wrap {
+        padding-left: 0
+    }
+
+    .panel-group {
+        margin-right: 10px
+    }
+}
+
+.panel-group .panel-heading .checkbox {
+    margin-top: 0
+}
+
+.fare-details-group
+.panel-body {
+    padding: 0
+}
+
+.fare-details-group
+.table {
+    margin-bottom: 0
+}
+
+.panel-group
+.panel-heading {
+    color: #337ab7
+}
+
+.panel-group
+.btn {
+    margin-right: 6px;
+    margin-top: 6px
+}

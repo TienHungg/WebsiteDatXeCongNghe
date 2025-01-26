@@ -1,0 +1,1015 @@
+﻿@model  IEnumerable<WebsiteDatXeCongNghe.Models.TaiXe>
+@{
+    ViewBag.Title = "TaiXeDonKhach";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Đã nhận chuyến</title>
+
+    <link href="~/css/TaiXeDonKhach.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include jQuery UI library -->
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <link href="~/css/TaiXe.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+
+
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/NhanChuyenXe.js"></script>
+    <link href="~/css/NhanTin.css" rel="stylesheet" />
+
+    <script src="~/js/ie10-viewport-bug-workaround.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:500&display=swap" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsjGimn5mrdv4SaHko6T4Ge8hChEHQQFc&libraries=places"></script>
+
+
+
+
+    <script src="~/js/googleMap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+    <div class="header" id="NhanChuyenXeInfors" style="display:none;">
+        <h1></h1>
+    </div>
+    <div class="header" id="TaiXeDonKhachInfors">
+        <h1>Đã Nhận Chuyến, Di Chuyển Thôi!</h1>
+
+    </div>
+    <div class="header" id="TaiXeDonKhachInfors2" style="display:none;">
+        <h1>Đã Đến Nơi, Đón Khách Thôi!</h1>
+
+    </div>
+    <div class="header" id="TaiXeDonKhachInfors2345">
+        <h1>TÀI XẾ</h1>
+    </div>
+
+
+    @foreach (var tx in Model)
+    {
+        <table>
+            <tr>
+                <td><span class="driver-name">THÔNG TIN CÁ NHÂN TÀI XẾ</span></td>
+            </tr>
+            <tr>
+                <td>Hình ảnh tài xế:</td>
+                <td>
+                    <img src="~/image/TaiXe/@tx.HinhAnh" alt="" width="50" height="50" id="DriverImages">
+                </td>
+            </tr>
+            <tr>
+                <td>Số điện thoại tài xế:</td>
+                <td>
+                    <span class="driver-name" id="phoneNumbers">@Session["SoDienThoai"].ToString()</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Vị trí tài xế:</td>
+                <td>
+                    <span class="driver-name" id="DriverLocations">Vị trí: @tx.ViTri</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Họ tên tài xế:</td>
+                <td>
+                    <span class="driver-name" id="DriverNames">Họ tên: @tx.Ten</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Mức độ đánh giá:</td>
+                <td>
+                    <div class="star-ratings" id="DriverRates">
+                        @for (int i = 0; i < (int)tx.MucDoDanhGiaTB; i++)
+                        {
+                            <i class="fas fa-star"></i>
+                        }
+                        @if ((tx.MucDoDanhGiaTB - (int)tx.MucDoDanhGiaTB) > 0)
+                        {
+                            <i class="fas fa-star-half-alt"></i>
+                        }
+                    </div>
+                    <span id="DriverRated" style="display:none;">@tx.MucDoDanhGiaTB</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Biển số xe:</td>
+                <td>
+                    <span class="driver-name" id="DriverLicenses">Biển số xe: @tx.BienSo</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Ví tiền:</td>
+                <td>
+                    <span class="driver-name" id="DriverWallet">Ví tiền: @tx.ViTien VND</span>
+                </td>
+            </tr>
+        </table>
+    }
+    <div class="movement-container">
+        <!-- Point A content -->
+        <div class="movement-info">
+            <h3>Vị trí tài xế</h3>
+            <h3>A</h3>
+        </div>
+
+        <!-- Arrow -->
+        <div class="arrow-container">
+            <div class="arrow arrow-1"></div>
+            <div class="arrow arrow-2"></div>
+            <div class="arrow arrow-3"></div>
+        </div>
+        <!-- Arrow -->
+        <div class="arrow-container">
+            <div class="arrow arrow-1"></div>
+            <div class="arrow arrow-2"></div>
+            <div class="arrow arrow-3"></div>
+        </div>
+        <!-- Arrow -->
+        <div class="arrow-container">
+            <div class="arrow arrow-1"></div>
+            <div class="arrow arrow-2"></div>
+            <div class="arrow arrow-3"></div>
+        </div>
+
+        <!-- Point B content -->
+        <div class="movement-info">
+            <h3>Điểm đón khách hàng</h3>
+            <h3>B</h3>
+        </div>
+    </div>
+    <section id="map">
+        <!-- Map will be displayed here -->
+        <div class="col-md-8 google-map-wrap">
+            <div id="googleMap" class="map"></div>
+        </div>
+
+    </section>
+    <div id="popup" class="popup" style="display:none;">
+        <div class="popup-content">
+            <div class="popup-header">
+                <button id="btnExit" type="button" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-remove-sign"></span> Thoát
+                </button>
+            </div>
+            <div class="popup-body">
+                <div class="distance">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    <label>Khoảng cách:</label>
+                    <span id="distanceLeft"></span>
+                </div>
+                <div class="speed">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    <label>Tốc độ:</label>
+                    <span id="speed"></span>
+                </div>
+                <div class="time-left">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    <label>Thời gian còn lại:</label>
+                    <span id="timeLeft"></span>
+                </div>
+                <div id="buttonContainer">
+                    <button id="stopButton" style="display:none;">Stop</button>
+                    <button id="nextButton" style="display:none;">Next</button>
+                    <button id="accelerateButton">Tăng tốc</button>
+                    <button id="decelerateButton" style="display:none;">Giảm tốc</button>
+                    <button id="accidentButton" style="display:none;">Accident and stop</button>
+                </div>
+                <style>
+                    #buttonContainer {
+                        text-align: center;
+                        margin: 20px;
+                    }
+
+                    button {
+                        padding: 10px 20px;
+                        margin: 5px;
+                        font-size: 16px;
+                        border: none;
+                        cursor: pointer;
+                        background-color: #3498db;
+                        color: #fff;
+                        border-radius: 5px;
+                        transition: background-color 0.3s;
+                    }
+
+                        button:hover {
+                            background-color: #2980b9;
+                        }
+
+                    #accidentButton {
+                        background-color: #e74c3c;
+                    }
+
+                        #accidentButton:hover {
+                            background-color: #c0392b;
+                        }
+                </style>
+
+            </div>
+        </div>
+    </div>
+    <button id="btnAddLocation" type="button" class="col-xs-6 btn btn-success" style="display:none;">
+        <span class="glyphicon glyphicon-plus-sign"></span> Thêm vị trí
+    </button>
+    <button id="btnClearDirections" type="button" class="col-xs-5 btn btn-danger" style="display:none;">
+        <span class="glyphicon glyphicon-remove-sign"></span> Đặt lại
+    </button>
+    <button id="btnCalculateFare" type="button" class="col-xs-6 btn btn-primary" style="display:none;">
+        <span class="glyphicon glyphicon-ok-sign"></span> Giá tiền
+    </button>
+    <button id="btnGetJson" type="button" class="col-xs-5 btn btn-primary" style="display:none;">
+        <span class="glyphicon glyphicon-ok-sign"></span> Xem thông tin
+    </button>
+    <button id="btnBooking" type="button" class="col-xs-6 btn btn-success" style="display:none;">
+        <span class="glyphicon glyphicon-plus-sign"></span> Đặt ngay
+    </button>
+    <button id="btnGetCurrentLocation" type="button" class="col-xs-5 btn btn-success" style="display:none;">
+        <span class="glyphicon glyphicon-plus-sign"></span> Lấy vị trí hiện tại
+    </button>
+    <button id="btnBack" type="button" class="col-xs-5 btn btn-danger">
+        <span class="glyphicon glyphicon-remove-sign"></span> Hủy chuyến
+    </button>
+    <button id="btnDirection" type="button" class="col-xs-6 btn btn-success">
+        <span class="glyphicon glyphicon-plus-sign"></span> Di chuyển
+    </button>
+    <button id="Pickup-passenger" type="button" class="col-xs-6 btn btn-success" style="display:none;">
+        <span class="glyphicon glyphicon-plus-sign"></span> Đón khách
+    </button>
+    <div id="driver-info">
+        <div class="driver-image" id="DriverImage" style="display:none;">
+            <img src="" alt="Driver Image" width="50" height="50">
+        </div>
+
+        <table>
+            <tr>
+                <td><span class="driver-name">THÔNG TIN KHÁCH HÀNG ĐẶT CHUYẾN XE</span></td>
+            </tr>
+            <tr>
+                <td>Hình ảnh khách hàng:</td>
+                <td>
+                    <div class="driver-image" id="PassengerImages">
+                        <img src="" alt="Driver Image" width="50" height="50">
+                    </div>
+                </td>
+            </tr>
+            <tr style="display: none;">
+                <td>Tên tài xế:</td>
+                <td><span class="driver-name" id="DriverName"></span></td>
+            </tr>
+            <tr style="display: none;">
+                <td>Số điện thoại tài xế:</td>
+                <td><span class="driver-name" id="phoneNumber"></span></td>
+            </tr>
+            <tr>
+                <td>Số điện thoại khách hàng:</td>
+                <td><span class="driver-name" id="phone-number"></span></td>
+            </tr>
+            <tr>
+                <td>Tên khách hàng:</td>
+                <td><span class="driver-name" id="PassengerName"></span></td>
+            </tr>
+            <tr style="display: none;">
+                <td>Giấy phép lái xe:</td>
+                <td><span class="driver-license" id="DriverLicense"></span></td>
+            </tr>
+            <tr style="display: none;">
+                <td>Đánh giá:</td>
+                <td>
+                    <div class="star-ratings" id="DriverRate">
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star-o"></span>
+                    </div>
+                </td>
+            </tr>
+            <tr style="display: none;">
+                <td>Vị trí tài xế:</td>
+                <td><span class="pickup-point" id="DriverLocation"></span></td>
+            </tr>
+            <tr>
+                <td>Điểm đón:</td>
+                <td><span class="pickup-point" id="txtLocationPickupd"></span></td>
+            </tr>
+            <tr>
+                <td>Điểm đến:</td>
+                <td><span class="destination" id="txtLocationDropd"></span></td>
+            </tr>
+            <tr>
+                <td>Thời gian đến vị trí khách hàng:</td>
+                <td><span class="destination" id="duration"></span></td>
+            </tr>
+            <tr>
+                <td>Khoảng cách:</td>
+                <td><span class="destination" id="distance"></span></td>
+            </tr>
+            <tr>
+                <td>Loại xe:</td>
+                <td><span class="destination" id="type"></span></td>
+            </tr>
+            <tr>
+                <td>Ngày đặt:</td>
+                <td><span class="destination" id="dated"></span></td>
+            </tr>
+            <tr>
+                <td>Hình thức thanh toán:</td>
+                <td><span class="payment-form" id="result"></span></td>
+            </tr>
+            <tr>
+                <td>Giá ban đầu:</td>
+                <td><span class="total-amount" id="totalFared"></span></td>
+            </tr>
+            <tr style="display: none;">
+                <td>Mã đặt xe:</td>
+                <td><span class="total-amount" id="MaDatXe"></span></td>
+            </tr>
+            <tr style="display: none;">
+                <td>Mã nhận chuyến:</td>
+                <td><span class="total-amount" id="MaNhanChuyen"></span></td>
+            </tr>
+            <tr>
+                <td>Phí mở rộng:</td>
+                <td><span class="total-amount" id="SurchareFeesd"></span></td>
+            </tr>
+            <tr>
+                <td>Khuyến mãi:</td>
+                <td><span class="total-amount" id="discountFared"></span></td>
+            </tr>
+            <tr>
+                <td>Thành tiền:</td>
+                <td><span class="total-amount" id="discountFareTotald"></span></td>
+            </tr>
+            @*<tr>
+                    <td><span class="total-amount" id="SurchareFee"></span></td>
+                </tr>*@
+        </table>
+        <div class="button-container">
+            <div class="message-container">
+                <div class="icon-container" id="chat-bubble-icon">
+                    <i class="fa fa-comment"></i>
+                    <span class="message-notification">3</span> <!-- Add this line -->
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-popup" id="myForm">
+            <div class="chat-header">
+                <div class="chat-receiver">
+                    <span id="PassengerImaged">
+                        <img src="" alt="Receiver Image">
+                    </span>
+                    <span id="PassengerNames"></span>
+                </div>
+                <span class="close">&times;</span>
+            </div>
+
+            <div class="chat-content">
+                <div class="chat-messages" id="chat-messages">
+                    <div id="sender-chat-message"></div>
+                    <div id="receiver-chat-message"></div>
+
+                </div>
+                <div class="chat-input-container">
+                    <div class="chat-input">
+                        <textarea id="chat-textarea" placeholder="Nhập tin nhắn..."></textarea>
+                        <div class="send-btn-container">
+                            <button id="send-message-btn"><i class="fa fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="accept-ride" style="display:none;">Accept Ride</button>
+        <button id="cancel-ride" style="display:none;">Cancel Ride</button>
+
+    </div>
+
+
+    <div id="locations" style="display:none;"></div>
+
+
+
+
+
+
+
+
+
+    <script>
+        $(function () {
+            var bookingHub = $.connection.bookingHub;
+
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                console.log('SignalR connection started for accepted!!!.');
+                // Execute the script when the DOM is ready.
+                setTimeout(function () {
+                    $(document).ready(function () {
+                        // Get the driver data.
+                        var PhoneNumber = $("#phoneNumber").text();
+                        var PhoneNumbers = $("#phone-number").text();
+                        var DriverLocation = $("#DriverLocation").text();
+                        var DriverName = $("#DriverName").text();
+
+                        var DriverLicense = $("#DriverLicense").text();
+                        var txtLocationPickup = $("#txtLocationPickupd").text();
+                        var txtLocationDrop = $("#txtLocationDropd").text();
+                        var distance = $("#distance").text();
+                        var duration = $("#duration").text();
+                        var type = $("#type").text();
+                        var dated = $("#dated").text();
+
+                        var result = $("#result").text();
+                        var totalFare = $("#totalFared").text();
+                        var DriverRated = $("#DriverRated").text();
+                        var DriverImages = $("#DriverImages").attr("src");
+                        var MaDatXe = $("#MaDatXe").text();
+                        var MaNhanChuyen = $("#MaNhanChuyen").text();
+                        var SurchareFees = $("#SurchareFeesd").text();
+                        var discountFare = $("#discountFared").text();
+                        var discountFareTotal = $("#discountFareTotald").text();
+
+                        // Send the driver data to the server.
+                        bookingHub.server.sendDriverData2(PhoneNumber, PhoneNumbers, DriverLocation, DriverName, DriverLicense, txtLocationPickup, txtLocationDrop, distance, duration, type, dated, result, totalFare, DriverRated, DriverImages, MaDatXe, MaNhanChuyen, SurchareFees, discountFare, discountFareTotal);
+                    });
+                }, 500);
+            });
+        });
+
+    </script>
+    <script>
+        $(function () {
+    // Get the data from the session
+            var PhoneNumber = decodeEntities("@Session["PhoneNumber"]");
+            var DriverLocations = decodeEntities("@Session["DriverLocations"]");
+            var DriverName = decodeEntities("@Session["DriverName"]");
+            var DriverLicense = decodeEntities("@Session["DriverLicense"]");
+            var txtLocationPickup = decodeEntities("@Session["txtLocationPickup"]");
+            var txtLocationDrop = decodeEntities("@Session["txtLocationDrop"]");
+            var result = decodeEntities("@Session["result"]");
+            var totalFare = "@Session["totalFare"]";
+            var PassengerPhone = decodeEntities("@Session["PassengerPhone"]");
+            var distance = decodeEntities("@Session["distance"]");
+            var duration = decodeEntities("@Session["duration"]");
+            var type = decodeEntities("@Session["type"]");
+            var dated = decodeEntities("@Session["dated"]");
+            var DriverRate = '@Session["DriverRate"]';
+            var DriverImage = "@Session["DriverImage"]";
+            var PassengerImages = "@Session["PassengerImages"]";
+            var PassengerName = decodeEntities("@Session["PassengerName"]");
+            var MaDatXe = '@Session["MaDatXe"]';
+            var MaNhanChuyen = '@Session["MaNhanChuyen"]';
+            var SurchareFees = '@Session["SurchareFees"]';
+            var discountFare = '@Session["discountFare"]';
+            var discountFareTotal = '@Session["discountFareTotal"]';
+            console.log(discountFare);
+
+            console.log(MaNhanChuyen);
+            console.log(PassengerName);
+             // Use the data as needed
+            $('#DriverName').text(DriverName);
+            $('#phoneNumber').text(PhoneNumber);
+            $('#DriverLicense').text(DriverLicense);
+            $('#DriverLocation').text(DriverLocations);
+            $('#txtLocationPickupd').text(txtLocationPickup);
+            $('#txtLocationDropd').text(txtLocationDrop);
+            $('#result').text(result);
+            $('#totalFared').text(totalFare);
+            $('#phone-number').text(PassengerPhone);
+            $('#distance').text(distance);
+            $('#duration').text(duration);
+            $('#type').text(type);
+            $('#dated').text(dated);
+            $('#PassengerName').text(PassengerName);
+            $('#PassengerNames').text(PassengerName);
+
+            // Generate the appropriate star rating HTML based on the rating value
+            var starHtml = "";
+            for (var i = 0; i < DriverRate; i++) {
+                starHtml += '<span class="fa fa-star"></span>';
+            }
+            for (var i = DriverRate; i < 5; i++) {
+                starHtml += '<span class="fa fa-star-o"></span>';
+            }
+            // Set the star rating HTML in the NhanChuyenXe view
+            $("#DriverRate").html(starHtml);
+            // Set the image source in the HTML element
+            $('#PassengerImages img').attr('src', '' + PassengerImages);
+            $('#PassengerImaged img').attr('src', '' + PassengerImages);
+            $('#MaDatXe').text(MaDatXe);
+            $('#MaNhanChuyen').text(MaNhanChuyen);
+            $('#SurchareFeesd').text(SurchareFees);
+            $('#discountFared').text(discountFare);
+            $('#discountFareTotald').text(discountFareTotal);
+        });
+
+        function decodeEntities(encodedString) {
+            var textArea = document.createElement('textarea');
+            textArea.innerHTML = encodedString;
+            return textArea.value;
+        }
+
+
+    </script>
+    <script>
+
+        var googleMap;
+        var marker;
+        var pickupLocation = decodeEntities("@Session["txtLocationPickup"]");
+        var dropLocation = decodeEntities("@Session["txtLocationDrop"]");
+        var DriverLocations = decodeEntities("@Session["DriverLocations"]");
+        function initializeMap() {
+
+            var latLng = new google.maps.LatLng(10.803837577744153, 106.71660094469999);
+            var mapOptions = { center: latLng, zoom: 15 };
+            googleMap = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
+            // Set a predefined value for txtLocation1
+            var predefinedLocation = DriverLocations;
+            $("#txtLocation1").val(predefinedLocation);
+
+            addAutoComplete("txtLocation1");
+            var predefinedLocation2 = pickupLocation;
+            $("#txtLocation2").val(predefinedLocation2);
+
+            addAutoComplete("txtLocation2");
+            // Automatically geocode and set the coordinates for pickup and drop-off locations
+            geocodeAddress(DriverLocations, function (pickupPlace) {
+                displayPlaceOnMap(pickupPlace, "txtLocation1");
+            });
+            geocodeAddress(pickupLocation, function (dropPlace) {
+                displayPlaceOnMap(dropPlace, "txtLocation2");
+            });
+            // set time out 1 sec
+            setTimeout(function () {
+                $('#btnCalculateFare').trigger('click');
+            }, 1000);
+        }
+
+
+
+        function addAutoComplete(textBox) {
+            $("#" + textBox).focus(function () {
+                lastLocationTextBox = textBox;
+            });
+
+            var autoComplete = new google.maps.places.Autocomplete(document.getElementById(textBox));
+            autoComplete.addListener("place_changed", function () {
+                var place = autoComplete.getPlace();
+                displayPlaceOnMap(place, textBox);
+            });
+
+            // Manually handle pasted data
+            $("#" + textBox).on('input', function () {
+                var inputLocation = $(this).val();
+                if (inputLocation) {
+                    geocodeAddress(inputLocation, function (place) {
+                        displayPlaceOnMap(place, textBox);
+                    });
+                }
+            });
+        }
+
+        function geocodeAddress(address, callback) {
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'address': address }, function (results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    var place = results[0];
+                    callback(place);
+                } else {
+
+                }
+            });
+        }
+
+        function displayPlaceOnMap(place, textBox) {
+            if (place.geometry) {
+                googleMap.setCenter(place.geometry.location);
+                googleMap.setZoom(15);
+
+                $("#" + textBox).data("lat", place.geometry.location.lat());
+                $("#" + textBox).data("lng", place.geometry.location.lng());
+                priceCalculated = false;
+
+                if (marker) {
+                    marker.setMap(null);
+                    marker = null;
+                }
+
+                marker = new google.maps.Marker({
+                    position: place.geometry.location,
+                    map: googleMap,
+                    title: place.formatted_address
+                });
+            }
+        }
+        google.maps.event.addDomListener(window, "load", initializeMap);
+
+    </script>
+
+    <script>
+        // Connect to the SignalR hub
+        var bookingHub = $.connection.bookingHub;
+        $.connection.hub.start().done(function () {
+            // Listen for the button click event
+            $('#btnDirection').click(function () {
+                // Send a signal to trigger the button click on NhanChuyenXe.cshtml
+                bookingHub.server.triggerButtonClickOnNhanChuyenXe();
+            });
+            $('#accelerateButton').click(function () {
+                // Send a signal to trigger the button click on NhanChuyenXe.cshtml
+                bookingHub.server.triggerButtonAccelerateClickOnNhanChuyenXe();
+            });
+            // Listen for the button click event
+            $('#decelerateButton').click(function () {
+                // Send a signal to trigger the button click on NhanChuyenXe.cshtml
+                bookingHub.server.triggerButtonDecelerateClickOnNhanChuyenXe();
+            });
+            // Listen for the button click event
+            $('#btnExit').click(function () {
+                // Send a signal to trigger the button click on NhanChuyenXe.cshtml
+                bookingHub.server.triggerButtonExitClickOnNhanChuyenXe();
+            });
+
+            // Start the SignalR connection
+            $.connection.hub.start();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var TaiXeDonKhachInfors2 = $("#TaiXeDonKhachInfors2");
+            if (TaiXeDonKhachInfors2.is(":visible")) {
+                swal({
+                    title: "Đã Đến Nơi!",
+                    text: "Đón Khách Thôi Nào",
+                    icon: "success",
+                    buttons: false,
+                    timer: 2000
+                });
+            }
+        });
+
+    </script>
+
+    @*<script>
+           // window.onload = function () {
+                var surchargFees = $("#SurchareFees").text();
+                console.log(surchargFees);
+                if (surchargFees === "10.000 VND") {
+                    $("#SurchareFee").text("Đã bao gồm phí mở rộng lên 5km: 10.000 VND").css("color", "green");
+                }
+            };
+        </script>*@
+
+
+
+    <script>
+        $(document).on("click", ".fa-comment", function () {
+            var phoneOfSender = $("#phoneNumber").text();
+            var phoneOfReceiver = $("#phone-number").text();
+
+            $.ajax({
+                type: "POST",
+                url: "/NhanTin/NoiDungNhanTin",
+                data: { phoneOfSender: phoneOfSender, phoneOfReceiver: phoneOfReceiver },
+                dataType: "json",
+                success: function (data) {
+                    $("#chat-messages").empty();
+
+                    data.forEach(function (message) {
+                        if (message.Sender === phoneOfSender) {
+                            $("#chat-messages").append("<div class='chat-message right'><div class='chat-message-text' id='sender-chat-message'>" + message.Content + "</div></div>");
+                        } else if (message.Sender === phoneOfReceiver) {
+                            $("#chat-messages").append("<div class='chat-message left'><div class='chat-message-text' id='receiver-chat-message'>" + message.Content + "</div></div>");
+                        }
+                    });
+
+                    // Open the chat popup
+                    $("#myForm").show();
+                    // Scroll to the bottom of the chat content container
+                    var chatContent = $(".chat-content");
+                    chatContent.scrollTop(chatContent.prop('scrollHeight'));
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+                }
+            });
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Initialize the SignalR connection
+            var chatHub = $.connection.chatHub;
+
+            // Start the SignalR connection
+            $.connection.hub.start().done(function () {
+                console.log('SignalR connection established.');
+
+                // Handle send button click event
+                $("#send-message-btn").click(function () {
+                    sendMessage();
+                });
+
+                // Handle enter key press event
+                $("#chat-textarea").keypress(function (event) {
+                    if (event.which === 13 && !event.shiftKey) {
+                        event.preventDefault();
+                        sendMessage();
+                    }
+                });
+            });
+
+            // Function to send the message
+            function sendMessage() {
+                var message = $("#chat-textarea").val();
+                if (message.trim() !== "") {
+                    // Send the message via AJAX
+                    $.ajax({
+                        url: "/NhanTin/ThemNhanTin",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            message: message,
+                            phoneOfSender: $("#phoneNumber").text(),
+                            phoneOfReceiver: $("#phone-number").text()
+                        },
+                        success: function (response) {
+                            // Handle success response if needed
+
+                            // Append the message to the chat messages
+                            appendMessage(response);
+
+                            // Delay and focus on the last message
+                            setTimeout(function () {
+                                focusOnLastMessage();
+                            }, 100);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+
+                    // Send the message via SignalR
+                    var phoneOfSender = $("#phoneNumber").text();
+                    var phoneOfReceiver = $("#phone-number").text();
+                    chatHub.server.driverSend(message, phoneOfSender, phoneOfReceiver);
+
+                    // Clear the input textarea
+                    $("#chat-textarea").val("");
+
+                    // Focus on the input textarea
+                    $("#chat-textarea").focus();
+                }
+            }
+
+            // Function to append the message to the chat messages
+            function appendMessage(message) {
+                var chatMessage;
+                if (message.Sender === $("#phoneNumber").text()) {
+                    chatMessage = $("<div class='chat-message right'><div class='chat-message-text' id='sender-chat-message'>" + message.Content + "</div></div>");
+                } else {
+                    chatMessage = $("<div class='chat-message left'><div class='chat-message-text'>" + message.Content + "</div></div>");
+                }
+
+                $("#chat-messages").append(chatMessage);
+            }
+
+
+            function focusOnLastMessage() {
+                var chatContent = $(".chat-content");
+                var chatMessages = $("#chat-messages");
+                var lastMessage = chatMessages.find(".chat-message").last();
+
+                // Scroll to the bottom of the chat content container
+                chatContent.scrollTop(chatMessages.outerHeight());
+
+
+            }
+
+        });
+
+
+
+    </script>
+
+
+
+    <script>
+        $(function () {
+            // Initialize the connection to the SignalR hub
+            var chatHub = $.connection.chatHub;
+
+            // Define a client-side method to receive the message from the server
+            chatHub.client.displayCustomer = function (message, phoneOfSender, phoneOfReceiver) {
+                console.log(message); // Log the message to the console
+
+                var chatMessage = $('<div class="chat-message left"><div class="chat-message-text">' + message + '</div></div>');
+
+                // Append the new message to the chat messages
+                var chatMessages = $('#chat-messages');
+                chatMessages.append(chatMessage);
+
+                // Call the focusOnLastMessage function
+                focusOnLastMessage();
+
+                // Scroll to the bottom of the chat content container
+                var chatContent = $(".chat-content");
+                chatContent.scrollTop(chatMessages.outerHeight());
+            };
+
+            // Start the SignalR connection
+            $.connection.hub.start();
+
+            // Function to focus on the last message
+            function focusOnLastMessage() {
+                var chatMessages = $('#chat-messages');
+                var lastMessage = chatMessages.find(".chat-message").last();
+
+
+            }
+        });
+
+    </script>
+
+
+    <script>
+        $(function () {
+            // Make the chat bubble draggable
+            $("#chat-bubble-icon").draggable({
+                containment: "window",
+                scroll: false,
+                start: function () {
+                    // Add "draggable" class to the chat popup when dragging starts
+                    $("#myForm").addClass("draggable");
+                },
+                stop: function () {
+                    // Remove "draggable" class from the chat popup when dragging stops
+                    $("#myForm").removeClass("draggable");
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#Pickup-passenger").click(function () {
+                // Send the announcement to NhanChuyenXe.cshtml using SignalR
+                $.connection.bookingHub.server.sendAnnounce();
+            });
+        });
+    </script>
+
+    <script>
+        $(function () {
+            var bookingHub = $.connection.bookingHub;
+            bookingHub.client.updateRequestStatus = function (status) {
+                            if (status === "accepted") {
+                                swal({
+                                    title: "Đã chấp nhận đón khách",
+                                    text: "Đón khách hàng!. ",
+                                    icon: "success",
+                                    buttons: false,
+                                    timer: 2000
+                                });
+                                setTimeout(function () {
+                                // Redirect to the new page
+                                    window.location.href = "@Url.Action("DonKhach", "TaiXe")";
+                                }, 1000);
+                            } else if (status === "cancelled") {
+                                swal({
+                                    title: "Hủy xác nhận đón khách",
+                                    text: "Đang đợi khách hàng thanh toán để kết thúc chuyến đi!",
+                                    icon: "error",
+                                    timer: 3000
+                                });
+                            }
+                        };
+        });
+    </script>
+
+    <script>
+        $(function () {
+            // Create the SignalR proxy
+            var bookingHub = $.connection.bookingHub;
+            // Show SweetAlert for successful payment
+            bookingHub.client.showPaymentSuccess = function () {
+                swal({
+                    title: "Thanh toán thành công!",
+                    text: "Đơn hàng đã được thanh toán",
+                    icon: "success",
+                    timer: 3000
+                });
+                window.location.href = "@Url.Action("ThongTinTaiXe", "TaiXe")";
+            };
+            // Show SweetAlert for cancelled payment
+            bookingHub.client.showPaymentCancelled = function () {
+                swal({
+                    title: "Đã hủy thanh toán!",
+                    text: "Khách hàng đã hủy thanh toán và chuyến xe tiếp tục",
+                    icon: "error",
+                    timer: 3000
+                });
+
+            };
+            // Start the SignalR connection
+            $.connection.hub.start();
+        });
+    </script>
+
+    <script>
+        $(function () {
+            // Create the SignalR proxy
+            var bookingHub = $.connection.bookingHub;
+            // Show SweetAlert for successful payment
+            bookingHub.client.showCancelRide = function () {
+                swal({
+                    title: "Đã hủy!",
+                    text: "Khách hàng đã hủy chuyến xe",
+                    icon: "success",
+                    timer: 3000
+                });
+                setTimeout(function () {
+                   window.location.href = "@Url.Action("ThongTinTaiXe", "TaiXe")";
+                }, 1000);
+            };
+            // Start the SignalR connection
+            $.connection.hub.start();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Listen for the showSweetAlert event from SignalR
+            var bookingHub = $.connection.bookingHub;
+            $.connection.hub.start().done(function () {
+                // Cancel ride button click event
+                $('#btnBack').click(function () {
+                    // Show a SweetAlert confirmation dialog
+                    Swal.fire({
+                        title: 'Hủy chuyến xe',
+                        text: 'Bạn có chắc muốn hủy chuyến xe chứ?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'OK',
+                        cancelButtonText: 'Hủy',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // User clicked OK, execute the cancelPayment method
+                            $.ajax({
+                                type: "POST",
+                                url: "/TaiXe/TaiXeHuyChuyen2",
+                                data: {
+                                    driverPhoneNumber: $("#phoneNumbers").text(),
+                                },
+                                success: function (data) {
+                                },
+                                error: function (xhr, status, error) {
+                                    // Handle the error
+                                    console.error("Error cancelling ride:", xhr.responseText);
+                                    console.error("Status:", status);
+                                    console.error("Error:", error);
+                                }
+                            });
+                            bookingHub.server.cancelRide2().done(function () {
+                                setTimeout(function () {
+                                  window.location.href = "@Url.Action("ThongTinTaiXe", "TaiXe")";
+                                }, 1000);
+                            });
+                        } else {
+
+                        }
+                        // If the user clicked Cancel or closed the dialog, do nothing
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+

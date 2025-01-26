@@ -1,0 +1,221 @@
+﻿@model WebsiteDatXeCongNghe.ViewModel.MultipleData.MultipleData
+@{
+    ViewBag.Title = "QuanLyTaiXe";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="~/css/BangDieuKhien.css" rel="stylesheet" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- Include SweetAlert library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11" />
+    <!-- Include SweetAlert library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Quản lý tài xế</title>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="#" class="logo">
+            <i class='bx bx-code-alt'></i>
+            <div class="logo-name"><span>Admin</span>Page</div>
+        </a>
+        <ul class="side-menu">
+            <li><a href="/QuanLy/BangDieuKhien"><i class='bx bxs-dashboard'></i>Bảng điều khiển</a></li>
+            <li><a href="/QuanLy/QuanLyKhachHang"><i class='bx bx-user-circle'></i>Quản lý khách hàng</a></li>
+            <li class="active"><a href="/QuanLy/QuanLyTaiXe"><i class='bx bx-user-circle'></i>Quản lý tài xế</a></li>
+            <li><a href="/QuanLy/QuanLyThongTinDatXe"><i class='bx bx-car'></i>Thông tin đặt xe</a></li>
+            <li><a href="/QuanLy/QuanLyTaiKhoan"><i class='bx bx-key'></i>Quản lý tài khoản</a></li>
+            <li><a href="/QuanLy/QuanLyDanhGia"><i class='bx bx-star'></i>Quản lý đánh giá</a></li>
+            <li><a href="/QuanLy/QuanLyKhuyenMai"><i class='bx bx-money'></i>Quản lý khuyến mãi</a></li>
+            <li><a href="/QuanLy/QuanLyThanhToan"><i class='bx bx-receipt'></i>Quản lý thanh toán</a></li>
+            <li><a href="/QuanLy/QuanLyDanhGiaTaiXe"><i class='bx bx-star'></i>Đánh giá tài xế</a></li>
+            <li><a href="/QuanLy/QuanLyTaiXeNhanChuyenXe"><i class='bx bx-cycling'></i>Tài xế nhận chuyến xe</a></li>
+            <li><a href="/QuanLy/QuanLyTaiKhoanNganHang"><i class='bx bx-credit-card'></i>Tài khoản ngân hàng</a></li>
+            <li><a href="/QuanLy/QuanLyQuyenTaiKhoan"><i class='bx bx-capsule'></i>Quyền tài khoản</a></li>
+            <li><a href="/QuanLy/QuanLyPhanQuyen"><i class='bx bx-user-plus'></i>Quản lý phân quyền</a></li>
+            <li><a href="#"><i class='bx bx-cog'></i>Cài đặt</a></li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="#" class="logout">
+                    <i class='bx bx-log-out-circle'></i>
+                    Đăng xuất
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- End of Sidebar -->
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Navbar -->
+        <nav>
+            <i class='bx bx-menu'></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" id="Search" placeholder="Tìm kiếm...">
+                    <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <input type="checkbox" id="theme-toggle" hidden>
+            <label for="theme-toggle" class="theme-toggle"></label>
+            <a href="#" class="notif">
+                <i class='bx bx-bell'></i>
+                <span class="count">12</span>
+            </a>
+            <a href="#" class="profile">
+                <img src="~/image/QuanLy/logo.png" />
+            </a>
+        </nav>
+
+        <!-- End of Navbar -->
+
+        <main>
+
+            <div class="bottom-data">
+                <div class="orders">
+                    <div class="header">
+                        <i class='bx bx-user-circle'></i>
+                        <h3>Quản lý tài xế</h3>
+                        <i class='bx bx-filter'></i>
+                        <i class='bx bx-search'></i>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Ảnh đại diện</th>
+                                <th>Họ tên</th>
+                                <th>Ngày tháng năm sinh</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                                <th>Biển số</th>
+                                <th>CCCD</th>
+                                <th>Ngày đăng ký</th>
+                                <th colspan="2">Tùy chỉnh</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.taiXes.Count(); i++)
+                            {
+                                var item = Model.taiXes.ElementAt(i);
+                                <tr class="Search" id="row_@item.MaTX">
+                                    <td>@(i + 1).</td>
+                                    <td><img src="~/image/TaiXe/@item.HinhAnh" alt=""></td>
+                                    <td>@item.Ten</td>
+                                    <td style="display:none;">@item.MaTX</td>
+                                    <td>@item.NgayThangNamSinh.ToString("yyyy-MM-dd")</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.SoDienThoai</td>
+                                    <td>@item.BienSo</td>
+                                    <td>@item.CCCD</td>
+                                    <td>@item.NgayDangKy.ToString("yyyy-MM-dd")</td>
+                                    <td class="edit-button" data-phone="@item.SoDienThoai">
+                                        Enable
+                                    </td>
+                                    <td class="delete-button" data-phone="@item.SoDienThoai">
+                                        Disable
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+            function Contains(text_one, text_two) {
+                var cleanTextOne = text_one.replace(/\s/g, "");
+                var cleanTextTwo = text_two.replace(/\s/g, "");
+
+                if (cleanTextOne.indexOf(cleanTextTwo) !== -1) {
+                    return true;
+                }
+            }
+
+            $("#Search").on('input', function () {
+                var searchText = $("#Search").val().toLowerCase();
+                $(".Search").each(function () {
+                    if (!Contains($(this).text().toLowerCase(), searchText)) {
+                        $(this).hide();
+                    } else {
+                        $(this).show();
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.edit-button').click(function () {
+                var button = $(this);
+                var phoneNumber = button.data('phone');
+
+                // AJAX request to toggle the account status
+                $.ajax({
+                    url: '/TaiXe/EnableAccount',
+                    type: 'POST',
+                    data: { phoneNumber: phoneNumber },
+                    success: function (data) {
+                        // Show success swal
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Kích hoạt tài khoản thành công!'
+                        });
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.delete-button').click(function () {
+                var button = $(this);
+                var phoneNumber = button.data('phone');
+
+                // AJAX request to toggle the account status
+                $.ajax({
+                    url: '/TaiXe/DisableAccount',
+                    type: 'POST',
+                    data: { phoneNumber: phoneNumber },
+                    success: function (data) {
+                        // Show success swal
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Khóa!',
+                            text: 'Đã vô hiệu hóa tài khoản!'
+                        });
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script src="~/js/BangDieuKhien.js"></script>
+    <!-- Include jQuery library -->
+</body>
+
+</html>
+

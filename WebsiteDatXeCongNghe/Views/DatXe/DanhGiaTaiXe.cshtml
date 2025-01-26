@@ -1,0 +1,141 @@
+﻿@model IEnumerable<WebsiteDatXeCongNghe.Models.KhachHang>
+@{
+    ViewBag.Title = "DanhGiaTaiXe";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Đánh giá tài xế</title>
+    <link href="~/css/DanhGiaTaiXe.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+    <span id="phoneNumberr">@Session["SoDienThoai"].ToString()</span>
+    @foreach (var tx in Model)
+    {
+        <span id="PassNamer">@tx.Ten</span>
+        <img src="~/image/KhachHang/@tx.HinhAnh" alt="" width="50" height="50" id="PassImager">
+    }
+    <div class="rating-container">
+        <div class="rating">
+            <h2>Đánh giá tài xế</h2>
+            <div class="driver-info">
+                @*<img src="" alt="Driver Avatar" class="avatar" id="DriverImage">*@
+                <div id="DriverImage">
+                    <img src="" alt="Driver Avatar" class="avatar" width="50" height="50">
+                </div>
+                <p class="name" id="DriverName"></p>
+                <p class="phone" id="DriverPhone"></p>
+                <p class="rating-infos" id="DriverRate">Điểm đánh giá trung bình: </p>
+                <p class="rating-info" id="value-rate"></p>
+            </div>
+            <div class="stars"></div>
+            <p class="current-date" id="current-date"></p>
+            <textarea placeholder="Nhập nội dung đánh giá..." class="review-input" id="Content" required></textarea>
+            <input type="submit" value="Gửi" class="submit-btn" id="Send">
+        </div>
+    </div>
+
+    <script src="~/js/DanhGiaTaiXe.js"></script>
+    
+    <script>
+        $(function () {
+            // Initialize the connection to the SignalR hub
+            var bookingHub = $.connection.bookingHub;
+
+            // Define a client-side method to receive the booking data from the server
+            bookingHub.client.displaySendDriverData3 = function (PhoneNumber, PhoneNumbers, DriverLocation, DriverName, DriverLicense, txtLocationPickup, txtLocationDrop, distance, duration, type, dated, result, totalFare, DriverRated, DriverImages) {
+                $('#DriverName').text(DriverName);
+                $('#DriverPhone').text(PhoneNumber);
+                $('#DriverRate').text('Điểm đánh giá trung bình: ' + DriverRated);
+
+                
+                $('#DriverImage img').attr('src', '' + DriverImages);
+            };
+            // Start the SignalR connection
+            $.connection.hub.start();
+        });
+    </script>
+    <style>
+        #phoneNumberr {
+            display: none;
+        }
+        #PassNamer {
+            display: none;
+        }
+        #PassImager {
+            display: none;
+        }
+        #DriverPhone {
+            display: none;
+        }
+        #value-rate {
+            display: none;
+        }
+        #current-date {
+            display: none;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            // Attach click event listener to the stars container
+            $('.stars').click(function () {
+                // Check if the stars are selected
+                if ($('.star.selected-stars').length > 0) {
+                    // Enable the Send button
+                    $('#Send').prop('disabled', false);
+                } else {
+                    // Disable the Send button
+                    $('#Send').prop('disabled', true);
+                }
+            });
+
+            // Attach click event listener to the Send button
+            $('#Send').click(function () {
+                // Get the values
+                var passengerPhone = $('#phoneNumberr').text();
+                var driverPhone = $('#DriverPhone').text();
+                var ratingValue = parseInt($('#value-rate').text());
+                var content = $('#Content').val();
+                var currentDate = $('#current-date').text();
+
+                // Create the data object to send via AJAX
+                var data = {
+                    PassengerPhone: passengerPhone,
+                    DriverPhone: driverPhone,
+                    value_rate: ratingValue,
+                    content: content,
+                    date_rate: currentDate
+                };
+
+                // Send the data to the server using AJAX
+                $.ajax({
+                    url: '/DatXe/DanhGiaTaiXe', // Replace "ControllerName" with your actual controller name
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        // Handle the success response
+                        // Redirect to a new page or show a success message
+                        setTimeout(function () {
+                            window.location.href = '/DatXe/GoogleMap'; // Replace "ControllerName/SuccessPage" with the actual URL of the success page
+                        }, 1000);
+                    },
+                    error: function (error) {
+                        // Handle the error response
+                        // Show an error message or perform any necessary actions
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,30 @@
+﻿@model WebsiteDatXeCongNghe.ViewModel.TaiKhoanViewModel.QuenMatKhauViewModel
+@{
+    ViewBag.Title = "XacNhanOTP";
+    Layout = null;
+}
+
+
+
+<h2>Enter confirmation code</h2>
+
+@using (Html.BeginForm("XacNhanOTP", "TaiKhoan", FormMethod.Post))
+{
+    <div>
+        <label>Confirmation code:</label>
+        <input type="text" name="confirmationCode" />
+    </div>
+    <button type="submit">Submit</button>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <p>@ViewBag.ErrorMessage</p>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.ConfirmationCode))
+{
+    <p>Enter the following confirmation code: @ViewBag.ConfirmationCode</p>
+}
+
+

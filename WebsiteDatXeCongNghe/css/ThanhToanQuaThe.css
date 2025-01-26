@@ -1,0 +1,324 @@
+﻿.payment {
+    background: #DDDDDD;
+    max-width: 360px;
+    margin: 80px auto;
+    height: auto;
+    padding: 35px;
+    padding-top: 70px;
+    border-radius: 5px;
+    position: relative;
+}
+
+    .payment h2 {
+        text-align: center;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+        color: #057ad3;
+    }
+
+.form .label {
+    display: block;
+    color: #555555;
+    margin-bottom: 6px;
+}
+
+.input {
+    padding: 13px 0px 13px 25px;
+    width: 100%;
+    text-align: center;
+    border: 2px solid #dddddd;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    word-spacing: 3px;
+    outline: none;
+    font-size: 16px;
+    color: #555555;
+}
+
+.card-grp {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-item {
+    width: 48%;
+}
+
+
+.min-entry {
+    font-size: 12px;
+    color: #777;
+    /* add position: absolute; and adjust the positioning as needed */
+    position: absolute;
+    bottom: -15px;
+}
+
+.space {
+    margin-bottom: 20px;
+}
+
+.icon-relative {
+    position: relative;
+}
+
+    .icon-relative .fas,
+    .icon-relative .far {
+        position: absolute;
+        bottom: 12px;
+        left: 15px;
+        font-size: 20px;
+        color: #555555;
+    }
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
+    z-index: 9999;
+    display: none;
+}
+
+.wrapper {
+    position: fixed;
+    top: 54%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+    display: none;
+}
+
+
+.close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+    .close-icon:hover {
+        color: red;
+    }
+
+    .close-icon:hover {
+        color: red;
+    }
+
+.overlay3 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
+    z-index: 9999;
+    display: none;
+}
+
+.wrapper2 {
+    position: fixed;
+    top: 54%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+    display: none;
+}
+
+
+.close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+    .close-icon:hover {
+        color: red;
+    }
+
+    .close-icon:hover {
+        color: red;
+    }
+
+.btnOnlinePayment {
+    margin-top: 40px;
+    background: #2196F3;
+    padding: 12px;
+    text-align: center;
+    color: #f8f8f8;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .btnOnlinePayment:hover {
+        background: #1565c0; /* Change the background color on hover */
+    }
+
+.otp-container {
+    max-width: 400px;
+    margin: 100px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.otp-digit {
+    width: 50px;
+    height: 50px;
+    margin: 0 5px;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.verify-btn {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+    .verify-btn:hover {
+        background-color: #45a049;
+    }
+
+.overlay2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
+    z-index: 9999;
+    display: none;
+}
+
+.otp-container {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+    display: none;
+}
+
+
+.close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+    .close-icon:hover {
+        color: red;
+    }
+
+.custom-button {
+    background: #2196F3;
+    padding: 12px;
+    text-align: center;
+    color: #f8f8f8;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+    .custom-button:hover {
+        background: #1565c0;
+    }
+
+.input-container {
+    display: flex;
+    align-items: center;
+}
+
+.currency-unit {
+    margin-left: 5px;
+    color: #555555;
+    font-size: 16px;
+}
+
+
+.input {
+    width: 100%;
+    padding: 13px 0px 13px 25px;
+    text-align: center;
+    border: 2px solid #dddddd;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    word-spacing: 3px;
+    outline: none;
+    font-size: 16px;
+    color: #555555;
+}
+
+
+.payment-logo {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    background: #f8f8f8;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    text-align: center;
+    line-height: 85px;
+}
+
+    .payment-logo:before {
+        content: "";
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        width: 90px;
+        height: 90px;
+        background: #fff;
+        border-radius: 50%;
+    }
+
+    .payment-logo p {
+        position: relative;
+        color: #f8f8f8;
+        font-family: 'Baloo Bhaijaan', cursive;
+        font-size: 20px;
+    }
+
+
+@media screen and (max-width: 420px) {
+    .card-grp {
+        flex-direction: column;
+    }
+
+    .card-item {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        margin-top: 20px;
+    }
+}

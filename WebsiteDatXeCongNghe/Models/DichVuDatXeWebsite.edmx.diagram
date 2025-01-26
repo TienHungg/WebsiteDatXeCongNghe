@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e12e6fe5febb4dbd99864f9f57d050c0" Name="Diagram1">
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.DanhGiaTaiXe" Width="1.5" PointX="8.25" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.DanhGiaUngDung" Width="1.5" PointX="5.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.KhachHang" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.KhuyenMai" Width="1.5" PointX="5.25" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.LichSuGiaoDich" Width="1.5" PointX="5.25" PointY="26.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.NhanTin" Width="1.5" PointX="3" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.PhanQuyen" Width="1.5" PointX="0.75" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.QuyenTaiKhoan" Width="1.5" PointX="3" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.TaiKhoan" Width="1.5" PointX="0.75" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.TaiKhoanNganHang" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.TaiKhoanNganHangTaiXe" Width="1.5" PointX="8.25" PointY="26.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.TaiXe" Width="1.5" PointX="3" PointY="25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.TaiXeNhanChuyenXe" Width="1.5" PointX="7.5" PointY="23.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.ThanhToan" Width="1.5" PointX="7.5" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.TheVisa" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.ThongTinDatXe" Width="1.5" PointX="5.25" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DichVuDatXeWebsite3Model.TrangThaiHoatDong" Width="1.5" PointX="3" PointY="30.875" IsExpanded="true" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__DanhGiaTa__KHDan__66603565" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__DanhGiaTa__TKTai__6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__DanhGiaUn__SoDie__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__KhachHang__SoDie__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__TaiKhoanN__SoDie__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__ThanhToan__SoDie__5AEE82B9" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__ThongTinD__SoDie__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__ThanhToan__MaKhu__5DCAEF64" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__LichSuGia__SoDie__00DF2177" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__LichSuGia__SoDie__7FEAFD3E" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__NhanTin__SDTNguo__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__NhanTin__SDTNguo__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__QuyenTaiK__MaQuy__6D0D32F4" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__QuyenTaiK__SoDie__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__TaiXe__SoDienTho__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__TrangThai__SoDie__74AE54BC" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__TaiKhoanN__SoThe__0B5CAFEA" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__ThanhToan__MaTai__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__TaiKhoanN__SoDie__7B264821" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__TaiKhoanN__SoDie__7C1A6C5A" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__TaiKhoanN__SoThe__7D0E9093" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__TaiXeNhan__SoDie__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK_SoDienThoaiTX" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__TaiXeNhan__MaDat__797309D9" ManuallyRouted="false" />
+        <AssociationConnector Association="DichVuDatXeWebsite3Model.FK__ThanhToan__MaDat__5CD6CB2B" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,722 @@
+﻿@model IEnumerable<WebsiteDatXeCongNghe.Models.KhachHang>
+@{
+    ViewBag.Title = "KhachDuocTra";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tài xế đã trả khách</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="~/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include jQuery UI library -->
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <link href="~/css/style.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link href="~/css/NhanTin.css" rel="stylesheet" />
+    <script src="~/js/bootstrap.min.js"></script>
+
+    <script src="~/js/ie10-viewport-bug-workaround.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:500&display=swap" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsjGimn5mrdv4SaHko6T4Ge8hChEHQQFc&libraries=places"></script>
+
+    <link href="~/css/TienMat.css" rel="stylesheet" />
+    <script src="~/js/googleMap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="~/css/NhanChuyenXe.css" rel="stylesheet" />
+    <script src="~/js/NhanChuyenXe.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header">
+            <h1>Tài xế trả khách</h1>
+        </div>
+        <div class="header">
+            <h1>KHÁCH HÀNG</h1>
+        </div>
+    </header>
+    @foreach (var tx in Model)
+    {
+        <table>
+            <tr>
+                <td><strong>Số điện thoại khách hàng:</strong> <span id="phoneNumberr">@Session["SoDienThoai"].ToString()</span></td>
+            </tr>
+            <tr>
+                <td><strong>Họ tên khách hàng:</strong> <span id="PassNamer">@tx.Ten</span></td>
+            </tr>
+            <tr>
+                <td><strong>Ảnh đại diện:</strong> <img src="~/image/KhachHang/@tx.HinhAnh" alt="" width="50" height="50" id="PassImager"></td>
+            </tr>
+        </table>
+
+    }
+    <div class="col-md-8 google-map-wrap">
+        <div id="googleMap" class="map"></div>
+    </div>
+    <div class="header">
+        <h1>Thông tin tài xế nhận chuyến</h1>
+    </div>
+    <div id="driver-info">
+        <div class="driver-image" id="DriverImage">
+            <img src="" alt="Driver Image">
+        </div>
+        <table>
+            <tr>
+                <td>Tên tài xế:</td>
+                <td><span class="driver-name" id="DriverName"></span></td>
+            </tr>
+            <tr>
+                <td>Số điện thoại tài xế:</td>
+                <td><span class="driver-name" id="phoneNumber"></span></td>
+            </tr>
+            <tr style="display:none;">
+                <td>Số điện thoại khách hàng:</td>
+                <td><span class="driver-name" id="phone-number"></span></td>
+            </tr>
+            <tr>
+                <td>Giấy phép lái xe:</td>
+                <td><span class="driver-license" id="DriverLicense"></span></td>
+            </tr>
+            <tr>
+                <td>Đánh giá:</td>
+                <td>
+                    <div class="star-ratings" id="DriverRate">
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star-half-o"></span>
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
+                <td>Vị trí tài xế:</td>
+                <td><span class="pickup-point" id="DriverLocation"></span></td>
+            </tr>
+            <tr>
+                <td>Điểm đón:</td>
+                <td><span class="pickup-point" id="txtLocationPickup"></span></td>
+            </tr>
+            <tr>
+                <td>Điểm đến:</td>
+                <td><span class="destination" id="txtLocationDrop"></span></td>
+            </tr>
+            <tr>
+                <td>Thời gian chuyến xe:</td>
+                <td><span class="destination" id="duration"></span></td>
+            </tr>
+            <tr>
+                <td>Khoảng cách:</td>
+                <td><span class="destination" id="distance"></span></td>
+            </tr>
+            <tr>
+                <td>Loại xe:</td>
+                <td><span class="destination" id="type"></span></td>
+            </tr>
+            <tr>
+                <td>Ngày đặt:</td>
+                <td><span class="destination" id="dated"></span></td>
+            </tr>
+            <tr>
+                <td>Hình thức thanh toán:</td>
+                <td><span class="payment-form" id="result"></span></td>
+            </tr>
+            <tr>
+                <td>Giá ban đầu:</td>
+                <td><span class="total-amount" id="totalFared"></span></td>
+            </tr>
+            <tr style="display: none;">
+                <td>Mã đặt xe:</td>
+                <td><span class="total-amount" id="MaDatXe"></span></td>
+            </tr>
+            <tr style="display: none;">
+                <td>Mã nhận chuyến:</td>
+                <td><span class="total-amount" id="MaNhanChuyen"></span></td>
+            </tr>
+            <tr>
+                <td>Phí mở rộng:</td>
+                <td><span class="total-amount" id="SurchareFeesd"></span></td>
+            </tr>
+            <tr>
+                <td>Khuyến mãi:</td>
+                <td><span class="total-amount" id="discountFared"></span></td>
+            </tr>
+            <tr>
+                <td>Thành tiền:</td>
+                <td><span class="total-amount" id="discountFareTotald"></span></td>
+            </tr>
+            <tr style="display:none;">
+                <td>Số thẻ:</td>
+                <td><span class="total-amount" id="CardId4"></span></td>
+            </tr>
+            <tr style="display:none;">
+                <td>Chủ thẻ:</td>
+                <td><span class="total-amount" id="CardHolder"></span></td>
+            </tr>
+            <tr style="display:none;">
+                <td>Thời hạn tháng:</td>
+                <td><span class="total-amount" id="ExpirationMonth"></span></td>
+            </tr>
+            <tr style="display:none;">
+                <td>Thời hạn năm:</td>
+                <td><span class="total-amount" id="ExpirationYear"></span></td>
+            </tr>
+            <tr style="display:none;">
+                <td>CVV:</td>
+                <td><span class="total-amount" id="CVV"></span></td>
+            </tr>
+        </table>
+        <div class="button-container">
+            <div class="message-container">
+                <div class="icon-container" id="chat-bubble-icon">
+                    <i class="fa fa-comment"></i>
+                    <span class="message-notification">3</span> <!-- Add this line -->
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-popup" id="myForm">
+            <div class="chat-header">
+                <div class="chat-receiver">
+                    <span id="DriverImages">
+                        <img src="" alt="Receiver Image">
+                    </span>
+                    <span id="DriverNames"></span>
+                </div>
+                <span class="close">&times;</span>
+            </div>
+
+            <div class="chat-content">
+                <div class="chat-messages" id="chat-messages">
+                    <div id="sender-chat-message"></div>
+                    <div id="receiver-chat-message"></div>
+
+                </div>
+                <div class="chat-input-container">
+                    <div class="chat-input">
+                        <textarea id="chat-textarea" placeholder="Nhập tin nhắn..."></textarea>
+                        <div class="send-btn-container">
+                            <button id="send-message-btn"><i class="fa fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container" style="display:none;">
+            <div class="left">
+
+                <div id="pickup">
+                    <button id="Cash-payment">Thanh toán tiền mặt</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Place where the sweet alert will be displayed -->
+        <div id="sweetAlertContainer"></div>
+        <div class="overlay"></div>
+        <div class="payment-container" style="display: none;">
+            <span id="close-payment" class="close-icon">X</span>
+            <h2 id="ResultofForm">Thanh toán: </h2>
+            <h2 id="NameofPassengers">Khách hàng: </h2>
+            <form id="payment-form">
+                <div class="form-group">
+                    <label for="original-price">Giá ban đầu:</label>
+                    <input type="text" id="totalFaredd" class="price-input" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="surcharge-price">Phí cầu đường:</label>
+                    <input type="text" id="surcharge-price" class="price-input" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="surcharge-price">Phí mở rộng:</label>
+                    <input type="text" id="SurchareFeesdd" class="price-input" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="surcharge-price">Khuyến mãi:</label>
+                    <input type="text" id="discountFaredd" class="price-input" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="total-price">Thành tiền:</label>
+                    <input type="text" id="discountFareTotaldd" readonly>
+                </div>
+                <input type="submit" id="ConfirmPayment" value="Xác nhận" class="calculate-btn">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            const overlay = document.querySelector('.overlay');
+            const paymentContainer = document.querySelector('.payment-container');
+            const passengerName = document.getElementById('PassengerName');
+            const result = document.getElementById('result');
+            const totalFared = document.getElementById('totalFared');
+            const SurchareFeesdd = document.getElementById('SurchareFeesd');
+            const discountFared = document.getElementById('discountFared');
+            const discountFareTotald = document.getElementById('discountFareTotald');
+            const closeButton = document.getElementById('close-payment');
+
+            document.getElementById('Cash-payment').addEventListener('click', function () {
+                overlay.style.display = 'block';
+                paymentContainer.style.display = 'block';
+
+                const results = result.textContent.trim();
+                document.getElementById('ResultofForm').textContent = `Thanh toán: ${results}`;
+
+                const name = passengerName.textContent.trim();
+                document.getElementById('NameofPassengers').textContent = `Khách hàng: ${name}`;
+
+                const originalPrice = parseFloat(totalFared.textContent.split(' ')[0]);
+                document.getElementById('totalFaredd').value = originalPrice.toFixed(3);
+
+                const SurchareFees = parseFloat(SurchareFeesdd.textContent.split(' ')[0]);
+                document.getElementById('SurchareFeesdd').value = SurchareFees.toFixed(3);
+
+                const discountFare = parseFloat(discountFared.textContent.split(' ')[0]);
+                document.getElementById('discountFaredd').value = discountFare.toFixed(3);
+
+                const discountFareTotal = parseFloat(discountFareTotald.textContent.split(' ')[0]);
+                document.getElementById('discountFareTotaldd').value = discountFareTotal.toFixed(3);
+            });
+
+            closeButton.addEventListener('click', function () {
+                overlay.style.display = 'none';
+                paymentContainer.style.display = 'none';
+            });
+
+            const paymentForm = document.getElementById('payment-form');
+            const originalPriceInput = document.getElementById('discountFareTotaldd');
+            const surchargePriceInput = document.getElementById('surcharge-price');
+            const updatedDiscountFareTotal = document.getElementById('discountFareTotaldd');
+            const oldDiscountFareTotalValue = document.getElementById('discountFareTotald');
+            const oldDiscountFareTotalValues = parseFloat(oldDiscountFareTotalValue.textContent.split(' ')[0]);
+            const calculateTotalPrice = function () {
+                const originalPrice = parseFloat(originalPriceInput.value);
+                const surchargePrice = parseFloat(surchargePriceInput.value);
+
+                const totalPrice = originalPrice + surchargePrice;
+                if (surchargePriceInput.value.trim() === '') {
+                    // If surchargePriceInput is empty, set the value to the old value
+                    updatedDiscountFareTotal.value = oldDiscountFareTotalValues.toFixed(3);
+                } else {
+                    updatedDiscountFareTotal.value = totalPrice.toFixed(3);
+                }
+            };
+
+            originalPriceInput.addEventListener('input', calculateTotalPrice);
+            surchargePriceInput.addEventListener('input', calculateTotalPrice);
+        };
+
+    </script>
+    <script>
+        $(function () {
+    // Get the data from the session
+            var CardId4 = decodeEntities("@Session["CardId4"]");
+            var CardHolder = decodeEntities("@Session["CardHolder"]");
+            var ExpirationMonth = decodeEntities("@Session["ExpirationMonth"]");
+            var ExpirationYear = decodeEntities("@Session["ExpirationYear"]");
+            var CVV = decodeEntities("@Session["CVV"]");
+
+             // Use the data as needed
+            $('#CardId4').text(CardId4);
+            $('#CardHolder').text(CardHolder);
+            $('#ExpirationMonth').text(ExpirationMonth);
+            $('#ExpirationYear').text(ExpirationYear);
+            $('#CVV').text(CVV);
+        });
+
+        function decodeEntities(encodedString) {
+            var textArea = document.createElement('textarea');
+            textArea.innerHTML = encodedString;
+            return textArea.value;
+        }
+
+
+    </script>
+    <script>
+        $(function () {
+            // Create the SignalR proxy
+            var bookingHub = $.connection.bookingHub;
+
+            // Show the payment container when receiving the ShowPaymentPopUp event from the server
+            bookingHub.client.showPaymentPopUp = function (resultPayment, passengerName, originalPrice, surchargePrice, SurchareFeesdd, discountFaredd, discountFareTotaldd) {
+                $('#ResultofForm').text(resultPayment);
+                $('#NameofPassengers').text(passengerName);
+                $('#totalFaredd').val(originalPrice);
+                $('#surcharge-price').val(surchargePrice);
+                $('#SurchareFeesdd').val(SurchareFeesdd);
+                $('#discountFaredd').val(discountFaredd);
+                $('#discountFareTotaldd').val(discountFareTotaldd);
+                $('.payment-container').show();
+                $('.overlay').show();
+            };
+            // Start the SignalR connection
+            $.connection.hub.start();
+        });
+    </script>
+    <script>
+        $(function () {
+            // Create the SignalR proxy
+            var bookingHub = $.connection.bookingHub;
+            // Submit payment form and show SweetAlert for successful payment
+            $('#ConfirmPayment').click(function (e) {
+                e.preventDefault();
+                $('.payment-container').hide();
+                $('.overlay').hide();
+                bookingHub.server.confirmPayment();
+                setTimeout(function () {
+                    window.location.href = "@Url.Action("DanhGiaTaiXe", "DatXe")";
+                }, 1000);
+            });
+            // Close payment form and show SweetAlert for cancelled payment
+            $('#close-payment').click(function () {
+                $('.payment-container').hide();
+                $('.overlay').hide();
+                bookingHub.server.cancelPayment();
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            // Create the SignalR proxy
+            var bookingHub = $.connection.bookingHub;
+
+            // Show SweetAlert for successful payment
+            bookingHub.client.showPaymentSuccess = function () {
+                swal({
+                    title: "Thanh toán thành công!",
+                    text: "Đơn hàng đã được thanh toán",
+                    type: "success",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            };
+
+            // Show SweetAlert for cancelled payment
+            bookingHub.client.showPaymentCancelled = function () {
+                swal({
+                    title: "Đã hủy thanh toán!",
+                    text: "Đơn hàng đã bị hủy",
+                    type: "warning",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            };
+            // Start the SignalR connection
+            $.connection.hub.start();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#ConfirmPayment').click(function (e) {
+
+                var Status = true;
+
+                e.preventDefault();
+                $.ajax({
+                    url: "/ThanhToan/ThemThanhToan2",
+                    type: "post",
+                    dataType: "html",
+                    data: {
+                        PassengerPhone: $("#phone-number").text(),
+                        DriverPhone: $("#phoneNumber").text(),
+                        MaDatXe: $("#MaDatXe").text(),
+                        GiaBanDau: $("#totalFaredd").val(),
+                        PhiCauDuong: $("#surcharge-price").val(),
+                        PhiMoRong: $("#SurchareFeesdd").val(),
+                        PhiKhuyenMai: $("#discountFaredd").val(),
+                        ThanhTien: $("#discountFareTotaldd").val(),
+                        HinhThucThanhToan: $("#result").text(),
+                        TrangThai: Status,
+                        SoThe: $("#CardId4").text(),
+                    },
+                    success: function (result) {
+                        // Handle the success callback
+                    },
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#ConfirmPayment').click(function (e) {
+
+                var Status = true;
+
+                e.preventDefault();
+                $.ajax({
+                    url: "/TaiXe/TrangThaiNhanChuyen",
+                    type: "post",
+                    dataType: "html",
+                    data: {
+                        MaNhanChuyen: $("#MaNhanChuyen").text(),
+                        TrangThai: Status
+                    },
+                    success: function (result) {
+                        // Handle the success callback
+                    },
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(function () {
+            // Initialize the connection to the SignalR hub
+            var bookingHub = $.connection.bookingHub;
+
+            // Define a client-side method to receive the booking data from the server
+            bookingHub.client.displaySendDriverData2 = function (PhoneNumber, PhoneNumbers, DriverLocation, DriverName, DriverLicense, txtLocationPickup, txtLocationDrop, distance, duration, type, dated, result, totalFare, DriverRated, DriverImages, MaDatXe, MaNhanChuyen, SurchareFees, discountFare, discountFareTotal) {
+                $("#phoneNumber").text(PhoneNumber);
+                $("#phone-number").text(PhoneNumbers);
+                $("#DriverLocation").text(DriverLocation);
+                $("#DriverName").text(DriverName);
+                $("#DriverNames").text(DriverName);
+                $("#DriverLicense").text(DriverLicense);
+                $("#txtLocationPickup").text(txtLocationPickup);
+                $("#txtLocationDrop").text(txtLocationDrop);
+                $("#distance").text(distance);
+                $("#duration").text(duration);
+                $("#type").text(type);
+                $("#dated").text(dated);
+                $("#result").text(result);
+                $("#totalFared").text(totalFare);
+
+                var starHtml = "";
+                for (var i = 0; i < Math.floor(DriverRated); i++) {
+                    starHtml += '<span class="fa fa-star"></span>';
+                }
+
+                // Check if there's a remainder to determine if a half star should be displayed
+                if (DriverRated % 1 !== 0) {
+                    starHtml += '<span class="fa fa-star-half-o"></span>';
+                }
+
+                for (var i = Math.ceil(DriverRated); i < 5; i++) {
+                    starHtml += '<span class="fa fa-star-o"></span>';
+                }
+
+                $("#DriverRate").html(starHtml);
+                $('#DriverImage img').attr('src', '' + DriverImages);
+                $('#DriverImages img').attr('src', '' + DriverImages);
+                $("#MaDatXe").text(MaDatXe);
+                $("#MaNhanChuyen").text(MaNhanChuyen);
+                $("#SurchareFeesd").text(SurchareFees).css("color", "green");
+                $("#discountFared").text(discountFare);
+                $("#discountFareTotald").text(discountFareTotal);
+            };
+            // Start the SignalR connection
+            $.connection.hub.start();
+        });
+    </script>
+    <script>
+        $(document).on("click", ".fa-comment", function () {
+            var phoneOfSender = $("#phone-number").text();
+            var phoneOfReceiver = $("#phoneNumber").text();
+
+            $.ajax({
+                type: "POST",
+                url: "/NhanTin/NoiDungNhanTin",
+                data: { phoneOfSender: phoneOfSender, phoneOfReceiver: phoneOfReceiver },
+                dataType: "json",
+                success: function (data) {
+                    $("#chat-messages").empty();
+
+                    data.forEach(function (message) {
+                        if (message.Sender === phoneOfSender) {
+                            $("#chat-messages").append("<div class='chat-message right'><div class='chat-message-text' id='sender-chat-message'>" + message.Content + "</div></div>");
+                        } else if (message.Sender === phoneOfReceiver) {
+                            $("#chat-messages").append("<div class='chat-message left'><div class='chat-message-text' id='receiver-chat-message'>" + message.Content + "</div></div>");
+                        }
+                    });
+
+                    // Open the chat popup
+                    $("#myForm").show();
+
+                    // Scroll to the bottom of the chat content container
+                    var chatContent = $(".chat-content");
+                    chatContent.scrollTop(chatContent.prop('scrollHeight'));
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize the SignalR connection
+            var chatHub = $.connection.chatHub;
+
+            // Start the SignalR connection
+            $.connection.hub.start().done(function () {
+                console.log('SignalR connection established.');
+
+                // Handle send button click event
+                $("#send-message-btn").click(function () {
+                    sendMessage();
+                });
+
+                // Handle enter key press event
+                $("#chat-textarea").keypress(function (event) {
+                    if (event.which === 13 && !event.shiftKey) {
+                        event.preventDefault();
+                        sendMessage();
+                    }
+                });
+            });
+
+            // Function to send the message
+            function sendMessage() {
+                var message = $("#chat-textarea").val();
+                if (message.trim() !== "") {
+                    // Send the message via AJAX
+                    $.ajax({
+                        url: "/NhanTin/ThemNhanTin",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            message: message,
+                            phoneOfSender: $("#phone-number").text(),
+                            phoneOfReceiver: $("#phoneNumber").text()
+                        },
+                        success: function (response) {
+                            // Handle success response if needed
+
+                            // Append the message to the chat messages
+                            appendMessage(response);
+
+                            // Delay and focus on the last message
+                            setTimeout(function () {
+                                focusOnLastMessage();
+                            }, 100);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+
+                    // Send the message via SignalR
+                    var phoneOfSender = $("#phone-number").text();
+                    var phoneOfReceiver = $("#phoneNumber").text();
+                    chatHub.server.customerSend(message, phoneOfSender, phoneOfReceiver);
+
+                    // Clear the input textarea
+                    $("#chat-textarea").val("");
+
+                    // Focus on the input textarea
+                    $("#chat-textarea").focus();
+                }
+            }
+
+            // Function to append the message to the chat messages
+            function appendMessage(message) {
+                var chatMessage;
+                if (message.Sender === $("#phone-number").text()) {
+                    chatMessage = $("<div class='chat-message right'><div class='chat-message-text' id='sender-chat-message'>" + message.Content + "</div></div>");
+                } else {
+                    chatMessage = $("<div class='chat-message left'><div class='chat-message-text'>" + message.Content + "</div></div>");
+                }
+
+                $("#chat-messages").append(chatMessage);
+            }
+
+
+            function focusOnLastMessage() {
+                var chatContent = $(".chat-content");
+                var chatMessages = $("#chat-messages");
+                var lastMessage = chatMessages.find(".chat-message").last();
+
+                // Scroll to the bottom of the chat content container
+                chatContent.scrollTop(chatMessages.outerHeight());
+
+
+            }
+
+        });
+
+
+
+    </script>
+
+    <script>
+        $(function () {
+            // Initialize the connection to the SignalR hub
+            var chatHub = $.connection.chatHub;
+
+            // Define a client-side method to receive the message from the server
+            chatHub.client.displayDriver = function (message, phoneOfSender, phoneOfReceiver) {
+                console.log(message); // Log the message to the console
+
+                var chatMessage = $('<div class="chat-message left"><div class="chat-message-text">' + message + '</div></div>');
+
+                // Append the new message to the chat messages
+                var chatMessages = $('#chat-messages');
+                chatMessages.append(chatMessage);
+
+                // Call the focusOnLastMessage function
+                focusOnLastMessage();
+
+                // Scroll to the bottom of the chat content container
+                var chatContent = $(".chat-content");
+                chatContent.scrollTop(chatMessages.outerHeight());
+            };
+
+            // Start the SignalR connection
+            $.connection.hub.start();
+
+            // Function to focus on the last message
+            function focusOnLastMessage() {
+                var chatMessages = $('#chat-messages');
+                var lastMessage = chatMessages.find(".chat-message").last();
+
+
+            }
+        });
+
+    </script>
+
+    <script>
+        $(function () {
+            // Make the chat bubble draggable
+            $("#chat-bubble-icon").draggable({
+                containment: "window",
+                scroll: false,
+                start: function () {
+                    // Add "draggable" class to the chat popup when dragging starts
+                    $("#myForm").addClass("draggable");
+                },
+                stop: function () {
+                    // Remove "draggable" class from the chat popup when dragging stops
+                    $("#myForm").removeClass("draggable");
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
+

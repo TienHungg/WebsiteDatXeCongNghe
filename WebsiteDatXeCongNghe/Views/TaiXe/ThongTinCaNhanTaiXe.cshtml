@@ -1,0 +1,201 @@
+﻿@model IEnumerable<WebsiteDatXeCongNghe.Models.TaiXe>
+@{
+    ViewBag.Title = "ThongTinCaNhanTaiXe";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin tài xế</title>
+    <link rel="stylesheet" href="~/css/asset/style.css">
+    <link rel="stylesheet" href="~/css/themify-icons/themify-icons.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header class="header">
+
+        <div id="menu-btn" class="fas fa-bars"></div>
+
+        <a href="#" class="logo"><h3> <span>Thông tin </span> cá nhân tài xế </h3> </a>
+
+
+
+
+    </header>
+
+
+
+    <div class="container">
+
+        <div class="list-table ">
+            <a href="/TaiXe/ThongTinTaiXe"><button class="favorite styled" type="button">Quay lại</button></a>
+            @*<div class="btn-control ">
+            <button type="#" class="btn-new js-Open-add"> <i class="ti-pencil-alt2"></i> ADD New</button>
+            <div class="seach">
+                <input type="text" class="input"><a href=""><i class="icon ti-search"></i></a>
+            </div>
+        </div>*@
+            <div class="content">
+                <h2>Thông tin cá nhân tài xế</h2>
+                <a href=""><i class=""></i></a>
+
+            </div>
+
+            <form action="" method="post">
+                <table class="table-form">
+                    <thead class="table-header">
+                        <tr>
+                            <th>Mã Tài Xế</th>
+                            <th>Số Điện Thoại</th>
+                            <th>Tên</th>
+                            <th>Ngày Tháng Năm Sinh</th>
+                            <th>Email</th>
+                            <th>Biển số</th>
+                            <th>CCCD</th>
+                            <th>Ngày đăng ký</th>
+                            <th>Hình Ảnh</th>
+                            <th>Mức độ đánh giá</th>
+                            <th>Điểm uy tín</th>
+                            <th>Vị trí</th>
+                            <th colspan="1"> </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="table-body ">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.MaTX</td>
+                                <td>@item.SoDienThoai</td>
+                                <td>@item.Ten</td>
+                                <td>@item.NgayThangNamSinh.ToString("yyyy-MM-dd")</td>
+                                <td>@item.Email</td>
+                                <td>@item.BienSo</td>
+                                <td>@item.CCCD</td>
+                                <td>@item.NgayDangKy.ToString("yyyy-MM-dd")</td>
+                                <td><img src="~/image/TaiXe/@item.HinhAnh" style="height: 150px;width: 150px" id="avatar-image"></td>
+                                <td>@item.MucDoDanhGiaTB</td>
+                                <td>@item.DiemUyTin</td>
+                                <td>@item.ViTri</td>
+                                <td class="btn-edit js-edit">
+                                    <a onclick="SuaDoiTX('@item.MaTX')"><i class="ti-pencil"></i></a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </form>
+        </div>
+
+        
+
+    </div>
+
+    <!-- sua -->
+    <div class="form-edit container" id="SuaDoiTX">
+        <div class="add">
+            <a href="#"><i class="btn-close ti-close js-close"></i></a>
+            <div class="content">
+                <h2>Sửa đổi</h2>
+            </div>
+            <div class="form-input">
+                <form method="post" action="SuaDoiTX" enctype="multipart/form-data">
+                    <div class="add-nhap">
+                        <label for="MaTX">Mã Tài Xế</label>
+                        <input type="text" class="input" name="MaTaiXe" id="MaTX" readonly>
+                    </div>
+                    <div class="add-nhap">
+                        <label for="SoDienThoai">Số điện thoại</label>
+                        <input type="text" class="input" name="SoDienThoai" id="SoDienThoai" readonly>
+                    </div>
+                    <div class="add-nhap">
+                        <label for="Ten">Tên</label>
+                        <input type="text" class="input" name="Ten" id="Ten">
+                    </div>
+                    <div class="add-nhap">
+                        <label for="NgayThangNamSinh">Ngày tháng năm sinh</label>
+                        <input type="date" class="input" name="NgayThangNamSinh" id="NgayThangNamSinh">
+                    </div>
+                    <div class="add-nhap">
+                        <label for="Email">Email</label>
+                        <input type="email" class="input" name="Email" id="Email">
+                    </div>
+                    <div class="add-nhap">
+                        <label for="BienSo">Biển số</label>
+                        <input type="text" class="input" name="BienSo" id="BienSo">
+                    </div>
+                    <div class="add-nhap">
+                        <label for="CCCD">CCCD</label>
+                        <input type="text" class="input" name="CCCD" id="CCCD">
+                    </div>
+                    <div class="image-input">
+                        <label for="HinhAnhUpload">Hình ảnh</label>
+                        <img src="" style="width: 320px; height: 130px" id="image" />
+                        <img id="image-preview" alt="your image" title="" style="display: none" />
+                        <input type="file" id="file-input" name="HinhAnhUpload" onchange="change_image()">
+                    </div>
+                    <div class="btn-add">
+                        <button class="btn submit">Xác Nhận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>  
+    <script>
+        function change_image() {
+            var input = document.getElementById('file-input');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#image-preview').attr('src', e.target.result);
+                    $('#image-preview').hide();
+                    $('#image-preview').fadeIn(650);
+                    $('#image-preview').css('display', 'block');
+                    $('#image').css('display', 'none');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function SuaDoiTX(MaTX) {
+            $.ajax({
+                type: 'GET',
+                url: '/TaiXe/SuaDoiTX',
+                data: { id: parseInt(MaTX) },
+                success: function (data) {
+                    $('#MaTX').val(data.MaTX);
+                    $('#SoDienThoai').val(data.SoDienThoai);
+                    $('#Ten').val(data.Ten);
+                    $('#NgayThangNamSinh').val(data.NgayThangNamSinh.split('T')[0]);
+                    $('#Email').val(data.Email);
+                    $('#BienSo').val(data.BienSo);
+                    $('#CCCD').val(data.CCCD);
+                    $('#avatar-image').attr('src', '/image/TaiXe/' + data.HinhAnh);
+                    $('.form-edit').addClass('open-edit');
+                },
+                error: function () {
+                    alert('Lỗi!');
+                }
+            });
+        }
+
+
+        $(document).ready(function () {
+            $('.btn-close').click(function () {
+                $('.form-edit').removeClass('open-edit');
+            });
+        });
+
+    </script>
+
+
+</body>
+
+</html>
+
+

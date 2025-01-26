@@ -1,0 +1,793 @@
+﻿@model IEnumerable<WebsiteDatXeCongNghe.Models.DanhGiaUngDung>
+@{
+    ViewBag.Title = "DanhGiaUngDung";
+}
+<h2>DanhGiaUngDung</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link href="~/css/Style.css" rel="stylesheet" />
+    <link href="~/css/DanhGiaUngDung2.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+</head>
+<body>
+
+    <header class="header">
+
+        <div id="menu-btn" class="fas fa-bars"></div>
+
+        <a href="#" class="logo"> <span>Dịch vụ</span> đặt xe công nghệ </a>
+
+        <nav class="navbar">
+            <a href="/TaiKhoan/Services">Dịch vụ</a>
+            <a href="/DanhGiaUngDung/DanhGiaUngDung">Đánh giá ứng dụng</a>
+            <a href="contact.jsp">Liên hệ</a>
+            <span id="phone">@Session["SoDienThoai"].ToString()</span>
+
+        </nav>
+
+        <div id="login-btn">
+            <a href="/TaiKhoan/DangXuat" class="btn btn-warning"><p class="btn">Đăng xuất</p></a>
+            <i class="far fa-user"></i>
+        </div>
+
+    </header>
+
+
+    <section class="reviews" id="reviews">
+        <h1 class="heading">Đánh giá <span>ứng dụng</span></h1>
+        <div class="swiper review-slider" id="slider">
+            <div class="swiper-wrapper" id="swiper">
+                @foreach (var item in Model)
+                {
+                    <div class="swiper-slide box">
+                        <img src="~/image/KhachHang/@item.KhachHang.HinhAnh" alt="" class="picture">
+                        <div class="content">
+                            <p class="date">@item.NgayDanhGia</p>
+                            <h3 class="name">@item.KhachHang.Ten</h3>
+                            <p class="content">@item.NoiDung</p>
+                            <div class="stars">
+                                @for (int i = 0; i < @item.MucDo; i++)
+                                {
+                                    <i class="fas fa-star"></i>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+    <script>
+        // Ajax
+    </script>
+    <div class="rating-container">
+        <div class="post" id="post_form">
+            <div class="text" value="Thanks">Cảm ơn bạn đã đánh giá!</div>
+            <div class="edit" id="edit_btn" data-phone="@Session["SoDienThoai"].ToString()">Sửa</div>
+
+        </div>
+        <div class="star-widget" id="rating">
+
+            <input type="radio" value="5" name="rate" id="rate-5">
+            <label for="rate-5" class="fas fa-star"></label>
+            <input type="radio" value="4" name="rate" id="rate-4">
+            <label for="rate-4" class="fas fa-star"></label>
+            <input type="radio" value="3" name="rate" id="rate-3">
+            <label for="rate-3" class="fas fa-star"></label>
+            <input type="radio" value="2" name="rate" id="rate-2">
+            <label for="rate-2" class="fas fa-star"></label>
+            <input type="radio" value="1" name="rate" id="rate-1">
+            <label for="rate-1" class="fas fa-star"></label>
+
+            <form action="#">
+                <header></header>
+                <div class="textarea">
+                    <textarea id="text" cols="30" placeholder="Describe your experience.."></textarea>
+                </div>
+                <div class="btnp" id="btnp">
+                    <button type="button" id="btnPost">Đăng</button>
+                    <button type="button" id="btnPostEdit">Sửa đổi</button>
+                    <button type="button" id="btnDelete">Xóa bài</button>
+                    <span id="date"></span>
+                    <br>
+                    <span id="value_rating"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const btnPost = document.getElementById("btnPost");
+            const post = document.querySelector(".post");
+            const widget = document.querySelector(".star-widget");
+            const editBtn = document.querySelector(".edit");
+            const textInput = document.getElementById("text");
+
+            let isWidgetVisible = true;
+
+            function hideWidgetAndShowPost() {
+                widget.style.display = "none";
+                post.style.display = "block";
+                isWidgetVisible = false;
+            }
+
+            function showWidgetAndHidePost() {
+                widget.style.display = "block";
+                post.style.display = "none";
+                isWidgetVisible = true;
+            }
+
+            btnPost.addEventListener("click", function () {
+                if (textInput.value.trim() !== "") {
+                    hideWidgetAndShowPost();
+                }
+            });
+
+            textInput.addEventListener("keyup", function (event) {
+                if (event.keyCode === 13) {
+                    if (isWidgetVisible) {
+                        if (textInput.value.trim() !== "") {
+                            hideWidgetAndShowPost();
+                        } else {
+                            event.preventDefault();
+                        }
+                    } else {
+                        showWidgetAndHidePost();
+                    }
+                }
+            });
+
+            editBtn.addEventListener("click", function () {
+                showWidgetAndHidePost();
+            });
+
+            document.addEventListener("keyup", function (event) {
+                if (event.keyCode === 13) {
+                    if (event.target.id !== "text") {
+                        showWidgetAndHidePost();
+                    }
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const btnPost = document.getElementById("btnPostEdit");
+            const post = document.querySelector(".post");
+            const widget = document.querySelector(".star-widget");
+            const editBtn = document.querySelector(".edit");
+            const textInput = document.getElementById("text");
+
+            let isWidgetVisible = true;
+
+            function hideWidgetAndShowPost() {
+                widget.style.display = "none";
+                post.style.display = "block";
+                isWidgetVisible = false;
+            }
+
+            function showWidgetAndHidePost() {
+                widget.style.display = "block";
+                post.style.display = "none";
+                isWidgetVisible = true;
+            }
+
+            btnPost.addEventListener("click", function () {
+                hideWidgetAndShowPost();
+            });
+
+            textInput.addEventListener("keyup", function (event) {
+                if (event.keyCode === 13) {
+                    if (isWidgetVisible) {
+                        hideWidgetAndShowPost();
+                    } else {
+                        showWidgetAndHidePost();
+                    }
+                }
+            });
+
+            editBtn.addEventListener("click", function () {
+                showWidgetAndHidePost();
+            });
+
+            document.addEventListener("keyup", function (event) {
+                if (event.keyCode === 13) {
+                    if (event.target.id !== "text") {
+                        showWidgetAndHidePost();
+                    }
+                }
+            });
+        });
+    </script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            $("#btnPost").click(function () {
+                var selectedOption = $("input:radio[name=rate]:checked").val();
+                var content = $("#text").val();
+
+                if ($.trim(content) != '') {
+                    $.ajax({
+                        url: "ThemDanhGiaUngDung",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            phone: $("#phone").text(),
+                            date: new Date().toISOString(),
+                            value_rate: selectedOption,
+                            content: content
+                        },
+                        success: function (data) {
+                            var newReview =
+                                '<div class="swiper-slide box">' +
+                                '<img src="/image/KhachHang/' +
+                                data.HinhAnh +
+                                '" alt="" class="picture">' +
+                                '<div class="content">' +
+                                '<p class="date">' +
+                                data.NgayDanhGia +
+                                '</p>' +
+                                '<h3 class="name">' +
+                                data.Ten +
+                                '</h3>' +
+                                '<p class="content">' +
+                                data.NoiDung +
+                                '</p>' +
+                                '<div class="stars">';
+                            for (var i = 0; i < data.MucDo; i++) {
+                                newReview += '<i class="fas fa-star"></i>';
+                            }
+                            newReview += '</div></div></div>';
+
+                            var $swiperWrapper = $(".swiper-wrapper");
+                            $swiperWrapper.append(newReview);
+
+                            // Initialize Swiper after appending new review
+                            var swiper = new Swiper('.review-slider', {
+                                grabCursor: true,
+                                centeredSlides: true,
+                                spaceBetween: 20,
+                                autoplay: {
+                                    delay: 9500,
+                                    disableOnInteraction: false,
+                                },
+                                speed: 500,
+                                slidesPerView: 'auto',
+                                pagination: {
+                                    el: ".swiper-pagination",
+                                    clickable: true,
+                                },
+                                breakpoints: {
+                                    0: {
+                                        slidesPerView: 1,
+                                    },
+                                    768: {
+                                        slidesPerView: 2,
+                                    },
+                                    1024: {
+                                        slidesPerView: 3,
+                                    },
+                                },
+                            });
+
+                            // Get the index of the newly added slide
+                            var newSlideIndex = $swiperWrapper.children().length - 1;
+
+                            // Slide to the newly added slide
+                            swiper.slideTo(newSlideIndex, 500);
+                            swiper.update();
+
+                            // Hide btnPost and show btnPostEdit and btnDelete
+                            $("#btnPost").hide();
+                            $("#btnPostEdit").show();
+                            $("#btnDelete").show();
+
+                            // Display success alert
+                            swal({
+                                title: "Đánh giá",
+                                text: "Thêm đánh giá thành công!",
+                                type: "success",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    });
+                } else {
+                    // Display error alert for empty content
+                    swal({
+                        title: "Đánh giá",
+                        text: "Nội dung đánh giá không được để trống!",
+                        type: "error",
+                        confirmButtonText: "Đóng",
+                    });
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            // Disable Enter keypress by default
+            $("#text").on("keydown", function (event) {
+                if ($("#btnPost").is(":visible") && event.keyCode == 13) {
+                    event.preventDefault();
+                }
+            });
+
+            $("#text").keyup(function (event) {
+                if (event.keyCode == 13) {
+                    var selectedOption = $("input:radio[name=rate]:checked").val();
+                    var ele = document.getElementsByName('rate');
+                    for (i = 0; i < ele.length; i++) {
+                        if (ele[i].checked)
+                            document.getElementById("value_rating").innerHTML = "" + ele[i].value;
+                    }
+
+                    if ($.trim($("#text").val()) != '') {
+                        $.ajax({
+                            url: "ThemDanhGiaUngDung",
+                            type: "post",
+                            dataType: "json",
+                            data: {
+                                phone: $("#phone").text(),
+                                date: new Date().toISOString(),
+                                value_rate: selectedOption,
+                                content: $("#text").val()
+                            },
+                            success: function (data) {
+                                var newReview =
+                                    '<div class="swiper-slide box">' +
+                                    '<img src="/image/KhachHang/' +
+                                    data.HinhAnh +
+                                    '" alt="" class="picture">' +
+                                    '<div class="content">' +
+                                    '<p class="date">' +
+                                    data.NgayDanhGia +
+                                    '</p>' +
+                                    '<h3 class="name">' +
+                                    data.Ten +
+                                    '</h3>' +
+                                    '<p class="content">' +
+                                    data.NoiDung +
+                                    '</p>' +
+                                    '<div class="stars">';
+                                for (var i = 0; i < data.MucDo; i++) {
+                                    newReview += '<i class="fas fa-star"></i>';
+                                }
+                                newReview += '</div></div></div>';
+
+                                var $swiperWrapper = $(".swiper-wrapper");
+                                $swiperWrapper.append(newReview);
+
+                                // Initialize Swiper after appending new review
+                                var swiper = new Swiper('.review-slider', {
+                                    grabCursor: true,
+                                    centeredSlides: true,
+                                    spaceBetween: 20,
+                                    autoplay: {
+                                        delay: 9500,
+                                        disableOnInteraction: false,
+                                    },
+                                    speed: 500,
+                                    slidesPerView: 'auto',
+                                    pagination: {
+                                        el: ".swiper-pagination",
+                                        clickable: true,
+                                    },
+                                    breakpoints: {
+                                        0: {
+                                            slidesPerView: 1,
+                                        },
+                                        768: {
+                                            slidesPerView: 2,
+                                        },
+                                        1024: {
+                                            slidesPerView: 3,
+                                        },
+                                    },
+                                });
+
+                                // Get the index of the newly added slide
+                                var newSlideIndex = $swiperWrapper.children().length - 1;
+
+                                // Slide to the newly added slide
+                                swiper.slideTo(newSlideIndex, 500);
+                                swiper.update();
+
+                                // Hide btnPost and show btnPostEdit and btnDelete
+                                $("#btnPost").hide();
+                                $("#btnPostEdit").show();
+                                $("#btnDelete").show();
+
+                                // Display success alert
+                                swal({
+                                    title: "Đánh giá",
+                                    text: "Thêm đánh giá thành công!",
+                                    type: "success",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            }
+                        });
+                    } else {
+                        // Display error alert for empty content
+                        swal({
+                            title: "Đánh giá",
+                            text: "Nội dung đánh giá không được để trống!",
+                            type: "error",
+                            confirmButtonText: "Đóng",
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+
+
+    @*<script>
+            $(document).ready(function () {
+                // Disable Enter keypress by default
+                $("#text").on("keydown", function (event) {
+                    if ($("#btnPost").is(":visible") && event.keyCode == 13) {
+                        event.preventDefault();
+                    }
+                });
+
+                // Handle Enter keypress
+                $("#text").on("keyup", function (event) {
+                    if ($("#btnPost").is(":visible") && event.keyCode == 13) {
+                        var selectedOption = $("input:radio[name=rate]:checked").val();
+                        var ele = document.getElementsByName('rate');
+                        for (i = 0; i < ele.length; i++) {
+                            if (ele[i].checked) {
+                                $("#value_rating").text(ele[i].value);
+                                break;
+                            }
+                        }
+                        if ($.trim($("#text").val()) != '') {
+                            var formData = {
+                                phone: $("#phone").text(),
+                                date: new Date().toISOString(),
+                                value_rate: selectedOption,
+                                content: $("#text").val()
+                            };
+                            $.ajax({
+                                url: "ThemDanhGiaUngDung",
+                                type: "post",
+                                dataType: "json",
+                                data: formData,
+                                success: function (data) {
+                                    var newReview = '<div class="swiper-slide box">' +
+                                        '<img src="/image/KhachHang/' + data.HinhAnh + '" alt="" class="picture">' +
+                                        '<div class="content">' +
+                                        '<p class="date">' + data.NgayDanhGia + '</p>' +
+                                        '<h3 class="name">' + data.Ten + '</h3>' +
+                                        '<p class="content">' + data.NoiDung + '</p>' +
+                                        '<div class="stars">';
+                                    for (var i = 0; i < data.MucDo; i++) {
+                                        newReview += '<i class="fas fa-star"></i>';
+                                    }
+                                    newReview += '</div></div></div>';
+
+                                    $(".swiper-wrapper").append(newReview);
+
+                                    var swiper = new Swiper('.review-slider', {
+                                        grabCursor: true,
+                                        centeredSlides: true,
+                                        spaceBetween: 20,
+                                        autoplay: {
+                                            delay: 9500,
+                                            disableOnInteraction: false,
+                                        },
+                                        speed: 500,
+                                        slidesPerView: 'auto',
+                                        pagination: {
+                                            el: ".swiper-pagination",
+                                            clickable: true,
+                                        },
+                                        breakpoints: {
+                                            0: {
+                                                slidesPerView: 1,
+                                            },
+                                            768: {
+                                                slidesPerView: 2,
+                                            },
+                                            1024: {
+                                                slidesPerView: 3,
+                                            },
+                                        },
+                                    });
+
+                                    var newSlideIndex = swiper.slides.length - 1;
+                                    swiper.slideTo(newSlideIndex, 500);
+                                    swiper.update();
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thêm đánh giá thành công!',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+
+                                    $("#btnPost").hide();
+                                    $("#btnPostEdit").show();
+                                    $("#btnDelete").show();
+                                },
+                                error: function () {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Lỗi',
+                                        text: 'Đã xảy ra lỗi khi thêm đánh giá!',
+                                        confirmButtonText: 'Đóng',
+                                    });
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+
+
+        </script>*@
+
+
+    <script>
+        $(document).ready(function () {
+            // Hide the star-widget and show the post form initially
+            $('.star-widget').hide();
+            $('.post').show();
+
+            // Check if NoiDung exists in the database
+            var phone = $('#phone').text();
+            $.ajax({
+                url: '/DanhGiaUngDung/CheckNoiDung',
+                type: 'GET',
+                data: { phoneNumber: phone },
+                success: function (response) {
+                    if (response.hasNoiDung) {
+                        // Review content exists, hide star-widget and show post form
+                        $('.star-widget').hide();
+                        $('.post').show();
+
+                        // Display the existing NoiDung in the text area
+                        $('#text').val(response.noiDung);
+
+                        // Display the existing MucDo in the star-widget
+                        $('.star-widget input[value="' + response.mucDo + '"]').prop('checked', true);
+
+                        // Show the edit and delete buttons
+                        $('#btnPostEdit, #btnDelete').show();
+                        $('#btnPost').hide();
+                    } else {
+                        // Review content doesn't exist, show star-widget and hide post form
+                        $('.star-widget').show();
+                        $('.post').hide();
+
+                        // Hide the edit and delete buttons
+                        $('#btnPostEdit, #btnDelete').hide();
+                        $('#btnPost').show();
+                    }
+                }
+            });
+
+            // Click event for the edit button
+            $('#edit_btn').click(function () {
+                var phone = $(this).data('phone');
+                $.ajax({
+                    url: '/DanhGiaUngDung/SuaDanhGiaUngDung',
+                    type: 'POST',
+                    data: {
+                        phoneNumber: phone,
+                        noiDung: $('#text').val(),
+                        mucDo: $('.star-widget input[name="rate"]:checked').val()
+                    },
+                    success: function (response) {
+                        if (response.NoiDung) {
+                            // Review content exists, hide star-widget and show post form
+                            //$('.star-widget').hide();
+                            //$('.post').show();
+
+                            // Display the existing NoiDung in the text area
+                            $('#text').val(response.NoiDung);
+
+                            // Display the existing MucDo in the star-widget
+                            $('.star-widget input[value="' + response.MucDo + '"]').prop('checked', true);
+                        } else {
+                            // Review content doesn't exist, show star-widget and hide post form
+                            $('.star-widget').show();
+                            $('.post').hide();
+                        }
+                    }
+                });
+            });
+
+            // Click event for the btnPostEdit button
+            $('#btnPostEdit').click(function () {
+                var phone = $('#phone').text();
+                var noiDung = $('#text').val();
+                var mucDo = parseInt($('.star-widget input[name="rate"]:checked').val());
+
+                if (noiDung.trim() !== '') {
+                    $.ajax({
+                        url: '/DanhGiaUngDung/SuaDanhGiaUngDung',
+                        type: 'POST',
+                        data: { phoneNumber: phone, noiDung: noiDung, mucDo: mucDo },
+                        success: function (response) {
+                            if (response.isNewReview) {
+                                // Update existing review
+                                var existingReview = $('.swiper-wrapper .swiper-slide .content .content:contains(' + response.NoiDung + ')');
+                                existingReview.text(noiDung);
+
+                                // Update MucDo in the star-widget
+                                var stars = existingReview.closest('.content').find('.stars');
+                                stars.empty();
+                                for (var i = 0; i < response.MucDo; i++) {
+                                    stars.append('<i class="fas fa-star"></i>');
+                                }
+                            } else {
+                                // Replace existing review
+                                var existingReview = $('.swiper-wrapper .swiper-slide .content .content:contains(' + response.NoiDung + ')');
+                                var existingSlide = existingReview.closest('.swiper-slide');
+                                var updatedReviewHTML =
+                                    '<div class="swiper-slide box">' +
+                                    '<img src="/image/KhachHang/' + response.HinhAnh + '" alt="" class="picture">' +
+                                    '<div class="content">' +
+                                    '<p class="date">' + response.NgayDanhGia + '</p>' +
+                                    '<h3 class="name">' + response.Ten + '</h3>' +
+                                    '<p class="content">' + response.NoiDung + '</p>' +
+                                    '<div class="stars">';
+
+                                for (var i = 0; i < response.MucDo; i++) {
+                                    updatedReviewHTML += '<i class="fas fa-star"></i>';
+                                }
+
+                                updatedReviewHTML += '</div></div></div>';
+
+                                var updatedSlide = $(updatedReviewHTML);
+
+                                // Replace existing slide with the updated one
+                                existingSlide.replaceWith(updatedSlide);
+
+                                // Initialize Swiper after updating the reviews
+                                var swiper = new Swiper('.review-slider', {
+                                    grabCursor: true,
+                                    centeredSlides: true,
+                                    spaceBetween: 20,
+                                    autoplay: {
+                                        delay: 9500,
+                                        disableOnInteraction: false,
+                                    },
+                                    speed: 500,
+                                    slidesPerView: 'auto',
+                                    pagination: {
+                                        el: ".swiper-pagination",
+                                        clickable: true,
+                                    },
+                                    breakpoints: {
+                                        0: {
+                                            slidesPerView: 1,
+                                        },
+                                        768: {
+                                            slidesPerView: 2,
+                                        },
+                                        1024: {
+                                            slidesPerView: 3,
+                                        },
+                                    },
+                                });
+
+                                // Get the index of the updated slide
+                                var updatedSlideIndex = updatedSlide.index();
+
+                                // Slide to the updated slide
+                                swiper.slideTo(updatedSlideIndex, 500);
+                                swiper.update();
+                            }
+
+                            // Display success alert
+                            swal({
+                                title: "Đánh giá",
+                                text: "Sửa đánh giá thành công!",
+                                type: "success",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    });
+                } else {
+                    // Display an error alert if the review content is empty
+                    swal({
+                        title: "Đánh giá",
+                        text: "Nội dung đánh giá không được để trống!",
+                        type: "error",
+                        confirmButtonText: "Đóng",
+                    });
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#btnDelete').click(function () {
+                var phone = $('#phone').text();
+                Swal.fire({
+                    title: 'Xóa bài đăng?',
+                    text: "Bạn không thể khôi phục lại được!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Xóa'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/DanhGiaUngDung/XoaDanhGiaUngDung',
+                            type: 'POST',
+                            data: { phoneNumber: phone },
+                            success: function (response) {
+                                if (response.success) {
+                                    // Remove the existing review
+                                    $('.swiper-wrapper .swiper-slide .content .content:contains(' + $('#text').val() + ')').closest('.swiper-slide').remove();
+
+                                    // Clear input values and reset rating stars
+                                    $('#text').val('');
+                                    $('.star-widget input[name="rate"]').prop('checked', false);
+
+                                    // Hide delete button and show post buttons
+                                    $("#btnPost").show();
+                                    $("#btnPostEdit").hide();
+                                    $("#btnDelete").hide();
+
+                                    // Show success delete alert
+                                    Swal.fire('Thành công!', 'Xóa thành công!', 'success');
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+
+
+
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    <script src="~/js/DanhGia.js"></script>
+</body>
+</html>
+

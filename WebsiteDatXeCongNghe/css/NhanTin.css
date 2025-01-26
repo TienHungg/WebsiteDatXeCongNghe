@@ -1,0 +1,295 @@
+﻿/* Style for button-container and message-container */
+.button-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9;
+}
+
+.message-container {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+/* Chat popup styling */
+.chat-popup {
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 1px solid #ccc;
+    z-index: 9;
+    display: none;
+    max-width: 350px;
+    height: 400px;
+    background-color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Chat header styling */
+.chat-header {
+    background-color: #f6f6f6;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-receiver {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+    .chat-receiver img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+
+    .chat-receiver span {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Chat message styling */
+.chat-content {
+    padding: 10px;
+    height: 90%;
+    overflow-y: scroll; /* Change "auto" to "scroll" */
+    overflow-anchor: none; /* Add this line */
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-anchor: none; /* Add this line */
+}
+
+.chat-message {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    padding: 5px;
+    max-width: 75%;
+}
+
+    .chat-message.left {
+        justify-content: flex-start;
+    }
+
+    .chat-message.right {
+        justify-content: flex-end;
+        padding: 5px;
+        margin-left: auto; /* Add this line */
+       
+    }
+        .chat-message.right .chat-message-text {
+            background-color: #0084ff; /* Blue color */
+            color: white; /* Text color */
+        }
+
+.chat-message-text {
+    background-color: #eee;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    max-width: 250px;
+    word-wrap: break-word;
+    line-height: 1.4;
+    position: relative;
+}
+
+    .chat-message-text:before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-top: 6px solid transparent;
+        border-right: 12px solid #eee;
+        border-bottom: 6px solid transparent;
+        left: -11px;
+        top: 8px;
+    }
+
+    .chat-message-text:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-top: 6px solid transparent;
+        border-right: 12px solid white;
+        border-bottom: 6px solid transparent;
+        left: -10px;
+        top: 8px;
+    }
+
+    .chat-message-text.left:before {
+        border-right: none;
+        border-left: 12px solid #ccc;
+        left: -1px;
+    }
+
+    .chat-message-text.left:after {
+        border-right: none;
+        border-left: 12px solid white;
+        left: 0;
+    }
+
+    .chat-message-text img {
+        max-width: 200px;
+        height: auto;
+        margin-top: 5px;
+        border-radius: 10px;
+    }
+
+    .chat-message-text .emoji {
+        margin-top: 5px;
+    }
+
+        .chat-message-text .emoji img {
+            height: 20px;
+            width: auto;
+            vertical-align: middle;
+        }
+
+/* Chat input styling */
+.chat-input-container {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+    background-color: white;
+    padding-top: 10px;
+}
+
+.chat-input-icons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+    .chat-input-icons button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: #aaa;
+    }
+
+        .chat-input-icons button:hover {
+            color: #555;
+        }
+
+.chat-input {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+    .chat-input textarea {
+        border: none;
+        border-radius: 20px;
+        padding: 10px;
+        width: 100%;
+        resize: none;
+        font-size: 14px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        outline: none;
+        /* Add this line to enable focusability */
+        tabindex: 0;
+    }
+
+        .chat-input textarea:focus {
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+/* Style for send message button */
+#send-message-btn {
+    background-color: #0084ff;
+    color: white;
+    border: none;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    #send-message-btn:hover {
+        background-color: #006fcf;
+    }
+
+.message-container {
+    position: relative;
+}
+
+    .message-container .icon-container {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #0084ff;
+        color: #fff;
+        cursor: pointer;
+    }
+
+        .message-container .icon-container i {
+            font-size: 24px;
+            line-height: 1;
+        }
+/* Add this CSS at the end of the file */
+.message-notification {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Add this CSS at the end of the file */
+
+#chat-bubble-icon {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9;
+    cursor: move;
+}
+
+.chat-popup.draggable {
+    position: fixed !important;
+}

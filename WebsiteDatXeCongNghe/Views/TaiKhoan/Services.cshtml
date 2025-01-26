@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewBag.Title = "Services";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link href="~/css/Style.css" rel="stylesheet" />
+</head>
+<body>
+
+    <header class="header">
+
+        <div id="menu-btn" class="fas fa-bars"></div>
+
+        <a href="#" class="logo"> <span>Dịch vụ</span> đặt xe công nghệ </a>
+
+        <nav class="navbar">
+            <a href="/TaiKhoan/Services">Dịch vụ</a>
+            <a href="/DanhGiaUngDung/DanhGiaUngDung">Đánh giá</a>
+            <a href="contact.jsp">Liên hệ</a>
+            @*<a href="/TaiXe/ThongTinTaiXe">Tài xế</a>*@
+            <a>@Session["SoDienThoai"].ToString()</a>
+        </nav>
+        @*<div id="login-btn">
+                <a href="/TaiKhoan/DoiMatKhau" class="btn btn-warning"><button class="btn">Đổi mật khẩu</button></a>
+                <i class="far fa-user"></i>
+            </div>*@
+        <div id="login-btn">
+            <a href="DangXuat" class="btn btn-warning"><button class="btn">Đăng xuất</button></a>
+            <i class="far fa-user"></i>
+        </div>
+
+    </header>
+
+
+    <section class="services" id="services">
+
+        <h1 class="heading"> our <span>services</span> </h1>
+
+        <div class="box-container">
+
+            <div class="box">
+                <i class="fas fa-motorcycle"></i>
+                <h3>Đặt xe máy</h3>
+                <p>Tìm chuyến xe bạn muốn đi, thông tin bao gồm quãng đường và giá tiền, dịch vụ xe 2 bánh.</p>
+                <a href="/DatXe/GoogleMap" class="btn"> Đặt ngay</a>
+            </div>
+            <div class="box">
+                <i class="fas fa-car"></i>
+                <h3>Đặt xe hơi</h3>
+                <p>Tìm chuyến xe bạn muốn đi, thông tin bao gồm quãng đường và giá tiền, dịch vụ xe 4 bánh.</p>
+                <a href="/DatXe/GoogleMap2" class="btn"> Đặt ngay</a>
+            </div>
+            <div class="box">
+                <i class="fas fa-user"></i>
+                <h3>Đổi mật khẩu</h3>
+                <p>Đổi thông tin mật khẩu(Mật khẩu cũ,mật khẩu mới, xác nhận mật khẩu mới...).</p>
+                <a href="/TaiKhoan/DoiMatKhau" class="btn"> Đặt ngay</a>
+            </div>
+            <div class="box">
+                <i class="fas fa-user"></i>
+                <h3>Thông tin cá nhân</h3>
+                <p>Xem, tuỳ chỉnh thông tin cá nhân.</p>
+                <a href="/KhachHang/ThongTinKH?@Session["SoDienThoai"].ToString()" class="btn"> Xem</a>
+
+
+            </div>
+
+            <div class="box">
+                <i class="fas fa-user"></i>
+                <h3>Lịch sử đặt</h3>
+                <p>Thông tin chi tiết về các chuyến xe.</p>
+                <a href="/DatXe/ThongTinDatXe?@Session["SoDienThoai"].ToString()" class="btn"> Xem</a>
+            </div>
+
+            <div class="box">
+                <i class="fas fa-user"></i>
+                <h3>Thanh toán</h3>
+                <p>Thông tin thanh toán của các chuyến xe.</p>
+                <a href="/ThanhToan/ThongTinThanhToan?@Session["SoDienThoai"].ToString()" class="btn"> Xem</a>
+            </div>
+
+            <div class="box">
+                <i class="fas fa-money-check"></i>
+                <h3>Khuyến mãi</h3>
+                <p>Thông tin các khuyến mãi hiện có, đã hết hạn...</p>
+                <a href="/KhachHang/KhuyenMai" class="btn"> Xem</a>
+            </div>
+
+            <div class="box">
+                <i class="fas fa-money-check"></i>
+                <h3>Liên kết thẻ</h3>
+                <p>Liên kết thẻ ngân hàng để tiến hành thanh toán online...</p>
+                <a href="/KhachHang/LienKetThe" class="btn"> Liên kết</a>
+            </div>
+
+        </div>
+
+    </section>
+</body>
+
+
+
+
