@@ -1,0 +1,142 @@
+﻿/* NhanChuyenXe.css or your custom CSS file */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f5d76e; /* Yellow color */
+    color: #fff;
+}
+
+
+#map {
+    height: 300px;
+    width: 100%;
+    background-color: #ccc;
+}
+
+#driver-info {
+    background-color: #f1f1f1;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.driver-image {
+    margin-right: 20px;
+    flex-basis: 150px;
+}
+
+    .driver-image img {
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+    }
+
+table {
+    flex-basis: calc(100% - 170px);
+}
+
+    table td {
+        padding: 10px;
+        font-weight: bold;
+    }
+
+        table td:first-child {
+            width: 150px;
+        }
+
+/* Your existing styles */
+.star-ratings {
+    color: #ffc107;
+    font-size: 25px; /* Adjust the font size to make stars bigger */
+}
+
+    .star-ratings .fa-star-o {
+        color: #bbb;
+    }
+
+/* Styles for the container */
+.movement-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #C0C0C0;
+    margin-top: 20px;
+    position: relative;
+}
+
+/* Updated Styles for the arrows */
+.arrow-container {
+    position: relative;
+}
+
+.arrow {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    animation-duration: 2s; /* Adjust the duration as needed */
+    animation-iteration-count: infinite;
+}
+
+.arrow-1 {
+    border-left: 20px solid #3498db; /* Blue color */
+    left: 30%;
+    animation-name: moveRight;
+}
+
+.arrow-2 {
+    border-left: 20px solid #e74c3c; /* Red color */
+    left: 50%;
+    animation-name: moveRight;
+}
+
+.arrow-3 {
+    border-left: 20px solid #27ae60; /* Green color */
+    left: 70%;
+    animation-name: moveRight;
+}
+
+@keyframes moveRight {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(10px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+
+/* Styles for the text content */
+.movement-info {
+    text-align: center;
+}
+table {
+    width: 100%;
+    border-collapse: separate; /* Use 'separate' to create spacing between rows */
+    border-spacing: 30px; /* Adjust this value to control the spacing between rows */
+    margin-top: 20px;
+}
+
+
+table, td {
+    border: 1px solid #ccc;
+}
+

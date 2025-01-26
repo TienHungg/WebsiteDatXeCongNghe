@@ -1,0 +1,324 @@
+﻿@model WebsiteDatXeCongNghe.ViewModel.MultipleData.MultipleData
+@{
+    ViewBag.Title = "ThongTinNhanChuyen";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="~/css/BangDieuKhien.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Doanh thu tài xế</title>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="#" class="logo">
+            <i class='bx bx-cycling'></i>
+            <div class="logo-name"><span>Chuyến</span> xe</div>
+        </a>
+        <ul class="side-menu">
+            <li><a href="/ThongKe/ThongKeDoanhThu"><i class='bx bxs-dashboard'></i>Doanh thu tài xế</a></li>
+            <li class="active"><a href="/TaiXe/ThongTinNhanChuyen"><i class='bx bx-cycling'></i>Chuyến xe</a></li>
+            <li><a href="#"><i class='bx bx-cog'></i>Cài đặt</a></li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="/TaiXe/ThongTinTaiXe" class="logout">
+                    <i class='bx bx-arrow-back'></i>
+                    Quay lại
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- End of Sidebar -->
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Navbar -->
+        <nav>
+            <i class='bx bx-menu'></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" id="Search" placeholder="Tìm kiếm...">
+                    <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <span class="phone-number" id="PhoneNumber">@Session["SoDienThoai"].ToString()</span>
+            <input type="checkbox" id="theme-toggle" hidden>
+            <label for="theme-toggle" class="theme-toggle"></label>
+            <a href="#" class="notif">
+                <i class='bx bx-bell'></i>
+                <span class="count">12</span>
+            </a>
+        </nav>
+
+        <!-- End of Navbar -->
+
+        <main>
+            <div class="header">
+                <div class="left">
+                    <h1>Chuyến xe tài xế</h1>
+                </div>
+            </div>
+
+            <!-- Insights -->
+            <ul class="insights">
+                <li>
+                    <i class='bx bx-cycling'></i>
+                    <span class="info">
+                        <h3 id="totalRide">
+                        </h3>
+                        <p>Tổng chuyến xe</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-cycling'></i>
+                    <span class="info">
+                        <h3 id="totalRideThisYear">
+                        </h3>
+                        <p>Chuyến xe năm nay</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-cycling'></i>
+                    <span class="info">
+                        <h3 id="totalRideToday">
+                        </h3>
+                        <p>Chuyến xe hôm nay</p>
+                    </span>
+                </li>
+            </ul>
+            <!-- End of Insights -->
+
+            <div class="bottom-data">
+                <div class="orders">
+                    <div class="header">
+                        <i class='bx bx-cycling'></i>
+                        <h3>Thông tin chuyến xe</h3>
+                        <i class='bx bx-filter'></i>
+                        <i class='bx bx-search'></i>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="display:none;">Mã đặt xe</th>
+                                <th>Số điện thoại</th>
+                                <th>Ngày nhận</th>
+                                <th>Giá chuyến xe</th>
+                                <th>Trạng thái</th>
+                                <th colspan="1">Chi tiết</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.thongTinDatXes != null)
+                            {
+                                foreach (var nhanchuyenxe in Model.taiXeNhanChuyenXes)
+                                {
+                                    var thongTinDatXe = Model.thongTinDatXes.FirstOrDefault(tt => tt.MaDatXe == nhanchuyenxe.MaDatXe);
+                                    if (thongTinDatXe != null)
+                                    {
+                                        <tr class="Search">
+
+                                            <td style="display:none;">@nhanchuyenxe.MaDatXe</td>
+                                            <td>@nhanchuyenxe.SoDienThoai</td>
+                                            <td>@nhanchuyenxe.NgayNhan.ToString("yyyy-MM-dd")</td>
+                                            <td>
+                                                <p>@thongTinDatXe.ThanhTien</p>
+                                            </td>
+                                            <td>
+                                                @if (nhanchuyenxe.TrangThai.HasValue && nhanchuyenxe.TrangThai.Value)
+                                                {
+                                                    <span class="status completed">Hoàn thành</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="status pending">Chưa hoàn thành</span>
+                                                }
+                                            </td>
+                                            <td><button class="edit-button" onclick="openPopup('@nhanchuyenxe.MaDatXe')">Chi tiết</button></td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </main>
+
+
+        <script>
+    $(document).ready(function () {
+        // Call the TotalRide action using Ajax
+        $.ajax({
+            url: '@Url.Action("TotalRide", "TaiXe")',
+            type: 'GET',
+            data: { phoneNumber: $('#PhoneNumber').text().trim() },
+            success: function (data) {
+                if (data.success) {
+                    // Update the total ride counts on the page
+                    $('#totalRide').text(data.totalRide);
+                } else {
+                    console.log('Error fetching total ride count.');
+                }
+            },
+            error: function () {
+                console.log('Error fetching total ride count.');
+            }
+        });
+
+        // Call the TotalRideThisYear action using Ajax
+        $.ajax({
+            url: '@Url.Action("TotalRideThisYear", "TaiXe")',
+            type: 'GET',
+            data: { phoneNumber: $('#PhoneNumber').text().trim() },
+            success: function (data) {
+                if (data.success) {
+                    // Update the total ride count for this year on the page
+                    $('#totalRideThisYear').text(data.totalRideThisYear);
+                } else {
+                    console.log('Error fetching total ride count for this year.');
+                }
+            },
+            error: function () {
+                console.log('Error fetching total ride count for this year.');
+            }
+        });
+
+        // Call the TotalRideToday action using Ajax
+        $.ajax({
+            url: '@Url.Action("TotalRideToday", "TaiXe")',
+            type: 'GET',
+            data: { phoneNumber: $('#PhoneNumber').text().trim() },
+            success: function (data) {
+                if (data.success) {
+                    // Update the total ride count for today on the page
+                    $('#totalRideToday').text(data.totalRideToday);
+                } else {
+                    console.log('Error fetching total ride count for today.');
+                }
+            },
+            error: function () {
+                console.log('Error fetching total ride count for today.');
+            }
+        });
+    });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                function Contains(text_one, text_two) {
+                    var cleanTextOne = text_one.replace(/\s/g, "");
+                    var cleanTextTwo = text_two.replace(/\s/g, "");
+
+                    if (cleanTextOne.indexOf(cleanTextTwo) !== -1) {
+                        return true;
+                    }
+                }
+
+                $("#Search").on('input', function () {
+                    var searchText = $("#Search").val().toLowerCase();
+                    $(".Search").each(function () {
+                        if (!Contains($(this).text().toLowerCase(), searchText)) {
+                            $(this).hide();
+                        } else {
+                            $(this).show();
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <script>
+            // Function to open the popup and load details
+            function openPopup(id) {
+                // Make an Ajax request to retrieve details
+                $.ajax({
+                    url: '/TaiXe/ChiTietThongTinNhanChuyen/' + id,
+                    type: 'GET',
+                    success: function (data) {
+                        if (data.success) {
+                            // Load details into the popup
+                            var detailContent = '';
+
+                            // Loop through ThongTinDatXe details and append to the detailContent
+                            $.each(data.detailRide.thongTinDatXes, function (index, thongTinDatXe) {
+                                detailContent += '<p style="margin-right: 10px;">1. Số điện thoại KH: ' + thongTinDatXe.SoDienThoai + '</p>';
+                                detailContent += '<p style="margin-right: 10px;">2. Tên KH: ' + thongTinDatXe.PassengerName + '</p>';
+                                detailContent += '<p style="margin-right: 10px;">3. Điểm đón: ' + thongTinDatXe.DiemDon + '</p>';
+                                detailContent += '<p style="margin-right: 10px;">4. Điểm đến: ' + thongTinDatXe.DiemDen + '</p>';
+                                detailContent += '<p style="margin-right: 10px;">5. Quãng đường: ' + thongTinDatXe.SoKm + '</p>';
+                                detailContent += '<p style="margin-right: 10px;">6. Thời gian: ' + thongTinDatXe.ThoiGian + '</p>';
+                                detailContent += '<p style="margin-right: 10px;">7. Giá chuyến xe: ' + thongTinDatXe.ThanhTien + '</p>';
+                                detailContent += '<p style="margin-right: 10px;">8. Loại xe: ' + thongTinDatXe.LoaiXe + '</p>';
+                                detailContent += '<p style="margin-right: 10px;">9. Thanh toán: ' + thongTinDatXe.HinhThucThanhToan + '</p>';
+                                detailContent += '<p style="margin-right: 10px;">10. Ngày giờ đặt: ' + formatDate(thongTinDatXe.NgayGioDat) + '</p>';
+                                detailContent += '<p style="margin-right: 10px;">11. Trạng thái: ' + (thongTinDatXe.TrangThai ? 'Hoàn thành' : 'Chưa hoàn thành') + '</p>';
+
+                                // Add other details as needed
+                                // ...
+                            });
+
+                            // Set the content of the popup
+                            $('#detailContent').html(detailContent);
+
+                            // Display the popup
+                            document.getElementById("popupOverlay").style.display = "flex";
+                        } else {
+                            console.log('Error loading details.');
+                        }
+                    },
+                    error: function () {
+                        console.log('Error loading details.');
+                    }
+                });
+            }
+
+            // Function to close the popup
+            function closePopup() {
+                document.getElementById("popupOverlay").style.display = "none";
+            }
+
+            // Function to format date
+            function formatDate(dateString) {
+                var date = new Date(parseInt(dateString.substr(6)));
+                return date.toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+            }
+        </script>
+
+
+
+    </div>
+    <!-- Popup Content -->
+    <div class="popup-overlay" id="popupOverlay" style="display:none;">
+        <div class="popup-content">
+            <!-- Details section -->
+            <h2>Chi tiết thông tin đặt xe</h2>
+            <div id="detailContent">
+                <!-- Additional details will be loaded here using JavaScript -->
+            </div>
+            <!-- Close button for the popup -->
+            <button class="close-button" onclick="closePopup()">Đóng</button>
+        </div>
+    </div>
+
+    <script src="~/js/DoanhThuTaiXe.js"></script>
+    <!-- Include jQuery library -->
+</body>
+
+</html>
+

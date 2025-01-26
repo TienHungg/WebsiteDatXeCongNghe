@@ -1,0 +1,43 @@
+﻿@model  IEnumerable<WebsiteDatXeCongNghe.Models.KhuyenMai>
+@{
+    ViewBag.Title = "KhuyenMai";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thông báo khuyến mãi</title>
+    <link href="~/css/KhuyenMai.css" rel="stylesheet" />
+</head>
+<body>
+    
+
+    <div class="offer-container">
+        <h2>Thông báo khuyến mãi khi đặt xe</h2>
+        <div class="offer-list">
+            @foreach (var item in Model)
+            {
+                <div class="offer-item">
+                    <span class="offer-ordinal">@item.MaKhuyenMai.</span>
+                    <span class="offer-status @(item.TrangThai == false ? "expired" : "valid")">
+                        @(item.TrangThai == false ? "Hết hạn" : "Còn hạn")
+                    </span>
+                    <div class="offer-details">
+                        <p class="offer-code">Mã code: @item.MaCode</p>
+                        <p class="offer-code">Tên khuyến mãi: @item.TenKhuyenMai</p>
+                        <p class="offer-percentage">Khuyến mãi @item.PhanTram%</p>
+                        <p class="offer-percentage">Có hiệu lực từ @item.NgayBatDau đến @item.NgayKetThuc</p>
+                        <p class="offer-conditions">@item.NoiDung</p>
+                    </div>
+                </div>
+            }
+            <!-- Add more offer items here -->
+        </div>
+    </div>
+
+
+
+</body>
+</html>
+
+

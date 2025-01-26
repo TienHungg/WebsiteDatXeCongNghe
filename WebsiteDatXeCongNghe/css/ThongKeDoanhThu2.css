@@ -1,0 +1,83 @@
+﻿/* ThongKeDoanhThu2.css */
+
+body {
+    background-color: #f2f2f2;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+select,
+input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #ccc 50%), linear-gradient(135deg, #ccc 50%, transparent 50%);
+    background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) 1em;
+    background-size: 5px 5px, 2px 2px;
+    background-repeat: no-repeat;
+    padding-right: 30px;
+}
+
+option {
+    font-size: 14px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .button:hover {
+        background-color: #0056b3;
+    }
+
+    .button:focus {
+        outline: none;
+    }
+
+    .button:active {
+        background-color: #004099;
+    }
+
+
+canvas#revenueChart {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 4px;
+    background-color: #fff;
+}

@@ -1,0 +1,1467 @@
+﻿@model WebsiteDatXeCongNghe.ViewModel.MultipleData.MultipleData
+@{
+    ViewBag.Title = "ViTienTaiXe";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link href="~/css/ViTienTaiXe.css" rel="stylesheet" />
+    <link href="~/css/NapTien.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
+    <!-- Include SweetAlert library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11" />
+    <!-- Include SweetAlert library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <title>Ví Tiền</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Sidebar Section -->
+        <aside>
+            <div class="toggle">
+                <div class="logo">
+                    <img src="~/image/TaiXe/VisaIcon.png" />
+                    <h2>Wallet<span class="danger">Pay</span></h2>
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-icons-sharp">
+                        close
+                    </span>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <a href="/TaiXe/ViTienTaiXe" class="active">
+                    <span class="material-icons-sharp">
+                        account_balance_wallet
+                    </span>
+                    <h3>Ví tiền tài xế</h3>
+                </a>
+                <a href="/TaiXe/TaiKhoanNganHangTX">
+                    <span class="material-icons-sharp">
+                        add_card
+                    </span>
+                    <h3>Liên kết thẻ</h3>
+                </a>
+                <a href="/TaiXe/LichSuGiaoDich">
+                    <span class="material-icons-sharp">
+                        receipt_long
+                    </span>
+                    <h3>Lịch sử giao dịch</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">
+                        mail_outline
+                    </span>
+                    <h3>Thông báo</h3>
+                    <span class="message-count">27</span>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">
+                        report_gmailerrorred
+                    </span>
+                    <h3>Báo cáo</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">
+                        settings
+                    </span>
+                    <h3>Cài đặt</h3>
+                </a>
+                <a href="/TaiXe/ThongTinTaiXe">
+                    <span class="material-icons-sharp">
+                        arrow_back
+                    </span>
+                    <h3>Quay lại</h3>
+                </a>
+            </div>
+        </aside>
+        <!-- End of Sidebar Section -->
+        <!-- Main Content -->
+        <main>
+            <h1>Ví Tiền Tài Xế</h1>
+            <!-- Analyses -->
+            <div class="analyse">
+                <div class="sales">
+                    <div class="status">
+                        <div class="info">
+                            <h3>Ví tiền</h3>
+                            <h1 id="WalletDriver"></h1>
+                            <h1 id="IDWalletDriver" style="display:none;"></h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>+81%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="visits">
+                    <div class="status">
+                        <div class="info">
+                            <h3>Số dư thẻ</h3>
+                            <h1 id="BalanceCard"></h1>
+                            <h1 id="IdCard" style="display:none;"></h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>-48%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="searches">
+                    <div class="status">
+                        <div class="info">
+                            <h3>Tổng tiền rút</h3>
+                            <h1 id="TotalWithdrawalAmount"></h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>+21%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="searches">
+                    <div class="status">
+                        <div class="info">
+                            <h3>Tổng tiền nạp</h3>
+                            <h1 id="TotalDepositAmount"></h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>+21%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="searches">
+                    <div class="status">
+                        <div class="info">
+                            <h3>Số lần rút tiền</h3>
+                            <h1 id="NumberOfWithdrawals"></h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>+21%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="searches">
+                    <div class="status">
+                        <div class="info">
+                            <h3>Số lần nạp tiền</h3>
+                            <h1 id="NumberOfDeposits"></h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>+21%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Users Section -->
+            <div class="new-users" id="LoadBalance">
+                <h2>Tài khoản ngân hàng</h2>
+                @foreach (var item in Model.taiKhoanNganHangTaiXes)
+                {
+                    <div class="user-list">
+                        <div class="user @(item.MaTaiKhoanNHTaiXe == ViewBag.SelectedTaiKhoan ? "active" : "")">
+                            <div class="icon">
+                                <span class="material-icons-sharp check-icon" style="@(item.MaTaiKhoanNHTaiXe == ViewBag.SelectedTaiKhoan ? "display: block;" : "display: none;")">
+                                    check_circle
+                                </span>
+                            </div>
+                            <h2 style="display:none;">@item.MaTaiKhoanNHTaiXe</h2>
+                            <img src="~/image/TaiXe/VisaIcon.png" />
+                            <h2>
+                                @{
+                                    var cardNumber = item.SoThe;
+                                    var maskedPassword = MaskCardNumber(cardNumber);
+                                    @maskedPassword
+                                }
+                            </h2>
+                            <h2>@item.SoDu VND</h2>
+                            <p>Tên chủ thẻ: @item.ChuThe</p>
+                        </div>
+                    </div>
+                    @functions {
+                        // Function to mask the middle digits of a card number
+                        string MaskCardNumber(string cardNumber)
+                        {
+                            if (cardNumber.Length < 16)
+                            {
+                                return cardNumber; // Do not mask if the card number is not long enough
+                            }
+
+                            int visibleDigitsCount = 4; // Number of visible digits at the beginning and end
+                            int maskedDigitsCount = cardNumber.Length - 2 * visibleDigitsCount;
+
+                            var maskedPart = new string('*', maskedDigitsCount);
+                            var visiblePart = cardNumber.Substring(0, visibleDigitsCount) + maskedPart + cardNumber.Substring(cardNumber.Length - visibleDigitsCount);
+
+                            return visiblePart;
+                        }
+                    }
+
+                }
+            </div>
+            <!-- End of New Users Section -->
+
+
+        </main>
+        <!-- End of Main Content -->
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="nav">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">
+                        menu
+                    </span>
+                </button>
+                <div class="dark-mode">
+                    <span class="material-icons-sharp active">
+                        light_mode
+                    </span>
+                    <span class="material-icons-sharp">
+                        dark_mode
+                    </span>
+                </div>
+                @foreach (var item in Model.taiXes)
+                {
+                    <div class="profile">
+                        <div class="info">
+                            <p>Chào, <b style="display:none;" id="PhoneNumber">@Session["SoDienThoai"].ToString()</b></p>
+                            <small class="text-muted">@item.Ten</small>
+                        </div>
+                        <div class="profile-photo">
+                            <img src="~/image/TaiXe/@item.HinhAnh" />
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- End of Nav -->
+
+            <div class="user-profile">
+                <div class="logo">
+                    <img src="~/image/TaiXe/VisaIcon.png" />
+                    <h2>Ví Tiền Tài Xế</h2>
+                    <p>Nạp và rút tiền tiện lợi, nhanh chóng</p>
+                </div>
+            </div>
+
+            <div class="reminders">
+                <div class="header">
+                    <h2>Dịch vụ</h2>
+                    <span class="material-icons-sharp">
+                        notifications_none
+                    </span>
+                </div>
+
+                <div class="notification" id="Deposit">
+                    <div class="icon">
+                        <span class="material-icons-sharp">
+                            account_balance_wallet
+                        </span>
+                    </div>
+                    <div class="content">
+                        <div class="info">
+                            <h3>Nạp tiền vào ví</h3>
+                            <small class="text_muted">
+                                24/24h
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notification deactive" id="Withdrawal">
+                    <div class="icon">
+                        <span class="material-icons-sharp">
+                            money_off
+                        </span>
+                    </div>
+                    <div class="content">
+                        <div class="info">
+                            <h3>Rút tiền</h3>
+                            <small class="text_muted">
+                                24/24h
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <a href="/TaiXe/TaiKhoanNganHangTX">
+                    <div class="notification add-reminder">
+                        <div>
+                            <span class="material-icons-sharp">
+                                add_card
+                            </span>
+                            <h3>Liên kết thẻ</h3>
+                        </div>
+                    </div>
+                </a>
+                <div class="notification add-reminder" id="unlinkCardBtn">
+                    <div>
+                        <span class="material-icons-sharp">
+                            credit_card_off
+                        </span>
+                        <h3>Hủy liên kết</h3>
+                    </div>
+                </div>
+                <!-- Add the Unlink button -->
+                <!--<button class="unlink-button" id="unlinkCardBtn">Hủy liên kết</button>-->
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="overlay2"></div>
+    <div class="otp-container" style="display:none;">
+        <span id="closeOTP" class="close-icon">X</span>
+        <h2>Nhập mã OTP (Nạp tiền)</h2>
+        <form id="otp-form">
+            <input type="text" id="digit-1" class="otp-digit" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-2" class="otp-digit" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-3" class="otp-digit" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-4" class="otp-digit" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-5" class="otp-digit" maxlength="1" pattern="\d" required>
+            <span class="opt" id="EnterAmountPass" style="display:none;"></span>
+            <input type="submit" id="confirmationCode" value="Xác nhận" class="verify-btn">
+        </form>
+    </div>
+
+    <div class="overlay4"></div>
+    <div class="otp-container2" style="display:none;">
+        <span id="closeOTP2" class="close-icon">X</span>
+        <h2>Nhập mã OTP (Rút tiền)</h2>
+        <form id="otp-form2">
+            <input type="text" id="digit-11" class="otp-digit2" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-22" class="otp-digit2" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-33" class="otp-digit2" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-44" class="otp-digit2" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-55" class="otp-digit2" maxlength="1" pattern="\d" required>
+            <span class="opt" id="EnterAmountPass2" style="display:none;"></span>
+            <input type="submit" id="confirmationCode2" value="Xác nhận" class="verify-btn">
+        </form>
+    </div>
+
+    <div class="overlay5"></div>
+    <div class="otp-container3" style="display:none;">
+        <span id="closeOTP3" class="close-icon">X</span>
+        <h2>Nhập mã OTP (Hủy liên kết thẻ)</h2>
+        <form id="otp-form3">
+            <input type="text" id="digit-111" class="otp-digit3" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-222" class="otp-digit3" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-333" class="otp-digit3" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-444" class="otp-digit3" maxlength="1" pattern="\d" required>
+            <input type="text" id="digit-555" class="otp-digit3" maxlength="1" pattern="\d" required>
+            <span class="opt" id="EnterAmountPass3" style="display:none;"></span>
+            <input type="submit" id="confirmationCode3" value="Xác nhận" class="verify-btn">
+        </form>
+    </div>
+
+    <div class="overlay"></div>
+    <div class="wrapper" style="display:none;">
+        <div class="payment">
+            <span id="closeDeposit" class="close-icon">X</span>
+            <div class="payment-logo">
+                <p><img src="~/image/TaiXe/VisaIcon.png" alt="Visa Icon" style="max-width: 100%; vertical-align: middle;"></p>
+            </div>
+
+
+            <h2>Nạp tiền vào ví</h2>
+            <div class="form">
+                <div class="card space icon-relative">
+                    <label class="label">Số dư trong ví:</label>
+                    <div class="input-container">
+                        <input type="text" id="BalanceWalletForDeposit" class="input" readonly>
+                        <input type="text" id="IDBalanceWalletForDeposit" class="input" style="display:none;" readonly>
+                        <span class="currency-unit">VND</span>
+                    </div>
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div class="card space icon-relative">
+                    <label class="label">Số dư trong thẻ:</label>
+                    <div class="input-container">
+                        <input type="text" id="BalanceCardForDeposit" class="input" readonly>
+                        <input type="text" id="IDBalanceCardForDeposit" class="input" style="display:none;" readonly>
+                        <span class="currency-unit">VND</span>
+                    </div>
+                    <i class="far fa-credit-card"></i>
+                </div>
+                <div class="card space icon-relative">
+                    <label class="label">Nhập số tiền cần nạp:</label>
+                    <div class="input-container">
+                        <input type="text" id="EnterAmountDeposit" class="input">
+                        <span class="currency-unit">VND</span>
+                    </div>
+                    <i class="fas fa-money-bill-wave"></i>
+                    <div class="min-entry">Tối thiểu: 10.000 VND</div>
+                </div>
+
+                <div class="card-grp space">
+                    <div class="card-item icon-relative">
+                        <button class="custom-button" id="Default1">50.000</button>
+                    </div>
+                    <div class="card-item icon-relative">
+                        <button class="custom-button" id="Default1">100.000</button>
+                    </div>
+                    <div class="card-item icon-relative">
+                        <button class="custom-button" id="Default1">200.000</button>
+                    </div>
+                </div>
+                <div class="btn" id="MoneyDepositBtn">
+                    Nạp tiền
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay3"></div>
+    <div class="wrapper2" style="display:none;">
+        <div class="payment">
+            <span id="closeWithdrawal" class="close-icon">X</span>
+            <div class="payment-logo">
+                <p><img src="~/image/TaiXe/VisaIcon.png" alt="Visa Icon" style="max-width: 100%; vertical-align: middle;"></p>
+            </div>
+
+
+            <h2>Rút tiền từ ví</h2>
+            <div class="form">
+                <div class="card space icon-relative">
+                    <label class="label">Số dư trong ví:</label>
+                    <div class="input-container">
+                        <input type="text" id="BalanceWalletForWithdrawal" class="input" readonly>
+                        <input type="text" id="IDBalanceWalletForWithdrawal" class="input" style="display:none;" readonly>
+                        <span class="currency-unit">VND</span>
+                    </div>
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div class="card space icon-relative">
+                    <label class="label">Số dư trong thẻ:</label>
+                    <div class="input-container">
+                        <input type="text" id="BalanceCardForWithdrawal" class="input" readonly>
+                        <input type="text" id="IDBalanceCardForWithdrawal" class="input" style="display:none;" readonly>
+                        <span class="currency-unit">VND</span>
+                    </div>
+                    <i class="far fa-credit-card"></i>
+                </div>
+                <div class="card space icon-relative">
+                    <label class="label">Nhập số tiền cần rút:</label>
+                    <div class="input-container">
+                        <input type="text" id="EnterAmountWithdrawal" class="input">
+                        <span class="currency-unit">VND</span>
+                    </div>
+                    <i class="fas fa-money-bill-wave"></i>
+                    <div class="min-entry">Tối thiểu: 10.000 VND</div>
+                </div>
+
+                <div class="card-grp space">
+                    <div class="card-item icon-relative">
+                        <button class="custom-button" id="Default1">50.000</button>
+                    </div>
+                    <div class="card-item icon-relative">
+                        <button class="custom-button" id="Default1">100.000</button>
+                    </div>
+                    <div class="card-item icon-relative">
+                        <button class="custom-button" id="Default1">200.000</button>
+                    </div>
+                </div>
+                <div class="btn" id="MoneyWithdrawalBtn">
+                    Rút tiền
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+        // Make AJAX call to fetch ViTien value
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetViTien", "TaiXe")',
+            success: function (response) {
+                // Format the ViTien value with dots as thousand separators
+                var formattedResponse = Number(response.replace(/\D/g, '')).toLocaleString('vi-VN');
+                // Update the HTML element with the formatted ViTien value
+                $('#WalletDriver').text(formattedResponse + " VND");
+
+                $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetIDViTien", "TaiXe")',
+            success: function (responseIDViTien) {
+                // Update the HTML element with the formatted ViTien value
+                $('#IDWalletDriver').text(responseIDViTien);
+            },
+            error: function () {
+                // Handle error if needed
+                console.error('Failed to fetch ViTien value');
+            }
+        });
+            },
+            error: function () {
+                // Handle error if needed
+                console.error('Failed to fetch ViTien value');
+            }
+        });
+        });
+    </script>
+
+    <script>
+        // Get the phone number from the hidden element
+        var phoneNumber = $('#PhoneNumber').text().trim();
+
+        // Make an AJAX request to get the total withdrawal amount
+        $.ajax({
+            type: 'POST',
+            url: '/TaiXe/GetTotalWithdrawalAmount',
+            data: { phoneNumber: phoneNumber },
+            success: function (response) {
+                if (response.success) {
+                    var formattedtotalWithdrawalAmount = Number(response.totalWithdrawalAmount).toLocaleString('vi-VN', { minimumFractionDigits: 3 });
+
+                    // Replace commas with dots
+                    formattedtotalWithdrawalAmount = formattedtotalWithdrawalAmount.replace(/,/g, '.');
+                    // Update the content of #TotalWithdrawalAmount
+                    $('#TotalWithdrawalAmount').text(formattedtotalWithdrawalAmount + " VND");
+
+                    // Optionally, update other UI elements or perform additional actions
+                } else {
+                    // Handle failure, show an error message
+                    console.error('Failed to get total withdrawal amount:', response.message);
+                }
+            },
+            error: function () {
+                // Handle error, show a generic error message
+                console.error('Error while making the AJAX request');
+            }
+        });
+
+    </script>
+
+    <script>
+        // Get the phone number from the hidden element
+        var phoneNumber = $('#PhoneNumber').text().trim();
+
+        // Make an AJAX request to get the total deposit amount
+        $.ajax({
+            type: 'POST',
+            url: '/TaiXe/GetTotalDepositAmount',
+            data: { phoneNumber: phoneNumber },
+            success: function (response) {
+                if (response.success) {
+                    var formattedtotalDepositAmount = Number(response.totalDepositAmount).toLocaleString('vi-VN', { minimumFractionDigits: 3 });
+
+                    // Replace commas with dots
+                    formattedtotalDepositAmount = formattedtotalDepositAmount.replace(/,/g, '.');
+                    // Update the content of #TotalWithdrawalAmount
+                    $('#TotalDepositAmount').text(formattedtotalDepositAmount + " VND");
+
+                    // Optionally, update other UI elements or perform additional actions
+                } else {
+                    // Handle failure, show an error message
+                    console.error('Failed to get total deposit amount:', response.message);
+                }
+            },
+            error: function () {
+                // Handle error, show a generic error message
+                console.error('Error while making the AJAX request');
+            }
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Get the phone number from the hidden element
+            var phoneNumber = $('#PhoneNumber').text().trim();
+
+            // Make an AJAX request to get the number of withdrawals
+            $.ajax({
+                type: 'GET',
+                url: '/TaiXe/GetNumberOfWithdrawals',
+                data: { phoneNumber: phoneNumber },
+                success: function (response) {
+                    if (response.success) {
+                        // Update the content of #NumberOfWithdrawals
+                        $('#NumberOfWithdrawals').text(response.numberOfWithdrawals + " lần");
+                    } else {
+                        // Handle error or show a default value
+                        $('#NumberOfWithdrawals').text('N/A');
+                    }
+                },
+                error: function () {
+                    // Handle error or show a default value
+                    $('#NumberOfWithdrawals').text('N/A');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Get the phone number from the hidden element
+            var phoneNumber = $('#PhoneNumber').text().trim();
+
+            // Make an AJAX request to get the number of withdrawals
+            $.ajax({
+                type: 'GET',
+                url: '/TaiXe/GetNumberOfDeposit',
+                data: { phoneNumber: phoneNumber },
+                success: function (response) {
+                    if (response.success) {
+                        // Update the content of #NumberOfDeposits
+                        $('#NumberOfDeposits').text(response.numberOfDeposit + " lần");
+                    } else {
+                        // Handle error or show a default value
+                        $('#NumberOfDeposits').text('N/A');
+                    }
+                },
+                error: function () {
+                    // Handle error or show a default value
+                    $('#NumberOfDeposits').text('N/A');
+                }
+            });
+        });
+    </script>
+
+    <script>
+    $(document).ready(function () {
+        // Make AJAX call to fetch initial SoDu value
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetSoDu", "TaiXe")',
+            success: function (response) {
+                var formattedResponse = Number(response.replace(/\D/g, '')).toLocaleString('vi-VN');
+                // Update the HTML element with the fetched SoDu value
+                $('#BalanceCard').text(formattedResponse + " VND");
+
+                $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetSoThe", "TaiXe")',
+                    success: function (responseSoThe) {
+                // Update the HTML element with the fetched SoDu value
+                        $('#IdCard').text(responseSoThe);
+            },
+            error: function () {
+                // Handle error if needed
+                console.error('Failed to fetch SoDu value');
+            }
+        });
+            },
+            error: function () {
+                // Handle error if needed
+                console.error('Failed to fetch SoDu value');
+            }
+        });
+
+        // Click event for #LoadBalance
+        $('#LoadBalance').click(function () {
+            // Update the balance for the selected account
+            var maTaiKhoan = $('.user-list.active').find('h2:first').text();
+
+            if (maTaiKhoan) {
+                // Make AJAX call to fetch SoDu value for the selected account
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetSoDu", "TaiXe")',
+                    data: { maTaiKhoan: maTaiKhoan },
+                    success: function (response) {
+                        var formattedResponse = Number(response.replace(/\D/g, '')).toLocaleString('vi-VN');
+                        // Update the HTML element with the fetched SoDu value
+                        $('#BalanceCard').text(formattedResponse + " VND");
+
+                        // Make AJAX call to fetch SoThe for the selected account
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetSoThe", "TaiXe")',
+                    data: { maTaiKhoan: maTaiKhoan },
+                    success: function (responseSoThe) {
+                        // Update the HTML element with the fetched SoThe value
+                        $('#IdCard').text(responseSoThe);
+                    },
+                    error: function () {
+                        // Handle error if needed
+                        console.error('Failed to fetch SoThe value');
+                    }
+                });
+                    },
+                    error: function () {
+                        // Handle error if needed
+                        console.error('Failed to fetch SoDu value');
+                    }
+                });
+            }
+        });
+
+        // Click event for selecting an account
+        $('.user-list').click(function () {
+            // Remove the active class from all user-list elements
+            $('.user-list').removeClass('active');
+            $('.check-icon').hide(); // Hide all green tick icons
+
+            // Add the active class to the clicked user-list element
+            $(this).addClass('active');
+            // Display the green tick icon for the selected account
+            $(this).find('.check-icon').show();
+
+            //// Set the selected account ID in ViewBag
+            //var selectedTaiKhoan = $(this).find('h2:first').text();
+            //ViewBag.SelectedTaiKhoan = selectedTaiKhoan;
+        });
+    });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Function to show the deposit form
+            function showDepositForm(balanceCard, walletDriver, IDbalanceCard, IDwalletDriver) {
+                $('.wrapper').show();
+                $('.overlay').show();
+
+                // Update the form with the provided data (format numbers with dots)
+                $('#BalanceWalletForDeposit').val(Number(walletDriver.replace(/\D/g, '')).toLocaleString('vi-VN'));
+                $('#BalanceCardForDeposit').val(Number(balanceCard.replace(/\D/g, '')).toLocaleString('vi-VN'));
+                $('#IDBalanceWalletForDeposit').val(IDwalletDriver);
+                $('#IDBalanceCardForDeposit').val(IDbalanceCard);
+
+            }
+
+            // Function to close the deposit form
+            function closeDepositForm() {
+                $('.wrapper').hide();
+                $('.overlay').hide();
+                $('#EnterAmountDeposit').val("");
+            }
+
+            // Click event for opening the deposit form
+            $("#Deposit").click(function () {
+                // Fetch the data from #BalanceCard and #WalletDriver
+                var balanceCard = $('#BalanceCard').text().trim();
+                var walletDriver = $('#WalletDriver').text().trim();
+                var IDbalanceCard = $('#IdCard').text().trim();
+                var IDwalletDriver = $('#IDWalletDriver').text().trim();
+
+                // Show the deposit form and pass the data
+                showDepositForm(balanceCard, walletDriver, IDbalanceCard, IDwalletDriver);
+            });
+
+            // Click event for closing the deposit form
+            $("#closeDeposit").click(function () {
+                closeDepositForm();
+            });
+
+            // Click event for the "Nạp tiền" button
+            $("#MoneyDepositBtn").click(function () {
+                // Fetch the data from #BalanceCard and #WalletDriver
+                var balanceCard = $('#BalanceCard').text().trim();
+                var IDbalanceCard = $('#IdCard').text().trim();
+                var amount = $('#EnterAmountDeposit').val().trim();
+                var phoneNumber = $('#PhoneNumber').text().trim(); // Get the phone number from the hidden element
+
+                // Validate the amount if needed
+                // Pass the data to #EnterAmountPass
+                $('#EnterAmountPass').text(amount);
+
+                // Make AJAX call to submit the form
+                $.ajax({
+                    type: 'POST',
+                    url: '/TaiXe/NapTien',
+                    data: { amount: amount, PhoneNumber: phoneNumber, SoThe: IDbalanceCard },
+                    success: function (response) {
+
+                        if (response.success) {
+                            //// Show success swal
+                            //Swal.fire({
+                            //    icon: 'success',
+                            //    title: 'Thành công!',
+                            //    text: 'Nạp tiền thành công!'
+                            //});
+
+                            // Show OTP form after successful deposit
+                            closeDepositForm();
+                            showOTPForm();
+
+                        } else {
+                            // Show error swal
+                            alert(response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX Error:', xhr, status, error);
+                        alert('Không đủ tiền trong số dư thẻ.');
+                    }
+
+                });
+
+            });
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Function to show the withdrawal form
+            function showWithdrawalForm(balanceCard, walletDriver, IDbalanceCard, IDwalletDriver) {
+                $('.wrapper2').show();
+                $('.overlay3').show();
+
+                // Update the form with the provided data (format numbers with dots)
+                $('#BalanceWalletForWithdrawal').val(Number(walletDriver.replace(/\D/g, '')).toLocaleString('vi-VN'));
+                $('#BalanceCardForWithdrawal').val(Number(balanceCard.replace(/\D/g, '')).toLocaleString('vi-VN'));
+                $('#IDBalanceWalletForWithdrawal').val(IDwalletDriver);
+                $('#IDBalanceCardForWithdrawal').val(IDbalanceCard);
+
+            }
+
+            // Function to close the withdrawal form
+            function closeWithdrawalForm() {
+                $('.wrapper2').hide();
+                $('.overlay3').hide();
+                $('#EnterAmountWithdrawal').val("");
+            }
+
+            // Click event for opening the withdrawal form
+            $("#Withdrawal").click(function () {
+                // Fetch the data from #BalanceCard and #WalletDriver
+                var balanceCard = $('#BalanceCard').text().trim();
+                var walletDriver = $('#WalletDriver').text().trim();
+                var IDbalanceCard = $('#IdCard').text().trim();
+                var IDwalletDriver = $('#IDWalletDriver').text().trim();
+
+                // Show the withdrawal form and pass the data
+                showWithdrawalForm(balanceCard, walletDriver, IDbalanceCard, IDwalletDriver);
+
+            });
+
+            // Click event for closing the withdrawal form
+            $("#closeWithdrawal").click(function () {
+                closeWithdrawalForm();
+            });
+
+            // Click event for the "Rút tiền" button
+            $("#MoneyWithdrawalBtn").click(function () {
+                // Fetch the data from #BalanceCard and #WalletDriver
+                var balanceCard = $('#BalanceCard').text().trim();
+                var IDbalanceCard = $('#IdCard').text().trim();
+                var amount = $('#EnterAmountWithdrawal').val().trim();
+                var phoneNumber = $('#PhoneNumber').text().trim(); // Get the phone number from the hidden element
+
+                // Validate the amount if needed
+                // Pass the data to #EnterAmountPass
+                $('#EnterAmountPass2').text(amount);
+
+                // Make AJAX call to submit the form
+                $.ajax({
+                    type: 'POST',
+                    url: '/TaiXe/RutTien',
+                    data: { amount: amount, PhoneNumber: phoneNumber, SoThe: IDbalanceCard },
+                    success: function (response) {
+
+                        if (response.success) {
+                            //// Show success swal
+                            //Swal.fire({
+                            //    icon: 'success',
+                            //    title: 'Thành công!',
+                            //    text: 'Nạp tiền thành công!'
+                            //});
+
+                            // Show OTP form after successful deposit
+                            closeWithdrawalForm();
+                            showOTPForm2();
+
+                        } else {
+                            // Show error swal
+                            alert(response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX Error:', xhr, status, error);
+                        alert('Không đủ tiền trong ví.');
+                    }
+
+                });
+
+            });
+
+        });
+    </script>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const enterAmountInput = document.getElementById('EnterAmountDeposit');
+            const defaultButtons = document.querySelectorAll('.custom-button');
+
+            // Function to format input value with dots
+            function formatAmount(value) {
+                // Parse the number and format with dots
+                const parsedValue = Number(value.replace(/[^\d]/g, ""));
+                const formattedValue = parsedValue.toLocaleString();
+                return formattedValue === "NaN" ? "" : formattedValue;
+            }
+
+            // Event listener for EnterAmount input
+            enterAmountInput.addEventListener('input', function () {
+                this.value = formatAmount(this.value);
+            });
+
+            // Event listener for default buttons
+            defaultButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const buttonValue = this.textContent.trim();
+                    enterAmountInput.value = formatAmount(buttonValue);
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const enterAmountInput = document.getElementById('EnterAmountWithdrawal');
+            const defaultButtons = document.querySelectorAll('.custom-button');
+
+            // Function to format input value with dots
+            function formatAmount(value) {
+                // Parse the number and format with dots
+                const parsedValue = Number(value.replace(/[^\d]/g, ""));
+                const formattedValue = parsedValue.toLocaleString();
+                return formattedValue === "NaN" ? "" : formattedValue;
+            }
+
+            // Event listener for EnterAmount input
+            enterAmountInput.addEventListener('input', function () {
+                this.value = formatAmount(this.value);
+            });
+
+            // Event listener for default buttons
+            defaultButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const buttonValue = this.textContent.trim();
+                    enterAmountInput.value = formatAmount(buttonValue);
+                });
+            });
+        });
+    </script>
+
+    <script>
+        function showOTPForm() {
+            $('.otp-container').show();
+            $('.overlay2').show();
+        }
+
+        function showOTPForm2() {
+            $('.otp-container2').show();
+            $('.overlay4').show();
+        }
+
+        function showOTPForm3() {
+            $('.otp-container3').show();
+            $('.overlay5').show();
+        }
+
+        function closeOTPForm3() {
+            $('.otp-container3').hide();
+            $('.overlay5').hide();
+        }
+    </script>
+
+    <script>
+        const overlay2 = document.querySelector('.overlay2');
+        const OTPContainer = document.querySelector('.otp-container');
+        const closeButton = document.getElementById('closeOTP');
+        const overlay4 = document.querySelector('.overlay4');
+        const OTPContainer2 = document.querySelector('.otp-container2');
+        const closeButton2 = document.getElementById('closeOTP2');
+        const overlay5 = document.querySelector('.overlay5');
+        const OTPContainer3 = document.querySelector('.otp-container3');
+        const closeButton3 = document.getElementById('closeOTP3');
+        closeButton.addEventListener('click', function () {
+            overlay2.style.display = 'none';
+            OTPContainer.style.display = 'none';
+            $('#digit-1').val("");
+            $('#digit-2').val("");
+            $('#digit-3').val("");
+            $('#digit-4').val("");
+            $('#digit-5').val("");
+        });
+        closeButton2.addEventListener('click', function () {
+            overlay4.style.display = 'none';
+            OTPContainer2.style.display = 'none';
+            $('#digit-11').val("");
+            $('#digit-22').val("");
+            $('#digit-33').val("");
+            $('#digit-44').val("");
+            $('#digit-55').val("");
+        });
+        closeButton3.addEventListener('click', function () {
+            overlay5.style.display = 'none';
+            OTPContainer3.style.display = 'none';
+            $('#digit-111').val("");
+            $('#digit-222').val("");
+            $('#digit-333').val("");
+            $('#digit-444').val("");
+            $('#digit-555').val("");
+        });
+    </script>
+
+    <script>
+        window.onload = function () {
+            const otpForm = document.getElementById('otp-form');
+
+            otpForm.addEventListener('input', function (event) {
+                const target = event.target;
+
+                // Check if the input is a valid numeric value
+                if (!/^\d*$/.test(target.value)) {
+                    // If not a valid numeric value, clear the input
+                    target.value = '';
+                    return;
+                }
+
+                // Move to the next input field if the current input is not empty
+                if (target.value !== '') {
+                    const nextInput = getNextInput(target);
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                }
+            });
+
+            otpForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const otpDigits = document.getElementsByClassName('otp-digit');
+                let otp = '';
+
+                for (let i = 0; i < otpDigits.length; i++) {
+                    otp += otpDigits[i].value;
+                }
+
+                // Fetch the data from #BalanceCard and #WalletDriver
+                var balanceCard = $('#BalanceCard').text().trim();
+                var IDbalanceCard = $('#IdCard').text().trim();
+                var amount = $('#EnterAmountPass').text().trim();
+                var phoneNumber = $('#PhoneNumber').text().trim(); // Get the phone number from the hidden element
+                $.ajax({
+                    type: 'POST',
+                    url: '/TaiXe/EnterConfirmationCode',
+                    data: { confirmationCode: otp },
+                    success: function (response) {
+
+                        if (response.success) {
+                            // Show success swal
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!',
+                                text: 'Xác nhận OTP thành công!'
+                            });
+                            $('.otp-container').hide();
+                            $('.overlay2').hide();
+                            $('#digit-1').val("");
+                            $('#digit-2').val("");
+                            $('#digit-3').val("");
+                            $('#digit-4').val("");
+                            $('#digit-5').val("");
+                            // If OTP is valid, proceed to insert card
+                            $.ajax({
+                                type: 'POST',
+                                url: '/TaiXe/NapTien2',
+                                data: { amount: amount, PhoneNumber: phoneNumber, SoThe: IDbalanceCard },
+                                success: function (insertResponse) {
+                                    if (insertResponse.success) {
+
+                                        // Format the numbers with thousand separators
+                                        var formattedWalletDriver = Number(insertResponse.walletDriver).toLocaleString('vi-VN', { minimumFractionDigits: 3 });
+                                        var formattedBalanceCard = Number(insertResponse.balanceCard).toLocaleString('vi-VN', { minimumFractionDigits: 3 });
+                                        var formattedBalanceHistory = Number(insertResponse.balanceHistory).toLocaleString('vi-VN', { minimumFractionDigits: 3 });
+
+                                        // Replace commas with dots
+                                        formattedWalletDriver = formattedWalletDriver.replace(/,/g, '.');
+                                        formattedBalanceCard = formattedBalanceCard.replace(/,/g, '.');
+                                        formattedBalanceHistory = formattedBalanceHistory.replace(/,/g, '.');
+
+                                        // Update the content of #WalletDriver and #BalanceCard
+                                        $('#WalletDriver').text(formattedWalletDriver + " VND");
+                                        $('#BalanceCard').text(formattedBalanceCard + " VND");
+
+                                        // Show success swal for card insertion
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Thành công!',
+                                            text: insertResponse.message + formattedBalanceHistory + " VND"
+                                        });
+                                    } else {
+                                        // Show error swal for card insertion
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Lỗi!',
+                                            text: insertResponse.message
+                                        });
+                                    }
+                                },
+                                error: function () {
+                                    // Show generic error swal for card insertion
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Lỗi!',
+                                        text: 'Đã xảy ra lỗi trong khi xử lý yêu cầu của bạn.'
+                                    });
+                                }
+                            });
+                        } else {
+                            alert('Xác nhận OTP không hợp lệ!');
+                        }
+                    },
+                    error: function () {
+                        // Show generic error swal
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Đã xảy ra lỗi trong khi xử lý yêu cầu của bạn.'
+                        });
+                    }
+                });
+            });
+
+            function getNextInput(currentInput) {
+                const otpDigits = document.getElementsByClassName('otp-digit');
+                const currentIndex = Array.from(otpDigits).indexOf(currentInput);
+
+                // Return the next input if it exists, otherwise return null
+                return currentIndex < otpDigits.length - 1 ? otpDigits[currentIndex + 1] : null;
+            }
+
+
+
+
+            const otpForm2 = document.getElementById('otp-form2');
+
+            otpForm2.addEventListener('input', function (event) {
+                const target = event.target;
+
+                // Check if the input is a valid numeric value
+                if (!/^\d*$/.test(target.value)) {
+                    // If not a valid numeric value, clear the input
+                    target.value = '';
+                    return;
+                }
+
+                // Move to the next input field if the current input is not empty
+                if (target.value !== '') {
+                    const nextInput = getNextInput2(target);
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                }
+            });
+
+            otpForm2.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const otpDigits = document.getElementsByClassName('otp-digit2');
+                let otp = '';
+
+                for (let i = 0; i < otpDigits.length; i++) {
+                    otp += otpDigits[i].value;
+                }
+                // Fetch the data from #BalanceCard and #WalletDriver
+                var balanceCard = $('#BalanceCard').text().trim();
+                var IDbalanceCard = $('#IdCard').text().trim();
+                var amount = $('#EnterAmountPass2').text().trim();
+                var phoneNumber = $('#PhoneNumber').text().trim(); // Get the phone number from the hidden element
+                $.ajax({
+                    type: 'POST',
+                    url: '/TaiXe/EnterConfirmationCode',
+                    data: { confirmationCode: otp },
+                    success: function (response) {
+                        if (response.success) {
+                            // Show success swal
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!',
+                                text: 'Xác nhận OTP thành công!'
+                            });
+                            $('.otp-container2').hide();
+                            $('.overlay4').hide();
+                            $('#digit-11').val("");
+                            $('#digit-22').val("");
+                            $('#digit-33').val("");
+                            $('#digit-44').val("");
+                            $('#digit-55').val("");
+                            // If OTP is valid, proceed to insert card
+                            $.ajax({
+                                type: 'POST',
+                                url: '/TaiXe/RutTien2',
+                                data: { amount: amount, PhoneNumber: phoneNumber, SoThe: IDbalanceCard },
+                                success: function (insertResponse) {
+                                    if (insertResponse.success) {
+
+                                        // Format the numbers with thousand separators
+                                        var formattedWalletDriver = Number(insertResponse.walletDriver).toLocaleString('vi-VN', { minimumFractionDigits: 3 });
+                                        var formattedBalanceCard = Number(insertResponse.balanceCard).toLocaleString('vi-VN', { minimumFractionDigits: 3 });
+                                        var formattedBalanceHistory = Number(insertResponse.balanceHistory).toLocaleString('vi-VN', { minimumFractionDigits: 3 });
+
+                                        // Replace commas with dots
+                                        formattedWalletDriver = formattedWalletDriver.replace(/,/g, '.');
+                                        formattedBalanceCard = formattedBalanceCard.replace(/,/g, '.');
+                                        formattedBalanceHistory = formattedBalanceHistory.replace(/,/g, '.');
+
+                                        // Update the content of #WalletDriver and #BalanceCard
+                                        $('#WalletDriver').text(formattedWalletDriver + " VND");
+                                        $('#BalanceCard').text(formattedBalanceCard + " VND");
+
+                                        // Show success swal for card insertion
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Thành công!',
+                                            text: insertResponse.message + formattedBalanceHistory + " VND"
+                                        });
+                                    } else {
+                                        // Show error swal for card insertion
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Lỗi!',
+                                            text: insertResponse.message
+                                        });
+                                    }
+                                },
+                                error: function () {
+                                    // Show generic error swal for card insertion
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Lỗi!',
+                                        text: 'Đã xảy ra lỗi trong khi xử lý yêu cầu của bạn.'
+                                    });
+                                }
+                            });
+                        } else {
+                            alert('Xác nhận OTP không hợp lệ!');
+                        }
+                    },
+                    error: function () {
+                        // Show generic error swal
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Đã xảy ra lỗi trong khi xử lý yêu cầu của bạn.'
+                        });
+                    }
+                });
+            });
+
+            function getNextInput2(currentInput) {
+                const otpDigits = document.getElementsByClassName('otp-digit2');
+                const currentIndex = Array.from(otpDigits).indexOf(currentInput);
+
+                // Return the next input if it exists, otherwise return null
+                return currentIndex < otpDigits.length - 1 ? otpDigits[currentIndex + 1] : null;
+            }
+
+
+
+            const otpForm3 = document.getElementById('otp-form3');
+
+            otpForm3.addEventListener('input', function (event) {
+                const target = event.target;
+
+                // Check if the input is a valid numeric value
+                if (!/^\d*$/.test(target.value)) {
+                    // If not a valid numeric value, clear the input
+                    target.value = '';
+                    return;
+                }
+
+                // Move to the next input field if the current input is not empty
+                if (target.value !== '') {
+                    const nextInput = getNextInput3(target);
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                }
+            });
+
+            otpForm3.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const otpDigits = document.getElementsByClassName('otp-digit3');
+                let otp = '';
+
+                for (let i = 0; i < otpDigits.length; i++) {
+                    otp += otpDigits[i].value;
+                }
+                var cardNumber = $('#IdCard').text().trim();
+                var phoneNumber = $('#PhoneNumber').text().trim();
+                $.ajax({
+                    type: 'POST',
+                    url: '/TaiXe/EnterConfirmationCode',
+                    data: { confirmationCode: otp },
+                    success: function (response) {
+                        if (response.success) {
+                            // Show success swal
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!',
+                                text: 'Xác nhận OTP thành công!'
+                            });
+                            $('.otp-container2').hide();
+                            $('.overlay4').hide();
+                            $('#digit-11').val("");
+                            $('#digit-22').val("");
+                            $('#digit-33').val("");
+                            $('#digit-44').val("");
+                            $('#digit-55').val("");
+                            // If OTP is valid, proceed to insert card
+                            $.ajax({
+                                type: 'POST',
+                                url: '/TaiXe/UnlinkCard2',
+                                data: { phoneNumber: phoneNumber, cardNumber: cardNumber },
+                                success: function (unlinkResponse) {
+                                    if (unlinkResponse.success) {
+                                        // Show success swal for card insertion
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Thành công!',
+                                            text: unlinkResponse.message
+                                        });
+
+                                        // Update the content of the new-users section
+                                        $('.new-users').load('/TaiXe/ViTienTaiXe .new-users', function () {
+                                            closeOTPForm3();
+                                        });
+                                    } else {
+                                        // Show error swal for card insertion
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Lỗi!',
+                                            text: unlinkResponse.message
+                                        });
+                                    }
+                                },
+                                error: function () {
+                                    // Show generic error swal for card insertion
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Lỗi!',
+                                        text: 'Đã xảy ra lỗi trong khi xử lý yêu cầu của bạn.'
+                                    });
+                                }
+                            });
+
+                        } else {
+                            alert('Xác nhận OTP không hợp lệ!');
+                        }
+                    },
+                    error: function () {
+                        // Show generic error swal
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Đã xảy ra lỗi trong khi xử lý yêu cầu của bạn.'
+                        });
+                    }
+                });
+            });
+
+            function getNextInput3(currentInput) {
+                const otpDigits = document.getElementsByClassName('otp-digit3');
+                const currentIndex = Array.from(otpDigits).indexOf(currentInput);
+
+                // Return the next input if it exists, otherwise return null
+                return currentIndex < otpDigits.length - 1 ? otpDigits[currentIndex + 1] : null;
+            }
+        };
+
+    </script>
+
+    <!-- Add the script for the confirmation dialog -->
+    <script>
+        $("#unlinkCardBtn").click(function () {
+            Swal.fire({
+                title: 'Hủy liên kết thẻ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Có',
+                cancelButtonText: 'Không'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Get the card number from the hidden field
+                    var cardNumber = $('#IdCard').text().trim();
+                    var phoneNumber = $('#PhoneNumber').text().trim();
+
+                    // Make an AJAX request to unlink the card
+                    $.ajax({
+                        type: 'POST',
+                        url: '/TaiXe/UnlinkCard',
+                        data: { phoneNumber: phoneNumber, cardNumber: cardNumber },
+                        success: function (response) {
+                            if (response.success) {
+                                // Handle success, for example, show a success message
+                                showOTPForm3(); // Show the OTP form after successful unlinking
+                            } else {
+                                // Handle failure, show an error message
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi!',
+                                    text: 'Không thể hủy liên kết thẻ.'
+                                });
+                            }
+                        },
+                        error: function () {
+                            // Handle error, show a generic error message
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi!',
+                                text: 'Đã xảy ra lỗi trong khi xử lý yêu cầu của bạn.'
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+
+    </script>
+
+
+    <script src="~/js/ViTienTaiXe.js"></script>
+</body>
+
+</html>
+

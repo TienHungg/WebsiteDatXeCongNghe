@@ -1,0 +1,28 @@
+﻿@model WebsiteDatXeCongNghe.ViewModel.TaiKhoanViewModel.QuenMatKhauViewModel
+@{
+    ViewBag.Title = "CapNhatQuenMatKhau";
+    Layout = null;
+}
+
+
+<h2>Enter new password</h2>
+
+@using (Html.BeginForm("CapNhatQuenMatKhau", "TaiKhoan", FormMethod.Post))
+{
+    <div>
+        <label>New password:</label>
+        <input type="password" name="NewPassword" />
+    </div>
+    <div>
+        <label>Confirm new password:</label>
+        <input type="password" name="ConfirmNewPassword" />
+    </div>
+    <button type="submit">Submit</button>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <p>@ViewBag.ErrorMessage</p>
+}
+
+

@@ -1,0 +1,240 @@
+﻿@model IEnumerable<WebsiteDatXeCongNghe.Models.ThongTinDatXe>
+@{
+    ViewBag.Title = "ThongTinDatXe";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List</title>
+    <link rel="stylesheet" href="~/css/asset/style2.css">
+    <link rel="stylesheet" href="~/css/themify-icons/themify-icons.css">
+    <script src="~/js/jquery-1.11.2.min.js"></script>
+</head>
+<body>
+    <header class="header">
+
+        <div id="menu-btn" class="fas fa-bars"></div>
+
+        <a href="#" class="logo"><h3> <span>Dịch vụ</span> đặt xe công nghệ </h3> </a>
+
+
+
+
+    </header>
+
+
+
+    <div class="container">
+        <div class="list-table ">
+
+            <div class="btn-control ">
+                @*<button type="#" class="btn-new js-Open-add"> <i class="ti-pencil-alt2"></i> ADD New</button>*@
+                <a href="/TaiKhoan/Services"><button class="favorite styled" type="button">Quay lại</button></a>
+                <div class="seach">
+                    <form>
+                        <input type="text" id="Search" placeholder="Search..." class="input"><a href=""><i class="icon ti-search"></i></a>
+                    </form>
+                </div>
+            </div>
+            <div class="content">
+                <h2>Thông tin đặt xe</h2>
+                <a href=""><i class=""></i></a>
+
+            </div>
+
+            <form action="" method="post">
+                <table class="table-form">
+                    <thead class="table-header">
+                        <tr>
+                            <th>Mã đặt xe</th>
+                            <th>Số điện thoại</th>
+                            <th>Điểm đón</th>
+                            <th>Điểm đến</th>
+                            <th>Số km</th>
+                            <th>Thời gian</th>
+                            <th>Thành tiền</th>
+                            <th>Loại xe</th>
+                            <th>Thanh toán</th>
+                            <th>Ngày Giờ Đặt</th>
+                            <th colspan="1"> </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="table-body ">
+                        @foreach (var item in Model)
+                        {
+                            <tr class="Search" id="row_@item.MaDatXe">
+                                <td>@item.MaDatXe</td>
+                                <td>@item.SoDienThoai</td>
+                                <td>@item.DiemDon</td>
+                                <td>@item.DiemDen</td>
+                                <td>@item.SoKm</td>
+                                <td>@item.ThoiGian</td>
+                                <td>@item.ThanhTien</td>
+                                @*@{
+                                    // Extract numeric part from the string (assuming it's always at the beginning)
+                                    var numericPart = new string(item.ThanhTien.Where(char.IsDigit).ToArray());
+
+                                    double originalValue;
+                                    if (double.TryParse(numericPart, out originalValue))
+                                    {
+                                        var formattedValue = (originalValue * 0.5).ToString("#,##0.###");
+                                        <td>@formattedValue VND</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Error: Invalid value - @item.ThanhTien</td>
+                                    }
+                                }*@
+                                @*<td>@(item.ThanhTien * 0.5)</td>*@
+                                <td>@item.LoaiXe</td>
+                                <td>@item.HinhThucThanhToan</td>
+                                <td>@item.NgayGioDat</td>
+                                <td class="btn-delete js-delete">
+                                    <a class="delete-link" data-id="@item.MaDatXe" data-name="@item.SoDienThoai">
+                                        <i class="ti-trash"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </form>
+        </div>
+
+
+
+    </div>
+
+    <style>
+        .confirmation-box {
+            position: fixed;
+            z-index: 9999;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+            .confirmation-box h3 {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+
+            .confirmation-box p {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+
+            .confirmation-box .button-group {
+                display: flex;
+                justify-content: center;
+            }
+
+                .confirmation-box .button-group button {
+                    margin: 0 10px;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                }
+
+                    .confirmation-box .button-group button.yes {
+                        background-color: #e74c3c;
+                        color: #fff;
+                        border: none;
+                    }
+
+                    .confirmation-box .button-group button.no {
+                        background-color: #ccc;
+                        color: #333;
+                        border: none;
+                    }
+    </style>
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('.delete-link').click(function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                var name = $(this).data('name');
+                var confirmationBoxHtml = '<div class="confirmation-box">' +
+                    '<h3>Xóa thông tin đặt xe</h3>' +
+                    '<p>Bạn có chắc chắn muốn chuyến xe đã đặt có mã <strong>' + name + '</strong>?</p>' +
+                    '<div class="button-group">' +
+                    '<button class="yes" data-id="' + id + '">Có</button>' +
+                    '<button class="no">Không</button>' +
+                    '</div>' +
+                    '</div>';
+                $('body').append(confirmationBoxHtml);
+                $('.yes').click(function () {
+                    var id = $(this).data('id');
+                    deletethongTinDatXe(id);
+                    $('.confirmation-box').remove();
+
+                });
+                $('.no').click(function () {
+                    $('.confirmation-box').remove();
+                });
+            });
+        });
+
+        function deletethongTinDatXe(id) {
+
+
+
+            // Xóa
+            $.ajax({
+                url: '/DatXe/XoaThongTinDatXe/' + id,
+                type: 'POST',
+                success: function (result) {
+
+                    // Xóa dòng thông tin đặt chuyến
+                    $('#row_' + id).remove();
+                },
+                error: function () {
+
+                    alert('Đã xảy ra lỗi khi xóa chuyến này!');
+                }
+            });
+
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            function Contains(text_one, text_two) {
+                if (text_one.indexOf(text_two) != -1)
+                    return true;
+            }
+            $("#Search").keyup(function () {
+                var searchText = $("#Search").val().toLowerCase();
+                $(".Search").each(function () {
+                    if (!Contains($(this).text().toLowerCase(), searchText)) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
+                });
+            });
+        });
+    </script>
+    
+
+</body>
+
+</html>
+

@@ -1,0 +1,1348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3C9AE27F-82B2-4FCA-82A4-77E937A880A3}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebsiteDatXeCongNghe</RootNamespace>
+    <AssemblyName>WebsiteDatXeCongNghe</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44316</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Azure.Core, Version=1.38.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Core.1.38.0\lib\net472\Azure.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Identity, Version=1.11.4.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Identity.1.11.4\lib\netstandard2.0\Azure.Identity.dll</HintPath>
+    </Reference>
+    <Reference Include="Braintree, Version=5.28.0.0, Culture=neutral, PublicKeyToken=31b586f34d3e96c7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Braintree.5.28.0\lib\net452\Braintree.dll</HintPath>
+    </Reference>
+    <Reference Include="ColorTranslations, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Handy.DotNETCore-Compatibility.ColorTranslations.0.2.1\lib\net20\ColorTranslations.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Enums.NET, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7ea1c1650d506225, processorArchitecture=MSIL">
+      <HintPath>..\packages\Enums.NET.5.0.0\lib\net461\Enums.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Epoch.net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Epoch.net.4.1.0\lib\netstandard2.0\Epoch.net.dll</HintPath>
+    </Reference>
+    <Reference Include="jose-jwt, Version=5.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jose-jwt.5.1.0\lib\net472\jose-jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Connections.Abstractions, Version=7.0.5.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Connections.Abstractions.7.0.5\lib\net462\Microsoft.AspNetCore.Connections.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.SignalR.Common, Version=7.0.5.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.SignalR.Common.7.0.5\lib\net462\Microsoft.AspNetCore.SignalR.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.SqlClient, Version=5.0.0.0, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.SqlClient.5.2.2\lib\net462\Microsoft.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.9.0.0\lib\net462\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.9.0.0\lib\net462\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.9.0.0\lib\net462\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.FileExtensions, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.FileExtensions.9.0.0\lib\net462\Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Json.9.0.0\lib\net462\Microsoft.Extensions.Configuration.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.9.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.9.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Features, Version=7.0.5.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Features.7.0.5\lib\net462\Microsoft.Extensions.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.9.0.0\lib\net462\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Physical.9.0.0\lib\net462\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileSystemGlobbing, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileSystemGlobbing.9.0.0\lib\net462\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.9.0.0\lib\net462\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.9.0.0\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.9.0.0\lib\net462\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.9.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Identity.Client, Version=4.61.3.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Identity.Client.4.61.3\lib\net462\Microsoft.Identity.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Identity.Client.Extensions.Msal, Version=4.61.3.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Identity.Client.Extensions.Msal.4.61.3\lib\netstandard2.0\Microsoft.Identity.Client.Extensions.Msal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.6.35.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.6.35.0\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.6.35.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocols.6.35.0\lib\net472\Microsoft.IdentityModel.Protocols.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocols.OpenIdConnect.6.35.0\lib\net472\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.35.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.2.2\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.2.2\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Nexmo.Api, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nexmo.Csharp.Client.5.2.0\lib\net46\Nexmo.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=110.2.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.110.2.0\lib\net471\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="StandardSocketsHttpHandler, Version=2.2.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StandardSocketsHttpHandler.2.2.0.8\lib\netstandard2.0\StandardSocketsHttpHandler.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ClientModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ClientModel.1.0.0\lib\netstandard2.0\System.ClientModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.7.0.0\lib\net462\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=6.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.6.0.1\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.9.0.0\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Process, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.Process.4.3.0\lib\net461\System.Diagnostics.Process.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Formats.Asn1, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Formats.Asn1.9.0.0\lib\net462\System.Formats.Asn1.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.35.0\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Abstractions, Version=21.0.0.0, Culture=neutral, PublicKeyToken=96bf224d23c43e59, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Abstractions.21.1.7\lib\net462\System.IO.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.AccessControl, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.AccessControl.5.0.0\lib\net461\System.IO.FileSystem.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Pipelines, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Pipelines.9.0.0\lib\net462\System.IO.Pipelines.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory.Data, Version=1.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.Data.1.0.2\lib\net461\System.Memory.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Cng, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Cng.5.0.0\lib\net47\System.Security.Cryptography.Cng.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.OpenSsl, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.OpenSsl.5.0.0\lib\net461\System.Security.Cryptography.OpenSsl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.ProtectedData, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.ProtectedData.4.7.0\lib\net461\System.Security.Cryptography.ProtectedData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Permissions.6.0.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Text.Encodings.Web, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.9.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.9.0.0\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.2.0.1\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.9\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.9\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="TestableIO.System.IO.Abstractions, Version=21.0.0.0, Culture=neutral, PublicKeyToken=96bf224d23c43e59, processorArchitecture=MSIL">
+      <HintPath>..\packages\TestableIO.System.IO.Abstractions.21.1.7\lib\net462\TestableIO.System.IO.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="TestableIO.System.IO.Abstractions.Wrappers, Version=21.0.0.0, Culture=neutral, PublicKeyToken=96bf224d23c43e59, processorArchitecture=MSIL">
+      <HintPath>..\packages\TestableIO.System.IO.Abstractions.Wrappers.21.1.7\lib\net462\TestableIO.System.IO.Abstractions.Wrappers.dll</HintPath>
+    </Reference>
+    <Reference Include="Twilio, Version=6.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Twilio.6.3.0\lib\net451\Twilio.dll</HintPath>
+    </Reference>
+    <Reference Include="Twilio.AspNet.Common, Version=8.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Twilio.AspNet.Common.8.0.0\lib\netstandard2.0\Twilio.AspNet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Twilio.AspNet.Mvc, Version=8.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Twilio.AspNet.Mvc.8.0.0\lib\net462\Twilio.AspNet.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Vonage, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vonage.7.14.1\lib\netstandard2.0\Vonage.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="Yoh.Text.Json.NamingPolicies, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Yoh.Text.Json.NamingPolicies.1.1.2\lib\netstandard2.0\Yoh.Text.Json.NamingPolicies.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BookingHub.cs" />
+    <Compile Include="ChatHub.cs" />
+    <Compile Include="Controllers\DanhGiaController.cs" />
+    <Compile Include="Controllers\DanhGiaUngDungController.cs" />
+    <Compile Include="Controllers\DatXeController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KhachHangController.cs" />
+    <Compile Include="Controllers\KhuyenMaiController.cs" />
+    <Compile Include="Controllers\NhanTinController.cs" />
+    <Compile Include="Controllers\QuanLyController.cs" />
+    <Compile Include="Controllers\TaiKhoanController.cs" />
+    <Compile Include="Controllers\TaiXeController.cs" />
+    <Compile Include="Controllers\ThanhToanController.cs" />
+    <Compile Include="Controllers\ThongKeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="KhachHangDTO.cs" />
+    <Compile Include="Models\DanhGiaTaiXe.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DanhGiaUngDung.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DichVuDatXeWebsite.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DichVuDatXeWebsite.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DichVuDatXeWebsite.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DichVuDatXeWebsite.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DichVuDatXeWebsite.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KhachHang.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KhuyenMai.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LichSuGiaoDich.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NhanTin.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PhanQuyen.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QuyenTaiKhoan.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaiKhoan.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaiKhoanNganHang.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaiKhoanNganHangTaiXe.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaiXe.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaiXeNhanChuyenXe.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ThanhToan.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TheVisa.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ThongTinDatXe.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrangThaiHoatDong.cs">
+      <DependentUpon>DichVuDatXeWebsite.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="TaiXeDTO.cs" />
+    <Compile Include="ViewModel\KhachHangViewModel\KhachHangViewModel.cs" />
+    <Compile Include="ViewModel\MultipleData\MultipleData.cs" />
+    <Compile Include="ViewModel\TaiKhoanViewModel\DoiMatKhauViewModel.cs" />
+    <Compile Include="ViewModel\TaiKhoanViewModel\QuenMatKhauViewModel.cs" />
+    <Compile Include="ViewModel\TaiKhoanViewModel\TaiKhoanViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-grid.rtl.css" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css" />
+    <Content Include="Content\bootstrap-utilities.css" />
+    <Content Include="Content\bootstrap-utilities.min.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.rtl.css" />
+    <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="css\asset\style.css" />
+    <Content Include="css\asset\style2.css" />
+    <Content Include="css\BangDieuKhien.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\change.css" />
+    <Content Include="css\DanhGia.css" />
+    <Content Include="css\DanhGiaTaiXe.css" />
+    <Content Include="css\DanhGiaUngDung2.css" />
+    <Content Include="css\ie10-viewport-bug-workaround.css" />
+    <Content Include="css\KhuyenMai.css" />
+    <Content Include="css\login\assets\favicon.ico" />
+    <Content Include="css\login\assets\img\avataaars.svg" />
+    <Content Include="css\login\assets\img\portfolio\cabin.png" />
+    <Content Include="css\login\assets\img\portfolio\cake.png" />
+    <Content Include="css\login\assets\img\portfolio\circus.png" />
+    <Content Include="css\login\assets\img\portfolio\game.png" />
+    <Content Include="css\login\assets\img\portfolio\safe.png" />
+    <Content Include="css\login\assets\img\portfolio\submarine.png" />
+    <Content Include="css\login\css\index-styles.css" />
+    <Content Include="css\login\css\style.css" />
+    <Content Include="css\login\fonts\material-icon\css\material-design-iconic-font.css" />
+    <Content Include="css\login\fonts\material-icon\css\material-design-iconic-font.min.css" />
+    <Content Include="css\login\fonts\material-icon\fonts\Material-Design-Iconic-Font.svg" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-300.svg" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-300italic.svg" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-500.svg" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-500italic.svg" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-600.svg" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-700.svg" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-700italic.svg" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-800.svg" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-800italic.svg" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-900.svg" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-italic.svg" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-regular.svg" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-700.svg" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-700italic.svg" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-italic.svg" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-regular.svg" />
+    <Content Include="css\NapTien.css" />
+    <Content Include="css\NhanChuyenXe.css" />
+    <Content Include="css\NhanTin.css" />
+    <Content Include="css\payment.css" />
+    <Content Include="css\QuanLy.css" />
+    <Content Include="css\signin.css" />
+    <Content Include="css\Style.css" />
+    <Content Include="css\style.min.css" />
+    <Content Include="css\table.css" />
+    <Content Include="css\TaiKhoanNganHangTX.css" />
+    <Content Include="css\TaiXe.css" />
+    <Content Include="css\TaiXe.min.css" />
+    <Content Include="css\TaiXeDonKhach.css" />
+    <Content Include="css\ThanhToanQuaThe.css" />
+    <Content Include="css\themify-icons\demo-files\demo.css" />
+    <Content Include="css\themify-icons\fonts\themify.svg" />
+    <Content Include="css\themify-icons\ie7\ie7.css" />
+    <Content Include="css\themify-icons\ie7\ie7.js" />
+    <Content Include="css\themify-icons\index.html" />
+    <Content Include="css\themify-icons\readme.txt" />
+    <Content Include="css\themify-icons\SVG\agenda.svg" />
+    <Content Include="css\themify-icons\SVG\alarm-clock.svg" />
+    <Content Include="css\themify-icons\SVG\alert.svg" />
+    <Content Include="css\themify-icons\SVG\align-center.svg" />
+    <Content Include="css\themify-icons\SVG\align-justify.svg" />
+    <Content Include="css\themify-icons\SVG\align-left.svg" />
+    <Content Include="css\themify-icons\SVG\align-right.svg" />
+    <Content Include="css\themify-icons\SVG\anchor.svg" />
+    <Content Include="css\themify-icons\SVG\android.svg" />
+    <Content Include="css\themify-icons\SVG\angle-double-down.svg" />
+    <Content Include="css\themify-icons\SVG\angle-double-left.svg" />
+    <Content Include="css\themify-icons\SVG\angle-double-right.svg" />
+    <Content Include="css\themify-icons\SVG\angle-double-up.svg" />
+    <Content Include="css\themify-icons\SVG\angle-down.svg" />
+    <Content Include="css\themify-icons\SVG\angle-left.svg" />
+    <Content Include="css\themify-icons\SVG\angle-right.svg" />
+    <Content Include="css\themify-icons\SVG\angle-up.svg" />
+    <Content Include="css\themify-icons\SVG\announcement.svg" />
+    <Content Include="css\themify-icons\SVG\apple.svg" />
+    <Content Include="css\themify-icons\SVG\archive.svg" />
+    <Content Include="css\themify-icons\SVG\arrow-circle-down.svg" />
+    <Content Include="css\themify-icons\SVG\arrow-circle-left.svg" />
+    <Content Include="css\themify-icons\SVG\arrow-circle-right.svg" />
+    <Content Include="css\themify-icons\SVG\arrow-circle-up.svg" />
+    <Content Include="css\themify-icons\SVG\arrow-down.svg" />
+    <Content Include="css\themify-icons\SVG\arrow-left.svg" />
+    <Content Include="css\themify-icons\SVG\arrow-right.svg" />
+    <Content Include="css\themify-icons\SVG\arrow-top-left.svg" />
+    <Content Include="css\themify-icons\SVG\arrow-top-right.svg" />
+    <Content Include="css\themify-icons\SVG\arrow-up.svg" />
+    <Content Include="css\themify-icons\SVG\arrow.svg" />
+    <Content Include="css\themify-icons\SVG\arrows-corner.svg" />
+    <Content Include="css\themify-icons\SVG\arrows-horizontal.svg" />
+    <Content Include="css\themify-icons\SVG\arrows-vertical.svg" />
+    <Content Include="css\themify-icons\SVG\back-left.svg" />
+    <Content Include="css\themify-icons\SVG\back-right.svg" />
+    <Content Include="css\themify-icons\SVG\bag.svg" />
+    <Content Include="css\themify-icons\SVG\bar-chart-alt.svg" />
+    <Content Include="css\themify-icons\SVG\bar-chart.svg" />
+    <Content Include="css\themify-icons\SVG\basketball.svg" />
+    <Content Include="css\themify-icons\SVG\bell.svg" />
+    <Content Include="css\themify-icons\SVG\blackboard.svg" />
+    <Content Include="css\themify-icons\SVG\bolt-alt.svg" />
+    <Content Include="css\themify-icons\SVG\bolt.svg" />
+    <Content Include="css\themify-icons\SVG\book.svg" />
+    <Content Include="css\themify-icons\SVG\bookmark-alt.svg" />
+    <Content Include="css\themify-icons\SVG\bookmark.svg" />
+    <Content Include="css\themify-icons\SVG\briefcase.svg" />
+    <Content Include="css\themify-icons\SVG\brush-alt.svg" />
+    <Content Include="css\themify-icons\SVG\brush.svg" />
+    <Content Include="css\themify-icons\SVG\calendar.svg" />
+    <Content Include="css\themify-icons\SVG\camera.svg" />
+    <Content Include="css\themify-icons\SVG\car.svg" />
+    <Content Include="css\themify-icons\SVG\check-box.svg" />
+    <Content Include="css\themify-icons\SVG\check.svg" />
+    <Content Include="css\themify-icons\SVG\clip.svg" />
+    <Content Include="css\themify-icons\SVG\clipboard.svg" />
+    <Content Include="css\themify-icons\SVG\close.svg" />
+    <Content Include="css\themify-icons\SVG\cloud-down.svg" />
+    <Content Include="css\themify-icons\SVG\cloud-up.svg" />
+    <Content Include="css\themify-icons\SVG\cloud.svg" />
+    <Content Include="css\themify-icons\SVG\comment-alt.svg" />
+    <Content Include="css\themify-icons\SVG\comment.svg" />
+    <Content Include="css\themify-icons\SVG\comments-smiley.svg" />
+    <Content Include="css\themify-icons\SVG\comments.svg" />
+    <Content Include="css\themify-icons\SVG\control-backward.svg" />
+    <Content Include="css\themify-icons\SVG\control-eject.svg" />
+    <Content Include="css\themify-icons\SVG\control-forward.svg" />
+    <Content Include="css\themify-icons\SVG\control-pause.svg" />
+    <Content Include="css\themify-icons\SVG\control-play.svg" />
+    <Content Include="css\themify-icons\SVG\control-record.svg" />
+    <Content Include="css\themify-icons\SVG\control-shuffle.svg" />
+    <Content Include="css\themify-icons\SVG\control-skip-backward.svg" />
+    <Content Include="css\themify-icons\SVG\control-skip-forward.svg" />
+    <Content Include="css\themify-icons\SVG\control-stop.svg" />
+    <Content Include="css\themify-icons\SVG\credit-card.svg" />
+    <Content Include="css\themify-icons\SVG\crown.svg" />
+    <Content Include="css\themify-icons\SVG\css3.svg" />
+    <Content Include="css\themify-icons\SVG\cup.svg" />
+    <Content Include="css\themify-icons\SVG\cut.svg" />
+    <Content Include="css\themify-icons\SVG\dashboard.svg" />
+    <Content Include="css\themify-icons\SVG\desktop.svg" />
+    <Content Include="css\themify-icons\SVG\direction-alt.svg" />
+    <Content Include="css\themify-icons\SVG\direction.svg" />
+    <Content Include="css\themify-icons\SVG\download.svg" />
+    <Content Include="css\themify-icons\SVG\dribbble.svg" />
+    <Content Include="css\themify-icons\SVG\dropbox-alt.svg" />
+    <Content Include="css\themify-icons\SVG\dropbox.svg" />
+    <Content Include="css\themify-icons\SVG\drupal.svg" />
+    <Content Include="css\themify-icons\SVG\email.svg" />
+    <Content Include="css\themify-icons\SVG\envelope.svg" />
+    <Content Include="css\themify-icons\SVG\eraser.svg" />
+    <Content Include="css\themify-icons\SVG\exchange-vertical.svg" />
+    <Content Include="css\themify-icons\SVG\export.svg" />
+    <Content Include="css\themify-icons\SVG\eye.svg" />
+    <Content Include="css\themify-icons\SVG\face-sad.svg" />
+    <Content Include="css\themify-icons\SVG\face-smile.svg" />
+    <Content Include="css\themify-icons\SVG\facebook.svg" />
+    <Content Include="css\themify-icons\SVG\file.svg" />
+    <Content Include="css\themify-icons\SVG\files.svg" />
+    <Content Include="css\themify-icons\SVG\filter.svg" />
+    <Content Include="css\themify-icons\SVG\flag-alt-2.svg" />
+    <Content Include="css\themify-icons\SVG\flag-alt.svg" />
+    <Content Include="css\themify-icons\SVG\flag.svg" />
+    <Content Include="css\themify-icons\SVG\flickr-alt.svg" />
+    <Content Include="css\themify-icons\SVG\flickr.svg" />
+    <Content Include="css\themify-icons\SVG\folder.svg" />
+    <Content Include="css\themify-icons\SVG\fullscreen.svg" />
+    <Content Include="css\themify-icons\SVG\gallery.svg" />
+    <Content Include="css\themify-icons\SVG\game.svg" />
+    <Content Include="css\themify-icons\SVG\gift.svg" />
+    <Content Include="css\themify-icons\SVG\github.svg" />
+    <Content Include="css\themify-icons\SVG\google.svg" />
+    <Content Include="css\themify-icons\SVG\hand-drag.svg" />
+    <Content Include="css\themify-icons\SVG\hand-open.svg" />
+    <Content Include="css\themify-icons\SVG\hand-point-down.svg" />
+    <Content Include="css\themify-icons\SVG\hand-point-left.svg" />
+    <Content Include="css\themify-icons\SVG\hand-point-right.svg" />
+    <Content Include="css\themify-icons\SVG\hand-point-up.svg" />
+    <Content Include="css\themify-icons\SVG\hand-stop.svg" />
+    <Content Include="css\themify-icons\SVG\harddrive.svg" />
+    <Content Include="css\themify-icons\SVG\harddrives.svg" />
+    <Content Include="css\themify-icons\SVG\headphone-alt.svg" />
+    <Content Include="css\themify-icons\SVG\headphone.svg" />
+    <Content Include="css\themify-icons\SVG\heart-broken.svg" />
+    <Content Include="css\themify-icons\SVG\heart.svg" />
+    <Content Include="css\themify-icons\SVG\help-alt.svg" />
+    <Content Include="css\themify-icons\SVG\help.svg" />
+    <Content Include="css\themify-icons\SVG\home.svg" />
+    <Content Include="css\themify-icons\SVG\html5.svg" />
+    <Content Include="css\themify-icons\SVG\hummer.svg" />
+    <Content Include="css\themify-icons\SVG\id-badge.svg" />
+    <Content Include="css\themify-icons\SVG\image.svg" />
+    <Content Include="css\themify-icons\SVG\import.svg" />
+    <Content Include="css\themify-icons\SVG\infinite.svg" />
+    <Content Include="css\themify-icons\SVG\info-alt.svg" />
+    <Content Include="css\themify-icons\SVG\info.svg" />
+    <Content Include="css\themify-icons\SVG\ink-pen.svg" />
+    <Content Include="css\themify-icons\SVG\instagram.svg" />
+    <Content Include="css\themify-icons\SVG\Italic.svg" />
+    <Content Include="css\themify-icons\SVG\joomla.svg" />
+    <Content Include="css\themify-icons\SVG\jsfiddle.svg" />
+    <Content Include="css\themify-icons\SVG\key.svg" />
+    <Content Include="css\themify-icons\SVG\layers-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layers.svg" />
+    <Content Include="css\themify-icons\SVG\layout-accordion-list.svg" />
+    <Content Include="css\themify-icons\SVG\layout-accordion-merged.svg" />
+    <Content Include="css\themify-icons\SVG\layout-accordion-separated.svg" />
+    <Content Include="css\themify-icons\SVG\layout-column2-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layout-column2.svg" />
+    <Content Include="css\themify-icons\SVG\layout-column3-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layout-column3.svg" />
+    <Content Include="css\themify-icons\SVG\layout-column4-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layout-column4.svg" />
+    <Content Include="css\themify-icons\SVG\layout-cta-btn-left.svg" />
+    <Content Include="css\themify-icons\SVG\layout-cta-btn-right.svg" />
+    <Content Include="css\themify-icons\SVG\layout-cta-center.svg" />
+    <Content Include="css\themify-icons\SVG\layout-cta-left.svg" />
+    <Content Include="css\themify-icons\SVG\layout-cta-right.svg" />
+    <Content Include="css\themify-icons\SVG\layout-grid2-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layout-grid2-thumb.svg" />
+    <Content Include="css\themify-icons\SVG\layout-grid2.svg" />
+    <Content Include="css\themify-icons\SVG\layout-grid3-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layout-grid3.svg" />
+    <Content Include="css\themify-icons\SVG\layout-grid4-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layout-grid4.svg" />
+    <Content Include="css\themify-icons\SVG\layout-line-solid.svg" />
+    <Content Include="css\themify-icons\SVG\layout-list-large-image.svg" />
+    <Content Include="css\themify-icons\SVG\layout-list-post.svg" />
+    <Content Include="css\themify-icons\SVG\layout-list-thumb-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layout-list-thumb.svg" />
+    <Content Include="css\themify-icons\SVG\layout-media-center-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layout-media-center.svg" />
+    <Content Include="css\themify-icons\SVG\layout-media-left-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layout-media-left.svg" />
+    <Content Include="css\themify-icons\SVG\layout-media-overlay-alt-2.svg" />
+    <Content Include="css\themify-icons\SVG\layout-media-overlay-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layout-media-overlay.svg" />
+    <Content Include="css\themify-icons\SVG\layout-media-right-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layout-media-right.svg" />
+    <Content Include="css\themify-icons\SVG\layout-menu-full.svg" />
+    <Content Include="css\themify-icons\SVG\layout-menu-separated.svg" />
+    <Content Include="css\themify-icons\SVG\layout-menu-v.svg" />
+    <Content Include="css\themify-icons\SVG\layout-menu.svg" />
+    <Content Include="css\themify-icons\SVG\layout-placeholder.svg" />
+    <Content Include="css\themify-icons\SVG\layout-sidebar-2.svg" />
+    <Content Include="css\themify-icons\SVG\layout-sidebar-left.svg" />
+    <Content Include="css\themify-icons\SVG\layout-sidebar-none.svg" />
+    <Content Include="css\themify-icons\SVG\layout-sidebar-right.svg" />
+    <Content Include="css\themify-icons\SVG\layout-slider-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layout-slider.svg" />
+    <Content Include="css\themify-icons\SVG\layout-tab-min.svg" />
+    <Content Include="css\themify-icons\SVG\layout-tab-v.svg" />
+    <Content Include="css\themify-icons\SVG\layout-tab-window.svg" />
+    <Content Include="css\themify-icons\SVG\layout-tab.svg" />
+    <Content Include="css\themify-icons\SVG\layout-width-default-alt.svg" />
+    <Content Include="css\themify-icons\SVG\layout-width-default.svg" />
+    <Content Include="css\themify-icons\SVG\layout-width-full.svg" />
+    <Content Include="css\themify-icons\SVG\layout.svg" />
+    <Content Include="css\themify-icons\SVG\light-bulb.svg" />
+    <Content Include="css\themify-icons\SVG\line-dashed.svg" />
+    <Content Include="css\themify-icons\SVG\line-dotted.svg" />
+    <Content Include="css\themify-icons\SVG\line-double.svg" />
+    <Content Include="css\themify-icons\SVG\link.svg" />
+    <Content Include="css\themify-icons\SVG\linkedin.svg" />
+    <Content Include="css\themify-icons\SVG\linux.svg" />
+    <Content Include="css\themify-icons\SVG\list-ol.svg" />
+    <Content Include="css\themify-icons\SVG\list.svg" />
+    <Content Include="css\themify-icons\SVG\location-arrow.svg" />
+    <Content Include="css\themify-icons\SVG\location-pin.svg" />
+    <Content Include="css\themify-icons\SVG\lock.svg" />
+    <Content Include="css\themify-icons\SVG\loop.svg" />
+    <Content Include="css\themify-icons\SVG\magnet.svg" />
+    <Content Include="css\themify-icons\SVG\map-alt.svg" />
+    <Content Include="css\themify-icons\SVG\map.svg" />
+    <Content Include="css\themify-icons\SVG\marker-alt.svg" />
+    <Content Include="css\themify-icons\SVG\marker.svg" />
+    <Content Include="css\themify-icons\SVG\medall-alt.svg" />
+    <Content Include="css\themify-icons\SVG\medall.svg" />
+    <Content Include="css\themify-icons\SVG\menu-alt.svg" />
+    <Content Include="css\themify-icons\SVG\menu.svg" />
+    <Content Include="css\themify-icons\SVG\microphone-alt.svg" />
+    <Content Include="css\themify-icons\SVG\microphone.svg" />
+    <Content Include="css\themify-icons\SVG\microsoft-alt.svg" />
+    <Content Include="css\themify-icons\SVG\microsoft.svg" />
+    <Content Include="css\themify-icons\SVG\minus.svg" />
+    <Content Include="css\themify-icons\SVG\mobile.svg" />
+    <Content Include="css\themify-icons\SVG\money.svg" />
+    <Content Include="css\themify-icons\SVG\more-alt.svg" />
+    <Content Include="css\themify-icons\SVG\more.svg" />
+    <Content Include="css\themify-icons\SVG\mouse-alt.svg" />
+    <Content Include="css\themify-icons\SVG\mouse.svg" />
+    <Content Include="css\themify-icons\SVG\music-alt.svg" />
+    <Content Include="css\themify-icons\SVG\music.svg" />
+    <Content Include="css\themify-icons\SVG\na.svg" />
+    <Content Include="css\themify-icons\SVG\new-window.svg" />
+    <Content Include="css\themify-icons\SVG\notepad.svg" />
+    <Content Include="css\themify-icons\SVG\package.svg" />
+    <Content Include="css\themify-icons\SVG\paint-bucket.svg" />
+    <Content Include="css\themify-icons\SVG\paint-roller.svg" />
+    <Content Include="css\themify-icons\SVG\palette.svg" />
+    <Content Include="css\themify-icons\SVG\panel.svg" />
+    <Content Include="css\themify-icons\SVG\paragraph.svg" />
+    <Content Include="css\themify-icons\SVG\pencil-alt.svg" />
+    <Content Include="css\themify-icons\SVG\pencil-alt2.svg" />
+    <Content Include="css\themify-icons\SVG\pencil.svg" />
+    <Content Include="css\themify-icons\SVG\pie-chart.svg" />
+    <Content Include="css\themify-icons\SVG\pin-alt.svg" />
+    <Content Include="css\themify-icons\SVG\pin.svg" />
+    <Content Include="css\themify-icons\SVG\pin2.svg" />
+    <Content Include="css\themify-icons\SVG\pinterest-alt.svg" />
+    <Content Include="css\themify-icons\SVG\pinterest.svg" />
+    <Content Include="css\themify-icons\SVG\plug.svg" />
+    <Content Include="css\themify-icons\SVG\plus.svg" />
+    <Content Include="css\themify-icons\SVG\power-off.svg" />
+    <Content Include="css\themify-icons\SVG\printer.svg" />
+    <Content Include="css\themify-icons\SVG\pulse.svg" />
+    <Content Include="css\themify-icons\SVG\quote-left.svg" />
+    <Content Include="css\themify-icons\SVG\quote-right.svg" />
+    <Content Include="css\themify-icons\SVG\receipt.svg" />
+    <Content Include="css\themify-icons\SVG\reddit.svg" />
+    <Content Include="css\themify-icons\SVG\reload.svg" />
+    <Content Include="css\themify-icons\SVG\rocket.svg" />
+    <Content Include="css\themify-icons\SVG\rss-alt.svg" />
+    <Content Include="css\themify-icons\SVG\rss.svg" />
+    <Content Include="css\themify-icons\SVG\ruler-alt-2.svg" />
+    <Content Include="css\themify-icons\SVG\ruler-alt.svg" />
+    <Content Include="css\themify-icons\SVG\ruler-pencil.svg" />
+    <Content Include="css\themify-icons\SVG\ruler.svg" />
+    <Content Include="css\themify-icons\SVG\save-alt.svg" />
+    <Content Include="css\themify-icons\SVG\save.svg" />
+    <Content Include="css\themify-icons\SVG\search.svg" />
+    <Content Include="css\themify-icons\SVG\server.svg" />
+    <Content Include="css\themify-icons\SVG\settings.svg" />
+    <Content Include="css\themify-icons\SVG\share-alt.svg" />
+    <Content Include="css\themify-icons\SVG\share.svg" />
+    <Content Include="css\themify-icons\SVG\sharethis-alt.svg" />
+    <Content Include="css\themify-icons\SVG\sharethis.svg" />
+    <Content Include="css\themify-icons\SVG\shield.svg" />
+    <Content Include="css\themify-icons\SVG\shift-left-alt.svg" />
+    <Content Include="css\themify-icons\SVG\shift-left.svg" />
+    <Content Include="css\themify-icons\SVG\shift-right-alt.svg" />
+    <Content Include="css\themify-icons\SVG\shift-right.svg" />
+    <Content Include="css\themify-icons\SVG\shine.svg" />
+    <Content Include="css\themify-icons\SVG\shopping-cart-full.svg" />
+    <Content Include="css\themify-icons\SVG\shopping-cart.svg" />
+    <Content Include="css\themify-icons\SVG\shortcode.svg" />
+    <Content Include="css\themify-icons\SVG\signal.svg" />
+    <Content Include="css\themify-icons\SVG\skype.svg" />
+    <Content Include="css\themify-icons\SVG\slice.svg" />
+    <Content Include="css\themify-icons\SVG\smallcap.svg" />
+    <Content Include="css\themify-icons\SVG\soundcloud.svg" />
+    <Content Include="css\themify-icons\SVG\split-h.svg" />
+    <Content Include="css\themify-icons\SVG\split-v-alt.svg" />
+    <Content Include="css\themify-icons\SVG\split-v.svg" />
+    <Content Include="css\themify-icons\SVG\spray.svg" />
+    <Content Include="css\themify-icons\SVG\stack-overflow.svg" />
+    <Content Include="css\themify-icons\SVG\stamp.svg" />
+    <Content Include="css\themify-icons\SVG\star.svg" />
+    <Content Include="css\themify-icons\SVG\stats-down.svg" />
+    <Content Include="css\themify-icons\SVG\stats-up.svg" />
+    <Content Include="css\themify-icons\SVG\support.svg" />
+    <Content Include="css\themify-icons\SVG\tablet.svg" />
+    <Content Include="css\themify-icons\SVG\tag.svg" />
+    <Content Include="css\themify-icons\SVG\target.svg" />
+    <Content Include="css\themify-icons\SVG\text.svg" />
+    <Content Include="css\themify-icons\SVG\themify-favicon-alt.svg" />
+    <Content Include="css\themify-icons\SVG\themify-favicon.svg" />
+    <Content Include="css\themify-icons\SVG\themify-logo.svg" />
+    <Content Include="css\themify-icons\SVG\thought.svg" />
+    <Content Include="css\themify-icons\SVG\thumb-down.svg" />
+    <Content Include="css\themify-icons\SVG\thumb-up.svg" />
+    <Content Include="css\themify-icons\SVG\ticket.svg" />
+    <Content Include="css\themify-icons\SVG\time.svg" />
+    <Content Include="css\themify-icons\SVG\timer.svg" />
+    <Content Include="css\themify-icons\SVG\trash.svg" />
+    <Content Include="css\themify-icons\SVG\trello.svg" />
+    <Content Include="css\themify-icons\SVG\truck.svg" />
+    <Content Include="css\themify-icons\SVG\tumblr-alt.svg" />
+    <Content Include="css\themify-icons\SVG\tumblr.svg" />
+    <Content Include="css\themify-icons\SVG\twitter-alt.svg" />
+    <Content Include="css\themify-icons\SVG\twitter.svg" />
+    <Content Include="css\themify-icons\SVG\underline.svg" />
+    <Content Include="css\themify-icons\SVG\unlink.svg" />
+    <Content Include="css\themify-icons\SVG\unlock.svg" />
+    <Content Include="css\themify-icons\SVG\upload.svg" />
+    <Content Include="css\themify-icons\SVG\uppercase.svg" />
+    <Content Include="css\themify-icons\SVG\user.svg" />
+    <Content Include="css\themify-icons\SVG\vector.svg" />
+    <Content Include="css\themify-icons\SVG\video-camera.svg" />
+    <Content Include="css\themify-icons\SVG\video-clapper.svg" />
+    <Content Include="css\themify-icons\SVG\view-grid.svg" />
+    <Content Include="css\themify-icons\SVG\view-list-alt.svg" />
+    <Content Include="css\themify-icons\SVG\view-list.svg" />
+    <Content Include="css\themify-icons\SVG\vimeo-alt.svg" />
+    <Content Include="css\themify-icons\SVG\vimeo.svg" />
+    <Content Include="css\themify-icons\SVG\volume.svg" />
+    <Content Include="css\themify-icons\SVG\wallet.svg" />
+    <Content Include="css\themify-icons\SVG\wand.svg" />
+    <Content Include="css\themify-icons\SVG\wheelchair.svg" />
+    <Content Include="css\themify-icons\SVG\widget-alt.svg" />
+    <Content Include="css\themify-icons\SVG\widget.svg" />
+    <Content Include="css\themify-icons\SVG\widgetized.svg" />
+    <Content Include="css\themify-icons\SVG\window.svg" />
+    <Content Include="css\themify-icons\SVG\wordpress.svg" />
+    <Content Include="css\themify-icons\SVG\world.svg" />
+    <Content Include="css\themify-icons\SVG\write.svg" />
+    <Content Include="css\themify-icons\SVG\yahoo.svg" />
+    <Content Include="css\themify-icons\SVG\youtube.svg" />
+    <Content Include="css\themify-icons\SVG\zip.svg" />
+    <Content Include="css\themify-icons\SVG\zoom-in.svg" />
+    <Content Include="css\themify-icons\SVG\zoom-out.svg" />
+    <Content Include="css\themify-icons\themify-icons.css" />
+    <Content Include="css\ThongKeDoanhThu.css" />
+    <Content Include="css\ThongKeDoanhThu2.css" />
+    <Content Include="css\ThongTinThanhToan.css" />
+    <Content Include="css\ThongTinThanhToan2.css" />
+    <Content Include="css\TienMat.css" />
+    <Content Include="css\ViTienTaiXe.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="ILLink\ILLink.Descriptors.LibraryBuild.xml" />
+    <Content Include="image\DatXe\source.gif" />
+    <Content Include="image\KhachHang\1034640043about-img.png" />
+    <Content Include="image\KhachHang\106444670946_ninja-h2r.jpg" />
+    <Content Include="image\KhachHang\106480983about-img.png" />
+    <Content Include="image\KhachHang\1121884697blog-4.jpg" />
+    <Content Include="image\KhachHang\1177990612about-img.png" />
+    <Content Include="image\KhachHang\1215293192Banh pho mai xoai.png" />
+    <Content Include="image\KhachHang\1264654826about-img.png" />
+    <Content Include="image\KhachHang\1296651601blog-4.jpg" />
+    <Content Include="image\KhachHang\13265916871610BIA.jpg" />
+    <Content Include="image\KhachHang\1339132350blog-4.jpg" />
+    <Content Include="image\KhachHang\1371658729003.png" />
+    <Content Include="image\KhachHang\13838171113956_anh_cong_doan_ngan_hang.jpg" />
+    <Content Include="image\KhachHang\1426926926A Pizza.jpg" />
+    <Content Include="image\KhachHang\1443679113003.png" />
+    <Content Include="image\KhachHang\14553350544k-hd-wallpapers-5.jpg" />
+    <Content Include="image\KhachHang\1562933196blog-1.jpg" />
+    <Content Include="image\KhachHang\1568925698A Pizza.jpg" />
+    <Content Include="image\KhachHang\1575440311about-img.png" />
+    <Content Include="image\KhachHang\15789059944-nhom-giai-phap-uu-tien-phong-chong-bao-luc-hoc-duong-e27d82.jpg" />
+    <Content Include="image\KhachHang\1597373764blog-5.jpg" />
+    <Content Include="image\KhachHang\1616515188blog-4.jpg" />
+    <Content Include="image\KhachHang\16397285444k-hd-wallpapers-5.jpg" />
+    <Content Include="image\KhachHang\1683518892MVC2.jpg" />
+    <Content Include="image\KhachHang\1716291132003.png" />
+    <Content Include="image\KhachHang\1716823448am-ban-la-gi-3.jpg" />
+    <Content Include="image\KhachHang\172860243about-img.png" />
+    <Content Include="image\KhachHang\176330787146_ninja-h2r.jpg" />
+    <Content Include="image\KhachHang\1763723504A Pizza.jpg" />
+    <Content Include="image\KhachHang\17812584902016-KawasakiZ1000-MattBlack-LimeGreen-640x518.jpg" />
+    <Content Include="image\KhachHang\18463127482016-KawasakiZ1000-MattBlack-LimeGreen-640x518.jpg" />
+    <Content Include="image\KhachHang\1905513256Banh pho mai xoai.png" />
+    <Content Include="image\KhachHang\1959369166about-img.png" />
+    <Content Include="image\KhachHang\1960607335about-img.png" />
+    <Content Include="image\KhachHang\1964298854A Pizza.jpg" />
+    <Content Include="image\KhachHang\2094234819about-img.png" />
+    <Content Include="image\KhachHang\2117414878003.png" />
+    <Content Include="image\KhachHang\2117703886Banh pho mai xoai.png" />
+    <Content Include="image\KhachHang\2141872684book-9.png" />
+    <Content Include="image\KhachHang\21656404646_ninja-h2r.jpg" />
+    <Content Include="image\KhachHang\313183437A Pizza.jpg" />
+    <Content Include="image\KhachHang\412189236about-img.png" />
+    <Content Include="image\KhachHang\610612133istockphoto-470581240-612x612.jpg" />
+    <Content Include="image\KhachHang\614553370about-img.png" />
+    <Content Include="image\KhachHang\678507183bigstock-Golden-hourglass-6268122.jpg" />
+    <Content Include="image\KhachHang\747953071003.png" />
+    <Content Include="image\KhachHang\754375017Community.jpg" />
+    <Content Include="image\KhachHang\760036864003.png" />
+    <Content Include="image\KhachHang\78783904801_book-stack_book-lovers-you-ll-want-to-steal-this-christmas-tradition-from-iceland_574042219_art_man-1024x683.jpg" />
+    <Content Include="image\KhachHang\816600280about-img.png" />
+    <Content Include="image\KhachHang\84779952book-1.png" />
+    <Content Include="image\KhachHang\89478118746_ninja-h2r.jpg" />
+    <Content Include="image\KhachHang\9035980901_book-stack_book-lovers-you-ll-want-to-steal-this-christmas-tradition-from-iceland_574042219_art_man-1024x683.jpg" />
+    <Content Include="image\KhachHang\98965136blog-4.jpg" />
+    <Content Include="image\KhachHang\kh1.jpg" />
+    <Content Include="image\KhachHang\kh1.png" />
+    <Content Include="image\KhachHang\kh2.jpg" />
+    <Content Include="image\KhachHang\kh2.png" />
+    <Content Include="image\KhachHang\kh3.jpg" />
+    <Content Include="image\KhachHang\kh4.jpg" />
+    <Content Include="image\KhachHang\kh4.png" />
+    <Content Include="image\KhachHang\kh5.png" />
+    <Content Include="image\KhachHang\kh6.jpg" />
+    <Content Include="image\KhachHang\Motor.png" />
+    <Content Include="image\KhachHang\pic1.png" />
+    <Content Include="image\KhachHang\vehicle-1.png" />
+    <Content Include="image\KhachHang\vehicle-2.png" />
+    <Content Include="image\KhachHang\vehicle-3.png" />
+    <Content Include="image\KhachHang\vehicle-4.png" />
+    <Content Include="image\KhachHang\vehicle-5.png" />
+    <Content Include="image\KhachHang\vehicle-6.png" />
+    <Content Include="image\login\Driver-PNG-Free-Image.png" />
+    <Content Include="image\login\Mottor.png" />
+    <Content Include="image\login\signin-image.jpg" />
+    <Content Include="image\login\signup-image.jpg" />
+    <Content Include="image\QuanLy\logo.png" />
+    <Content Include="image\QuanLy\profile-1.jpg" />
+    <Content Include="image\TaiXe\AdobeStock_615135642.jpeg" />
+    <Content Include="image\TaiXe\blog-2.jpg" />
+    <Content Include="image\TaiXe\Carrr.png" />
+    <Content Include="image\TaiXe\delivery-man-32.png" />
+    <Content Include="image\TaiXe\delivery-man-96.png" />
+    <Content Include="image\TaiXe\icons8-deliveryman-32.png" />
+    <Content Include="image\TaiXe\icons8-deliveryman-96.png" />
+    <Content Include="image\TaiXe\icons8-holiday-96.png" />
+    <Content Include="image\TaiXe\icons8-motorcycle-96.png" />
+    <Content Include="image\TaiXe\kh4.png" />
+    <Content Include="image\TaiXe\logo.png" />
+    <Content Include="image\TaiXe\Motor.png" />
+    <Content Include="image\TaiXe\pic-3.png" />
+    <Content Include="image\TaiXe\pic2.png" />
+    <Content Include="image\TaiXe\plus.png" />
+    <Content Include="image\TaiXe\profile-1.jpg" />
+    <Content Include="image\TaiXe\profile-2.jpg" />
+    <Content Include="image\TaiXe\profile-3.jpg" />
+    <Content Include="image\TaiXe\profile-4.jpg" />
+    <Content Include="image\TaiXe\scooter navigator.png" />
+    <Content Include="image\TaiXe\scooter navigator2.png" />
+    <Content Include="image\TaiXe\scooter navigator3.png" />
+    <Content Include="image\TaiXe\vehicle-4.png" />
+    <Content Include="image\TaiXe\VisaIcon.png" />
+    <Content Include="image\ThanhToan\car-booking-service-4975058-4144419.png" />
+    <Content Include="image\ThanhToan\chip.png" />
+    <Content Include="image\ThanhToan\visa.png" />
+    <Content Include="js\BangDieuKhien.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\DanhGia.js" />
+    <Content Include="js\DanhGiaTaiXe.js" />
+    <Content Include="js\DanhGiaUngDung.js" />
+    <Content Include="js\DoanhThuTaiXe.js" />
+    <Content Include="js\DonKhachGoogleMap.js" />
+    <Content Include="js\googleMap.min 2.js" />
+    <Content Include="js\googleMap.min.js" />
+    <Content Include="js\ie10-viewport-bug-workaround.js" />
+    <Content Include="js\jquery-1.11.2.min.js" />
+    <Content Include="js\login\js\main.js" />
+    <Content Include="js\login\js\scripts.js" />
+    <Content Include="js\NhanChuyenXe.js" />
+    <Content Include="js\QuanLy.js" />
+    <Content Include="js\script.js" />
+    <Content Include="js\TaiXe.js" />
+    <Content Include="js\TaiXeGoogleMap.js" />
+    <Content Include="js\ThongKeDoanhThu.js" />
+    <Content Include="js\ThongKeDoanhThu2.js" />
+    <Content Include="js\ViTienTaiXe.js" />
+    <Content Include="js\orders.js" />
+    <Content Include="Models\DichVuDatXeWebsite.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DichVuDatXeWebsite.edmx</DependentUpon>
+      <LastGenOutput>DichVuDatXeWebsite.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\DichVuDatXeWebsite.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DichVuDatXeWebsite.edmx</DependentUpon>
+      <LastGenOutput>DichVuDatXeWebsite.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.esm.js" />
+    <Content Include="Scripts\bootstrap.esm.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="css\login\css\style.css.map" />
+    <Content Include="css\login\fonts\material-icon\fonts\Material-Design-Iconic-Font.eot" />
+    <Content Include="css\login\fonts\material-icon\fonts\Material-Design-Iconic-Font.ttf" />
+    <Content Include="css\login\fonts\material-icon\fonts\Material-Design-Iconic-Font.woff" />
+    <Content Include="css\login\fonts\material-icon\fonts\Material-Design-Iconic-Font.woff2" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-300.eot" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-300.ttf" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-300.woff" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-300.woff2" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-300italic.eot" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-300italic.ttf" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-300italic.woff" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-300italic.woff2" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-500.eot" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-500.ttf" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-500.woff" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-500.woff2" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-500italic.eot" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-500italic.ttf" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-500italic.woff" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-500italic.woff2" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-600.eot" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-600.ttf" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-600.woff" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-600.woff2" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-700.eot" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-700.ttf" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-700.woff" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-700.woff2" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-700italic.eot" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-700italic.ttf" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-700italic.woff" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-700italic.woff2" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-800.eot" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-800.ttf" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-800.woff" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-800.woff2" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-800italic.eot" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-800italic.ttf" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-800italic.woff" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-800italic.woff2" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-900.eot" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-900.ttf" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-900.woff" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-900.woff2" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-italic.eot" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-italic.ttf" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-italic.woff" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-italic.woff2" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-regular.eot" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-regular.ttf" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-regular.woff" />
+    <Content Include="css\login\fonts\poppins\poppins-v5-latin-regular.woff2" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-700.eot" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-700.ttf" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-700.woff" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-700.woff2" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-700italic.eot" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-700italic.ttf" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-700italic.woff" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-700italic.woff2" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-italic.eot" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-italic.ttf" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-italic.woff" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-italic.woff2" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-regular.eot" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-regular.ttf" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-regular.woff" />
+    <Content Include="css\login\fonts\poppins\roboto-condensed-v16-latin-regular.woff2" />
+    <Content Include="css\login\scss\common\extend.scss" />
+    <Content Include="css\login\scss\common\fonts.scss" />
+    <Content Include="css\login\scss\common\global.scss" />
+    <Content Include="css\login\scss\common\minxi.scss" />
+    <Content Include="css\login\scss\common\variables.scss" />
+    <Content Include="css\login\scss\layouts\main.scss" />
+    <Content Include="css\login\scss\layouts\responsive.scss" />
+    <Content Include="css\login\scss\style.scss" />
+    <Content Include="css\themify-icons\fonts\themify.eot" />
+    <Content Include="css\themify-icons\fonts\themify.ttf" />
+    <Content Include="css\themify-icons\fonts\themify.woff" />
+    <Content Include="css\themify-icons\Themify IconFonts 5-23-2014.json" />
+    <EntityDeploy Include="Models\DichVuDatXeWebsite.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DichVuDatXeWebsite.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\DichVuDatXeWebsite.edmx.diagram">
+      <DependentUpon>DichVuDatXeWebsite.edmx</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\TaiKhoan\DangNhap.cshtml" />
+    <Content Include="Views\TaiKhoan\Services.cshtml" />
+    <Content Include="Views\TaiKhoan\DangKy.cshtml" />
+    <Content Include="Views\KhachHang\ThongTinKH.cshtml" />
+    <Content Include="Views\KhachHang\ThemMoiKH.cshtml" />
+    <Content Include="Views\TaiKhoan\DoiMatKhau.cshtml" />
+    <Content Include="Views\TaiKhoan\LuaChonHinhThuc.cshtml" />
+    <Content Include="Views\TaiKhoan\XacNhanOTP.cshtml" />
+    <Content Include="Views\TaiKhoan\CapNhatQuenMatKhau.cshtml" />
+    <Content Include="Views\TaiKhoan\EnterEmailOrPhone.cshtml" />
+    <Content Include="Views\TaiKhoan\EnterNewPassword.cshtml" />
+    <Content Include="Views\TaiKhoan\SendConfirmationCode.cshtml" />
+    <Content Include="Views\DatXe\ThongTinDatXe.cshtml" />
+    <Content Include="Views\DatXe\GoogleMap.cshtml" />
+    <Content Include="Views\DatXe\GoogleMap2.cshtml" />
+    <Content Include="Views\TaiXe\ThongTinTaiXe.cshtml" />
+    <Content Include="Views\TaiXe\TaiXeDonKhach.cshtml" />
+    <Content Include="Views\DatXe\NhanChuyenXe.cshtml" />
+    <Content Include="Views\DanhGiaUngDung\DanhGiaUngDung.cshtml" />
+    <Content Include="Views\DanhGiaUngDung\ViewThemDanhGiaUngDung.cshtml" />
+    <Content Include="Views\TaiXe\DonKhach.cshtml" />
+    <Content Include="Views\DatXe\KhachDuocDon.cshtml" />
+    <Content Include="Views\TaiXe\TraKhach.cshtml" />
+    <Content Include="Views\DatXe\KhachDuocTra.cshtml" />
+    <Content Include="Views\DatXe\DanhGiaTaiXe.cshtml" />
+    <Content Include="Views\DanhGiaUngDung\XuatHienDanhGiaUngDung.cshtml" />
+    <Content Include="Views\ThongKe\ThongKeDoanhThu.cshtml" />
+    <Content Include="Views\ThongKe\ThongKeDoanhThu2.cshtml" />
+    <Content Include="Views\QuanLy\QuanLy.cshtml" />
+    <Content Include="Views\TaiXe\ThongTinCaNhanTaiXe.cshtml" />
+    <Content Include="Views\TaiXe\ThongTinNhanChuyen.cshtml" />
+    <Content Include="Views\KhachHang\KhuyenMai.cshtml" />
+    <Content Include="Views\TaiKhoan\Index.cshtml" />
+    <Content Include="Views\ThanhToan\ThongTinThanhToan.cshtml" />
+    <Content Include="Views\ThanhToan\ChiTietThanhToan.cshtml" />
+    <Content Include="Views\QuanLy\BangDieuKhien.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyKhachHang.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyThongTinDatXe.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyTaiKhoan.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyTaiXe.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyDanhGia.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyKhuyenMai.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyThanhToan.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyDanhGiaTaiXe.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyTaiXeNhanChuyenXe.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyTaiKhoanNganHang.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyQuyenTaiKhoan.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyPhanQuyen.cshtml" />
+    <Content Include="Views\TaiXe\ViTienTaiXe.cshtml" />
+    <Content Include="Views\TaiXe\TaiKhoanNganHangTX.cshtml" />
+    <Content Include="Views\KhachHang\TaiKhoanNganHang.cshtml" />
+    <Content Include="Views\KhachHang\LienKetThe.cshtml" />
+    <Content Include="Views\ThanhToan\ThongTinThanhToanTX.cshtml" />
+    <Content Include="Views\ThanhToan\ChiTietThanhToanTX.cshtml" />
+    <Content Include="Views\TaiXe\LichSuGiaoDich.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Views\KhuyenMai\" />
+    <Folder Include="Views\NhanTin\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.rtl.min.css.map" />
+    <Content Include="Content\bootstrap.rtl.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Content\bootstrap-utilities.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.esm.min.js.map" />
+    <Content Include="Scripts\bootstrap.esm.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>65154</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44316/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Data.SqlClient.SNI.5.2.0\build\net462\Microsoft.Data.SqlClient.SNI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Data.SqlClient.SNI.5.2.0\build\net462\Microsoft.Data.SqlClient.SNI.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
+  </Target>
+  <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.5.2.0\build\net462\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.5.2.0\build\net462\Microsoft.Data.SqlClient.SNI.targets')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

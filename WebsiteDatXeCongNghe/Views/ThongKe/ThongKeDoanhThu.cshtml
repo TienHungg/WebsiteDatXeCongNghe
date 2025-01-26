@@ -1,0 +1,299 @@
+﻿@model WebsiteDatXeCongNghe.ViewModel.MultipleData.MultipleData
+@{
+    ViewBag.Title = "ThongKeDoanhThu";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="~/css/BangDieuKhien.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Doanh thu tài xế</title>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="#" class="logo">
+            <i class='bx bx-bar-chart-alt'></i>
+            <div class="logo-name"><span>Doanh</span> thu</div>
+        </a>
+        <ul class="side-menu">
+            <li class="active"><a href="/ThongKe/ThongKeDoanhThu"><i class='bx bxs-dashboard'></i>Doanh thu tài xế</a></li>
+            <li><a href="/TaiXe/ThongTinNhanChuyen"><i class='bx bx-cycling'></i>Chuyến xe</a></li>
+            <li><a href="#"><i class='bx bx-cog'></i>Cài đặt</a></li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="/TaiXe/ThongTinTaiXe" class="logout">
+                    <i class='bx bx-arrow-back'></i>
+                    Quay lại
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- End of Sidebar -->
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Navbar -->
+        <nav>
+            <i class='bx bx-menu'></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Tìm kiếm...">
+                    <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <span class="phone-number" id="PhoneNumber">@Session["SoDienThoai"].ToString()</span>
+            <input type="checkbox" id="theme-toggle" hidden>
+            <label for="theme-toggle" class="theme-toggle"></label>
+            <a href="#" class="notif">
+                <i class='bx bx-bell'></i>
+                <span class="count">12</span>
+            </a>
+        </nav>
+
+        <!-- End of Navbar -->
+
+        <main>
+            <div class="header">
+                <div class="left">
+                    <h1>Doanh thu tài xế</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">
+                                Phân tích
+                            </a>
+                        </li>
+                        /
+                        <li><a href="#" class="active">Thống kê</a></li>
+                    </ul>
+                </div>
+                <a href="#" class="report">
+                    <i class='bx bx-cloud-download'></i>
+                    <span>Tải tệp CSV</span>
+                </a>
+            </div>
+
+            <!-- Insights -->
+            <ul class="insights">
+                <li>
+                    <i class='bx bx-dollar-circle'></i>
+                    <span class="info">
+                        <h3 id="totalDoanhThu">
+                        </h3>
+                        <p>Tổng doanh thu</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-dollar-circle'></i>
+                    <span class="info">
+                        <h3 id="totalDoanhThuNamNay">
+                        </h3>
+                        <p>Doanh thu năm nay</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-dollar-circle'></i>
+                    <span class="info">
+                        <h3 id="totalDoanhThuHomNay">
+                        </h3>
+                        <p>Doanh thu hôm nay</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-receipt'></i>
+                    <span class="info">
+                        <h3 id="totalBill">
+                        </h3>
+                        <p>Tổng hóa đơn giao dịch</p>
+                    </span>
+                </li>
+
+            </ul>
+            <!-- End of Insights -->
+
+            <div class="bottom-data">
+                <div class="orders">
+                    <div class="header">
+                        <i class='bx bx-cycling'></i>
+                        <h3>Chuyến xe gần đây</h3>
+                        <i class='bx bx-filter'></i>
+                        <i class='bx bx-search'></i>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Số điện thoại</th>
+                                <th>Ngày nhận</th>
+                                <th>Giá chuyến xe</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.thongTinDatXes != null)
+                            {
+                                foreach (var nhanchuyenxe in Model.taiXeNhanChuyenXes)
+                                {
+                                    var thongTinDatXe = Model.thongTinDatXes.FirstOrDefault(tt => tt.MaDatXe == nhanchuyenxe.MaDatXe);
+                                    if (thongTinDatXe != null)
+                                    {
+                                        <tr>
+
+                                            <td>@nhanchuyenxe.SoDienThoai</td>
+                                            <td>@nhanchuyenxe.NgayNhan.ToString("yyyy-MM-dd")</td>
+                                            <td>
+                                                <p>@thongTinDatXe.ThanhTien</p>
+                                            </td>
+                                            <td>
+                                                @if (nhanchuyenxe.TrangThai.HasValue && nhanchuyenxe.TrangThai.Value)
+                                                {
+                                                    <span class="status completed">Hoàn thành</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="status pending">Chưa hoàn thành</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h1>Biểu Đồ Thống Kê Doanh Thu</h1>
+            <div class="select-container">
+                <select name="selected-year" id="selected-year">
+                    @*<option value="">Năm nay</option>
+                    <option value="">2024</option>
+                    <option value="">2023</option>
+                    <option value="">2022</option>
+                    <option value="">2021</option>
+                    <option value="">2020</option>
+                    <option value="">2019</option>
+                    <option value="">2018</option>*@
+                    <!-- Add your options here -->
+                </select>
+                <div class="select-arrow">&#9660;</div>
+            </div>
+
+            <main class="main-container">
+                <div class="charts">
+
+                    <div class="charts-card">
+                        <h2 class="chart-title">Biểu đồ cột</h2>
+                        <div id="bar-chart"></div>
+                    </div>
+
+
+
+                </div>
+            </main>
+
+            <main class="main-container">
+                <div class="charts">
+
+
+
+                    <div class="charts-card">
+                        <h2 class="chart-title">Biểu đồ vùng</h2>
+                        <div id="area-chart"></div>
+                    </div>
+
+                </div>
+            </main>
+
+
+
+
+
+        </main>
+
+
+        <script>
+    $(document).ready(function () {
+        // Assuming you have the PhoneNumber value stored in a variable called phoneNumber
+        var phoneNumber = $('#PhoneNumber').text();
+
+        // Call the GetTotalDoanhThu action using Ajax
+        $.ajax({
+            url: '@Url.Action("GetTotalDoanhThuByDriver", "ThongKe")',
+            type: 'GET',
+            data: { driverPhone: phoneNumber }, // Pass the PhoneNumber value as a parameter
+            success: function (data) {
+                // Update the total doanh thu on the page
+                $('#totalDoanhThu').text(data.toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, '$1.') + " VND");
+            },
+            error: function () {
+                console.log('Error fetching total doanh thu.');
+            }
+        });
+
+        // Call the GetTotalDoanhThuNamNay action using Ajax
+        $.ajax({
+            url: '@Url.Action("GetTotalDoanhThuNamNayByDriver", "ThongKe")',
+            type: 'GET',
+            data: { driverPhone: phoneNumber }, // Pass the PhoneNumber value as a parameter
+            success: function (data) {
+                // Update the total doanh thu for the year 2023 on the page with currency VND
+                $('#totalDoanhThuNamNay').text(data.toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, '$1.') + ' VND');
+            },
+            error: function () {
+                console.log('Error fetching total doanh thu for the year 2023.');
+            }
+        });
+
+        // Call the GetTotalDoanhThuHomNay action using Ajax
+        $.ajax({
+            url: '@Url.Action("GetTotalDoanhThuHomNayByDriver", "ThongKe")',
+            type: 'GET',
+            data: { driverPhone: phoneNumber }, // Pass the PhoneNumber value as a parameter
+            success: function (data) {
+                // Update the total doanh thu for today on the page with currency VND
+                $('#totalDoanhThuHomNay').text(data.toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, '$1.') + ' VND');
+            },
+            error: function () {
+                console.log('Error fetching total doanh thu for today.');
+            }
+        });
+
+        // Call the GetTotalBill action using Ajax
+        $.ajax({
+            url: '@Url.Action("GetTotalBillByDriver", "ThongKe")',
+            type: 'GET',
+            data: { driverPhone: phoneNumber }, // Pass the PhoneNumber value as a parameter
+            success: function (data) {
+                // Update the total bill count on the page
+                $('#totalBill').text(data);
+            },
+            error: function () {
+                console.log('Error fetching total bill count.');
+            }
+        });
+    });
+        </script>
+
+    </div>
+
+
+    <!-- Scripts -->
+    <!-- ApexCharts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.5/apexcharts.min.js"></script>
+    <!-- Custom JS -->
+    <script src="~/js/DoanhThuTaiXe.js"></script>
+    <!-- Include jQuery library -->
+</body>
+
+</html>
+
+
+
