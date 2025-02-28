@@ -1,0 +1,93 @@
+﻿@model WebsiteDatXeCongNghe.Models.TaiKhoan
+@{
+    ViewBag.Title = "DangNhap";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Đăng nhập</title>
+
+
+    <link href="~/css/login/css/SignUp_LogIn_Form.css" rel="stylesheet" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-box login">
+            <form action="@Url.Action("DangNhap", "TaiKhoan")" method="post">
+                <h1>Supcar</h1>
+                <div class="input-box">
+                    <input type="text" name="SoDienThoai" placeholder="Số điện thoại" required>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" name="MatKhau" placeholder="Mật khẩu" required>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                <div class="forgot-link">
+                    <a href="@Url.Action("CapNhatQuenMatKhau", "TaiKhoan")">Quên mật khẩu?</a>
+                </div>
+                <button type="submit" class="btn">Đăng nhập</button>
+                <p>Đăng nhập bằng các nền tảng khác</p>
+                <div class="social-icons">
+                    <a href="#"><i class='bx bxl-google'></i></a>
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-github'></i></a>
+                    <a href="#"><i class='bx bxl-linkedin'></i></a>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-box register">
+            <form action="@Url.Action("DangKy", "TaiKhoan")" method="post">
+                <h1>Đăng ký</h1>
+                <div class="input-box">
+                    <input type="text" name="HoTen" placeholder="Họ và Tên" required>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="input-box">
+                    <input type="number" name="SoDienThoai" placeholder="Số điện thoại" required>
+                    <i class='bx bxs-envelope'></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" name="MatKhau" placeholder="Mật khẩu" required>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                <button type="submit" class="btn">Đăng ký</button>
+                <p>Đăng ký bằng các nền tảng khác</p>
+                <div class="social-icons">
+                    <a href="#"><i class='bx bxl-google'></i></a>
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-github'></i></a>
+                    <a href="#"><i class='bx bxl-linkedin'></i></a>
+                </div>
+            </form>
+        </div>
+
+        <div class="toggle-box">
+            <div class="toggle-panel toggle-left">
+                <h1>Chào Mừng</h1>
+                <p>Bạn không có tài khoản?</p>
+                <button class="btn register-btn">Đăng Ký</button>
+            </div>
+
+            <div class="toggle-panel toggle-right">
+                <h1>Chào trở lại</h1>
+                <p>Bạn đã có tài khoản?</p>
+                <button class="btn login-btn">Đăng Nhập</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/login/js/SignUp_LogIn_Form.js"></script>
+</body>
+<!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
+
+
